@@ -12,3 +12,4 @@ tdl_fetch_google_test_test ()
 
 # Add tests below
 
+add_tdl_test(ParamValue_test.cpp)
