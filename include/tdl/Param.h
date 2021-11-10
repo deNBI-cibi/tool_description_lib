@@ -1855,7 +1855,9 @@ protected:
         {
           if (this->getValue(it.getName()) != it->value)
           {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
             stream << "Warning: for ':version' entry, augmented and Default Ini-File differ in value. Default value will not be altered!\n";
           }
           continue;
@@ -1871,7 +1873,9 @@ OPENMS_THREAD_CRITICAL(oms_log)
           {
             if (this->getValue(it.getName()) != it->value)
             {
+                #ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
                 OPENMS_THREAD_CRITICAL(oms_log)
+                #endif
                 stream << "Warning: for ':type' entry, augmented and Default Ini-File differ in value. Default value will not be altered!\n";
             }
             continue;
@@ -1897,7 +1901,9 @@ OPENMS_THREAD_CRITICAL(oms_log)
           // make sure the same leaf name does not exist at any other position
           if (this->findNext(l1_entry.name, it_match) == this->end())
           {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
             stream << "Found '" << it.getName() << "' as '" << it_match.getName() << "' in new param." << std::endl;
             new_entry = this->getEntry(it_match.getName());
             target_name = it_match.getName();
@@ -1908,13 +1914,17 @@ OPENMS_THREAD_CRITICAL(oms_log)
         {
           if (fail_on_unknown_parameters)
           {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
             stream << "Unknown (or deprecated) Parameter '" << it.getName() << "' given in outdated parameter file!" << std::endl;
             is_update_success = false;
           }
           else if (add_unknown)
           {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
             stream << "Unknown (or deprecated) Parameter '" << it.getName() << "' given in outdated parameter file! Adding to current set." << std::endl;
             Param::ParamEntry local_entry = p_outdated.getEntry(it.getName());
             std::string prefix = "";
@@ -1926,7 +1936,9 @@ OPENMS_THREAD_CRITICAL(oms_log)
           }
           else if (verbose)
           {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
             stream << "Unknown (or deprecated) Parameter '" << it.getName() << "' given in outdated parameter file! Ignoring parameter. " << std::endl;
           }
           continue;
@@ -1947,24 +1959,32 @@ OPENMS_THREAD_CRITICAL(oms_log)
             // overwrite default value
             if (verbose)
             {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
                 stream << "Default-Parameter '" << target_name << "' overridden: '" << default_value << "' --> '" << it->value << "'!" << std::endl;
             }
             this->setValue(target_name, it->value, new_entry.description, this->getTags(target_name));
           }
           else
           {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
             stream << validation_result;
             if (fail_on_invalid_values)
             {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
               stream << " Updating failed!" << std::endl;
               is_update_success = false;
             }
             else
             {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
               stream << " Ignoring invalid value (using new default '" << default_value << "')!" << std::endl;
               new_entry.value = default_value;
             }
@@ -1977,17 +1997,23 @@ OPENMS_THREAD_CRITICAL(oms_log)
       }
       else
       {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
         stream << "Parameter '" << it.getName() << "' has changed value type!\n";
         if (fail_on_invalid_values)
         {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
           stream << " Updating failed!" << std::endl;
           is_update_success = false;
         }
         else
         {
+#ifdef OPENMS_THREAD_CRITICAL_AVAILABLE
 OPENMS_THREAD_CRITICAL(oms_log)
+#endif
           stream << " Ignoring invalid value (using new default)!" << std::endl;
         }
       }

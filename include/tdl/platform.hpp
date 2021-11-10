@@ -64,3 +64,6 @@ static_assert(__cplusplus >= 201709, "TDL requires C++20, make sure that you hav
 #define TDL_LOGSTREAM_TYPE std::ostream // todo if OpenMS is availabe, set this Logger::LogStream
 #define TDL_LOGSTREAM_WARN std::cerr // todo: if OpenMS is availabe, set this to OPENMS_LOG_WARN
 #define TDL_LOGSTREAM_DEBUG std::cerr // todo: if OpenMS is availabe, set this to OPENMS_LOG_DEBUG
+
+// thread critical
+// todo: if OpenMS is available include OPENMS_THREAD_CRITICAL macro
