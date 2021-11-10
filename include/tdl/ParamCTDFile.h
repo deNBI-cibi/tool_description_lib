@@ -25,7 +25,7 @@ namespace tdl
          Note: only storing is currently possible
 
 */
-  class OPENMS_DLLAPI ParamCTDFile
+  class TDL_DLLAPI ParamCTDFile
   {
   public:
     ParamCTDFile() = default; ///Constructor

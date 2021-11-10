@@ -1,7 +1,6 @@
 #pragma once
 
 #include <tdl/ParamValue.h>
-#include <OpenMS/OpenMSConfig.h>
 
 #include <set>
 #include <string>
@@ -32,12 +31,12 @@ namespace tdl
 
     @ingroup Datastructures
   */
-  class OPENMS_DLLAPI Param
+  class TDL_DLLAPI Param
   {
 public:
 
     /// Parameter entry used to store the actual information inside of a Param entry
-    struct OPENMS_DLLAPI ParamEntry
+    struct TDL_DLLAPI ParamEntry
     {
       /// Default constructor
       ParamEntry();
@@ -79,7 +78,7 @@ public:
     };
 
     ///Node inside a Param object which is used to build the internal tree
-    struct OPENMS_DLLAPI ParamNode
+    struct TDL_DLLAPI ParamNode
     {
       ///Iterator for child nodes
       typedef std::vector<ParamNode>::iterator NodeIterator;
@@ -156,11 +155,11 @@ public:
 public:
 
     /// Forward const iterator for the Param class
-    class OPENMS_DLLAPI ParamIterator
+    class TDL_DLLAPI ParamIterator
     {
 public:
       /// Struct that captures information on entered / left nodes for ParamIterator
-      struct OPENMS_DLLAPI TraceInfo
+      struct TDL_DLLAPI TraceInfo
       {
         /// Constructor with name, description, and open flag
         inline TraceInfo(const std::string& n, const std::string& d, bool o) :
@@ -634,7 +633,7 @@ protected:
   };
 
   /// Output of Param to a stream.
-  OPENMS_DLLAPI std::ostream& operator<<(std::ostream& os, const Param& param);
+  TDL_DLLAPI std::ostream& operator<<(std::ostream& os, const Param& param);
 
   //********************************* ParamEntry **************************************
   Param::ParamEntry::ParamEntry() :

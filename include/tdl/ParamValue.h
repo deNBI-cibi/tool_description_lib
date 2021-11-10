@@ -1,7 +1,6 @@
 #pragma once
 
 #include <tdl/platform.hpp>
-#include <OpenMS/OpenMSConfig.h>
 
 #include <cstddef> // for ptrdiff_t
 #include <string>
@@ -19,7 +18,7 @@ namespace tdl
 
     @ingroup Datastructures
   */
-  class OPENMS_DLLAPI ParamValue
+  class TDL_DLLAPI ParamValue
   {
 
 public:
@@ -321,19 +320,19 @@ public:
     }
 
     /// output stream operator
-    friend OPENMS_DLLAPI std::ostream& operator<<(std::ostream&, const ParamValue&);
+    friend TDL_DLLAPI std::ostream& operator<<(std::ostream&, const ParamValue&);
 
     /// Equality comparator
-    friend OPENMS_DLLAPI bool operator==(const ParamValue&, const ParamValue&);
+    friend TDL_DLLAPI bool operator==(const ParamValue&, const ParamValue&);
 
     /// Smaller than comparator (for vectors we use the size)
-    friend OPENMS_DLLAPI bool operator<(const ParamValue&, const ParamValue&);
+    friend TDL_DLLAPI bool operator<(const ParamValue&, const ParamValue&);
 
     /// Greater than comparator (for vectors we use the size)
-    friend OPENMS_DLLAPI bool operator>(const ParamValue&, const ParamValue&);
+    friend TDL_DLLAPI bool operator>(const ParamValue&, const ParamValue&);
 
     /// Equality comparator
-    friend OPENMS_DLLAPI bool operator!=(const ParamValue&, const ParamValue&);
+    friend TDL_DLLAPI bool operator!=(const ParamValue&, const ParamValue&);
 
 protected:
 
@@ -362,6 +361,7 @@ private:
     static std::string doubleToString(double value, bool full_precision = true);
 
   };
+
   const ParamValue ParamValue::EMPTY;
 
   // default ctor

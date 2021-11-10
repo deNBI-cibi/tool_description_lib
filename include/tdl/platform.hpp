@@ -44,3 +44,10 @@ static_assert(__cplusplus >= 201709, "TDL requires C++20, make sure that you hav
 #ifndef TDL_DOXYGEN_ONLY
 #    define TDL_DOXYGEN_ONLY(x)
 #endif
+
+// ============================================================================
+//  DLL Export
+// ============================================================================
+
+// TODO needs to be replaced with https://cmake.org/cmake/help/latest/module/GenerateExportHeader.html
+#define TDL_DLLAPI
