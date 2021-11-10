@@ -14,3 +14,4 @@ tdl_fetch_google_test_test ()
 
 add_tdl_test(ParamValue_test.cpp)
 add_tdl_test(Param_test.cpp)
+add_tdl_test(ParamCTDFile_test.cpp)
