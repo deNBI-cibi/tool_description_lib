@@ -1075,14 +1075,22 @@ protected:
     //check if correct parameter type
     if (entry.value.valueType() != ParamValue::STRING_VALUE && entry.value.valueType() != ParamValue::STRING_LIST)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ElementNotFound(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, key);
+#else
+      throw std::invalid_argument{key};
+#endif
     }
     //check for commas
     for (size_t i = 0; i < strings.size(); ++i)
     {
       if (strings[i].find(',') != std::string::npos)
       {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
         throw Exception::InvalidParameter(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Comma characters in Param string restrictions are not allowed!");
+#else
+        throw std::invalid_argument{"Comma characters in Param string restrictions are not allowed!"};
+#endif
       }
     }
     entry.valid_strings = strings;
@@ -1093,7 +1101,11 @@ protected:
     ParamEntry& entry = getEntry_(key);
     if (entry.value.valueType() != ParamValue::INT_VALUE && entry.value.valueType() != ParamValue::INT_LIST)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ElementNotFound(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, key);
+#else
+      throw std::invalid_argument{key};
+#endif
     }
     entry.min_int = min;
   }
@@ -1103,7 +1115,11 @@ protected:
     ParamEntry& entry = getEntry_(key);
     if (entry.value.valueType() != ParamValue::INT_VALUE && entry.value.valueType() != ParamValue::INT_LIST)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ElementNotFound(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, key);
+#else
+      throw std::invalid_argument{key};
+#endif
     }
     entry.max_int = max;
   }
@@ -1113,7 +1129,11 @@ protected:
     ParamEntry& entry = getEntry_(key);
     if (entry.value.valueType() != ParamValue::DOUBLE_VALUE && entry.value.valueType() != ParamValue::DOUBLE_LIST)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ElementNotFound(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, key);
+#else
+      throw std::invalid_argument{key};
+#endif
     }
     entry.min_float = min;
   }
@@ -1123,7 +1143,11 @@ protected:
     ParamEntry& entry = getEntry_(key);
     if (entry.value.valueType() != ParamValue::DOUBLE_VALUE && entry.value.valueType() != ParamValue::DOUBLE_LIST)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ElementNotFound(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, key);
+#else
+      throw std::invalid_argument{key};
+#endif
     }
     entry.max_float = max;
   }
@@ -1749,14 +1773,22 @@ protected:
           p_type = "float list";
         }
 
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
         throw Exception::InvalidParameter(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, name + ": Wrong parameter type '" + p_type + "' for " + d_type + " parameter '" + it.getName() + "' given!");
+#else
+        throw std::invalid_argument{name + ": Wrong parameter type '" + p_type + "' for " + d_type + " parameter '" + it.getName() + "' given!"};
+#endif
       }
       //parameter restrictions
       ParamEntry pe = *default_value;
       pe.value = it->value;
       std::string s;
       if (!pe.isValid(s))
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
         throw Exception::InvalidParameter(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, name + ": " + s);
+#else
+        throw std::invalid_argument{name + ": " + s};
+#endif
     }
   }
 
@@ -2021,13 +2053,21 @@ OPENMS_THREAD_CRITICAL(oms_log)
     ParamNode* node = root_.findParentOf(key);
     if (node == nullptr)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ElementNotFound(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, key);
+#else
+      throw std::invalid_argument{key};
+#endif
     }
 
     Param::ParamNode::NodeIterator it = node->findNode(node->suffix(key));
     if (it == node->nodes.end())
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ElementNotFound(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, key);
+#else
+      throw std::invalid_argument{key};
+#endif
     }
     it->description = description;
   }
@@ -2209,7 +2249,11 @@ OPENMS_THREAD_CRITICAL(oms_log)
   {
     if (tag.find(',') != std::string::npos)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::InvalidValue(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Param tags may not contain comma characters", tag);
+#else
+      throw std::invalid_argument{"Param tags may not contain comma characters" + tag};
+#endif
     }
     getEntry_(key).tags.insert(tag);
   }
@@ -2221,7 +2265,11 @@ OPENMS_THREAD_CRITICAL(oms_log)
     {
       if (tags[i].find(',') != std::string::npos)
       {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
         throw Exception::InvalidValue(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Param tags may not contain comma characters", tags[i]);
+#else
+        throw std::invalid_argument{"Param tags may not contain comma characters" + tags[i]};
+#endif
       }
       entry.tags.insert(tags[i]);
     }

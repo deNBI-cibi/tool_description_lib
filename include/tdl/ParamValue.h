@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
+#include <OpenMS/Exceptions.h>
+#endif
 
 namespace tdl
 {
@@ -732,7 +735,11 @@ private:
   {
     if (value_type_ == EMPTY_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert ParamValue::EMPTY to long double");
+#else
+        throw std::invalid_argument{"Could not convert ParamValue::EMPTY to long double"};
+#endif
     }
     else if (value_type_ == INT_VALUE)
     {
@@ -745,7 +752,11 @@ private:
   {
     if (value_type_ == EMPTY_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert ParamValue::EMPTY to double");
+#else
+        throw std::invalid_argument{"Could not convert ParamValue::EMPTY to double"};
+#endif
     }
     else if (value_type_ == INT_VALUE)
     {
@@ -758,7 +769,11 @@ private:
   {
     if (value_type_ == EMPTY_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert ParamValue::EMPTY to float");
+#else
+        throw std::invalid_argument{"Could not convert ParamValue::EMPTY to float"};
+#endif
     }
     else if (value_type_ == INT_VALUE)
     {
@@ -771,7 +786,11 @@ private:
   {
     if (value_type_ != INT_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to short int");
+#else
+        throw std::invalid_argument{"Could not convert non-integer ParamValue to short int"};
+#endif
     }
     return data_.ssize_;
   }
@@ -780,11 +799,19 @@ private:
   {
     if (value_type_ != INT_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to UInt");
+#else
+        throw std::invalid_argument{"Could not convert non-integer ParamValue to UInt"};
+#endif
     }
     if (data_.ssize_ < 0.0)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert negative integer ParamValue to unsigned short int");
+#else
+        throw std::invalid_argument{"Could not convert negative integer ParamValue to unsigned short int"};
+#endif
     }
     return data_.ssize_;
   }
@@ -793,7 +820,11 @@ private:
   {
     if (value_type_ != INT_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to int");
+#else
+        throw std::invalid_argument{"Could not convert non-integer ParamValue to int"};
+#endif
     }
     return data_.ssize_;
   }
@@ -802,11 +833,19 @@ private:
   {
     if (value_type_ != INT_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to unsigned int");
+#else
+        throw std::invalid_argument{"Could not convert non-integer ParamValue to unsigned int"};
+#endif
     }
     if (data_.ssize_ < 0.0)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert negative integer ParamValue to unsigned int");
+#else
+        throw std::invalid_argument{"Could not convert negative integer ParamValue to unsigned int"};
+#endif
     }
     return data_.ssize_;
   }
@@ -815,7 +854,11 @@ private:
   {
     if (value_type_ != INT_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to long int");
+#else
+        throw std::invalid_argument{"Could not convert non-integer ParamValue to long int"};
+#endif
     }
     return data_.ssize_;
   }
@@ -824,11 +867,19 @@ private:
   {
     if (value_type_ != INT_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to unsigned long int");
+#else
+        throw std::invalid_argument{"Could not convert non-integer ParamValue to unsigned long int"};
+#endif
     }
     if (data_.ssize_ < 0.0)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert negative integer ParamValue to unsigned long int");
+#else
+        throw std::invalid_argument{"Could not convert negative integer ParamValue to unsigned long int"};
+#endif
     }
     return data_.ssize_;
   }
@@ -837,7 +888,11 @@ private:
   {
     if (value_type_ != INT_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to Int");
+#else
+        throw std::invalid_argument{"Could not convert non-integer ParamValue to Int"};
+#endif
     }
     return data_.ssize_;
   }
@@ -846,11 +901,19 @@ private:
   {
     if (value_type_ != INT_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to UInt");
+#else
+        throw std::invalid_argument{"Could not convert non-integer ParamValue to UInt"};
+#endif
     }
     if (data_.ssize_ < 0.0)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert negative integer ParamValue to UInt");
+#else
+        throw std::invalid_argument{"Could not convert negative integer ParamValue to UInt"};
+#endif
     }
     return data_.ssize_;
   }
@@ -859,7 +922,11 @@ private:
   {
     if (value_type_ != STRING_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-string ParamValue to string");
+#else
+        throw std::invalid_argument{"Could not convert non-string ParamValue to string"};
+#endif
     }
     return *(data_.str_);
   }
@@ -891,7 +958,11 @@ private:
         return nullptr;
     break;
     default:
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
         throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-string ParamValue to char*");
+#else
+        throw std::invalid_argument{"Could not convert non-string ParamValue to char*"};
+#endif
     break;
     }
   }
@@ -952,7 +1023,11 @@ private:
         str +=  "]";
     break;
     default:
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
         throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert ParamValue to String");
+#else
+        throw std::invalid_argument{"Could not convert ParamValue to String"};
+#endif
     break;
     }
     return str;
@@ -962,7 +1037,11 @@ private:
   {
     if (value_type_ != STRING_LIST)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-std::vector<std::string> ParamValue to std::vector<std::string>");
+#else
+        throw std::invalid_argument{"Could not convert non-std::vector<std::string> ParamValue to std::vector<std::string>"};
+#endif
     }
     return *(data_.str_list_);
   }
@@ -971,7 +1050,11 @@ private:
   {
     if (value_type_ != INT_LIST)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-std::vector<int> ParamValue to std::vector<int>");
+#else
+        throw std::invalid_argument{"Could not convert non-std::vector<int> ParamValue to std::vector<int>"};
+#endif
     }
     return *(data_.int_list_);
   }
@@ -979,7 +1062,11 @@ private:
   std::vector<double> ParamValue::toDoubleVector() const {
     if (value_type_ != DOUBLE_LIST)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-std::vector<double> ParamValue to std::vector<double>");
+#else
+        throw std::invalid_argument{"Could not convert non-std::vector<double> ParamValue to std::vector<double>"};
+#endif
     }
     return *(data_.dou_list_);
   }
@@ -988,11 +1075,19 @@ private:
   {
     if (value_type_ != STRING_VALUE)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-string ParamValue to bool.");
+#else
+        throw std::invalid_argument{"Could not convert non-string ParamValue to bool."};
+#endif
     }
     else if (!(*(data_.str_) == "true" || *(data_.str_) == "false"))
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert '" + *(data_.str_) + "' to bool. Valid stings are 'true' and 'false'.");
+#else
+        throw std::invalid_argument{"Could not convert '" + *(data_.str_) + "' to bool. Valid stings are 'true' and 'false'."};
+#endif
     }
 
     return *(data_.str_) == "true";
