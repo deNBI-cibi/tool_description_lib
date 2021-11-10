@@ -449,7 +449,7 @@ protected:
     /**
       @brief Rescue parameter <b>values</b> from @p p_outdated to current param
 
-      Calls ::update(p_outdated, true, add_unknown, false, false, OPENMS_LOG_WARN) and returns its value.
+      Calls ::update(p_outdated, true, add_unknown, false, false, TDL_LOGSTREAM_WARN) and returns its value.
     */
     bool update(const Param& p_outdated, const bool add_unknown = false);
 
@@ -458,7 +458,7 @@ protected:
 
       Calls ::update(p_outdated, true, add_unknown, false, false, stream) and returns its value.
     */
-    bool update(const Param& p_outdated, const bool add_unknown, Logger::LogStream& stream);
+    bool update(const Param& p_outdated, const bool add_unknown, TDL_LOGSTREAM_TYPE& stream);
 
 
     /**
@@ -481,7 +481,7 @@ protected:
       @param stream The stream where all the logging output is send to.
       @return true on success, false on failure
     */
-    bool update(const Param& p_outdated, bool verbose, bool add_unknown, bool fail_on_invalid_values, bool fail_on_unknown_parameters, Logger::LogStream& stream);
+    bool update(const Param& p_outdated, bool verbose, bool add_unknown, bool fail_on_invalid_values, bool fail_on_unknown_parameters, TDL_LOGSTREAM_TYPE& stream);
 
     /**
       @brief Adds missing parameters from the given param @p toMerge to this param. Existing parameters will not be modified.
@@ -521,7 +521,7 @@ protected:
       @param defaults The default values.
       @param prefix The prefix where to check for the defaults.
 
-      Warnings etc. will be send to OPENMS_LOG_WARN.
+      Warnings etc. will be send to TDL_LOGSTREAM_WARN.
 
       @exception Exception::InvalidParameter is thrown if errors occur during the check
     */
@@ -1372,7 +1372,7 @@ protected:
       const auto& n = root_.findEntry(entry.name);
       if (n == root_.entries.end())
       {
-        OPENMS_LOG_WARN << "Warning: Trying to copy non-existent parameter entry " << entry.name << std::endl;
+        TDL_LOGSTREAM_WARN << "Warning: Trying to copy non-existent parameter entry " << entry.name << std::endl;
       }
       else
       {
@@ -1385,7 +1385,7 @@ protected:
       const auto& n = root_.findNode(node.name);
       if (n == root_.nodes.end())
       {
-        OPENMS_LOG_WARN << "Warning: Trying to copy non-existent parameter node " << node.name << std::endl;
+        TDL_LOGSTREAM_WARN << "Warning: Trying to copy non-existent parameter node " << node.name << std::endl;
       }
       else
       {
@@ -1698,12 +1698,12 @@ protected:
       //unknown parameter
       if (!defaults.exists(it.getName()))
       {
-        OPENMS_LOG_WARN << "Warning: " << name << " received the unknown parameter '" << it.getName() << "'";
+        TDL_LOGSTREAM_WARN << "Warning: " << name << " received the unknown parameter '" << it.getName() << "'";
         if (!prefix2.empty())
         {
-          OPENMS_LOG_WARN << " in '" << prefix2 << "'";
+          TDL_LOGSTREAM_WARN << " in '" << prefix2 << "'";
         }
-        OPENMS_LOG_WARN << "!" << std::endl;
+        TDL_LOGSTREAM_WARN << "!" << std::endl;
       }
 
       //different types
@@ -1826,10 +1826,10 @@ protected:
 
   bool Param::update(const Param& p_outdated, const bool add_unknown)
   {
-    return update(p_outdated, add_unknown, OpenMS_Log_warn);
+    return update(p_outdated, add_unknown, TDL_LOGSTREAM_WARN);
   }
 
-  bool Param::update(const Param& p_outdated, const bool add_unknown, Logger::LogStream& stream)
+  bool Param::update(const Param& p_outdated, const bool add_unknown, TDL_LOGSTREAM_TYPE& stream)
   {
     bool fail_on_invalid_values = false;
     bool fail_on_unknown_parameters = false;
@@ -1837,7 +1837,7 @@ protected:
   }
 
 
-  bool Param::update(const Param& p_outdated, bool verbose, const bool add_unknown, bool fail_on_invalid_values, bool fail_on_unknown_parameters, Logger::LogStream& stream)
+  bool Param::update(const Param& p_outdated, bool verbose, const bool add_unknown, bool fail_on_invalid_values, bool fail_on_unknown_parameters, TDL_LOGSTREAM_TYPE& stream)
   {
     bool is_update_success(true);
     // augment
@@ -2013,7 +2013,7 @@ OPENMS_THREAD_CRITICAL(oms_log)
       if (!this->exists(it.getName()))
       {
         Param::ParamEntry entry = *it;
-        OPENMS_LOG_DEBUG << "[Param::merge] merging " << it.getName() << std::endl;
+        TDL_LOGSTREAM_DEBUG << "[Param::merge] merging " << it.getName() << std::endl;
         this->root_.insert(entry, prefix);
       }
 
@@ -2023,12 +2023,12 @@ OPENMS_THREAD_CRITICAL(oms_log)
       {
         if (traceIt->opened)
         {
-          OPENMS_LOG_DEBUG << "[Param::merge] extending param trace " << traceIt->name << " (" << pathname << ")" << std::endl;
+          TDL_LOGSTREAM_DEBUG << "[Param::merge] extending param trace " << traceIt->name << " (" << pathname << ")" << std::endl;
           pathname += traceIt->name + ":";
         }
         else
         {
-          OPENMS_LOG_DEBUG << "[Param::merge] reducing param trace " << traceIt->name << " (" << pathname << ")" << std::endl;
+          TDL_LOGSTREAM_DEBUG << "[Param::merge] reducing param trace " << traceIt->name << " (" << pathname << ")" << std::endl;
           std::string suffix = traceIt->name + ":";
           if (suffix.size() <= pathname.size() && pathname.compare(pathname.size() - suffix.size(), suffix.size(), suffix) == 0)
             pathname.resize(pathname.size() - traceIt->name.size() - 1);
