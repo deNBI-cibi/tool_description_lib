@@ -1,6 +1,6 @@
 #pragma once
 
-#include <OpenMS/DATASTRUCTURES/ParamValue.h>
+#include <tdl/ParamValue.h>
 #include <OpenMS/OpenMSConfig.h>
 
 #include <set>

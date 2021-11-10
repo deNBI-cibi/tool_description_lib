@@ -1,5 +1,6 @@
 #pragma once
 
+#include <tdl/platform.hpp>
 #include <OpenMS/OpenMSConfig.h>
 
 #include <cstddef> // for ptrdiff_t

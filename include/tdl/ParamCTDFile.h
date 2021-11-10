@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-#include <OpenMS/DATASTRUCTURES/Param.h>
+
+#include <tdl/Param.h>
 
 namespace tdl
 {
