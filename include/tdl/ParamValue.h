@@ -7,7 +7,7 @@
 #include <vector>
 
 
-namespace OpenMS
+namespace tdl
 {
   /**
     @brief Class to hold strings, numeric values, vectors of strings and vectors of numeric values using the stl types.
@@ -1209,5 +1209,5 @@ private:
     }
     return s;
   }
-}
 
+} // namespace tdl

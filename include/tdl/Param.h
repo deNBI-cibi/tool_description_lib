@@ -7,7 +7,7 @@
 #include <string>
 #include <map>
 
-namespace OpenMS
+namespace tdl
 {
 
   namespace Logger
@@ -1966,7 +1966,7 @@ OPENMS_THREAD_CRITICAL(oms_log)
     return is_update_success;
   }
 
-  void Param::merge(const OpenMS::Param& toMerge)
+  void Param::merge(const tdl::Param& toMerge)
   {
     // keep track of the path inside the param tree
     std::string pathname;
@@ -2272,10 +2272,14 @@ OPENMS_THREAD_CRITICAL(oms_log)
     ParamEntry* entry = root_.findEntryRecursive(key);
     if (entry == nullptr)
     {
+#ifdef OPENMS_EXCEPTIONS_AVAILABLE
       throw Exception::ElementNotFound(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, key);
+#else
+      throw std::invalid_argument{key};
+#endif
     }
 
     return *entry;
   }
-} // namespace OpenMS
+} // namespace tdl
 

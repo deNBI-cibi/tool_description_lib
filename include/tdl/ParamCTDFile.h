@@ -3,7 +3,7 @@
 #include <string>
 #include <OpenMS/DATASTRUCTURES/Param.h>
 
-namespace OpenMS
+namespace tdl
 {
 
   /**
@@ -414,4 +414,5 @@ namespace OpenMS
       }
     }
   }
-}
+
+} // namespace tdl
