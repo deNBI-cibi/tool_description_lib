@@ -7,24 +7,24 @@
 
 TEST(ParamValue_construction, default_construction)
 {
-        tdl::ParamValue* dv_ptr = nullptr;
-        tdl::ParamValue* dv_nullPointer = nullptr;
+  tdl::ParamValue* dv_ptr = nullptr;
+  tdl::ParamValue* dv_nullPointer = nullptr;
 
-        // Just as a sanity check, the size of ParamValue should be exactly 16 bytes
-        // on a 64 bit system:
-        // - 1 byte for the data type
-        // - 7 byte padding
-        // - 8 bytes for the actual data / pointers to data
-        EXPECT_EQ(sizeof(tdl::ParamValue), 16);
+  // Just as a sanity check, the size of ParamValue should be exactly 16 bytes
+  // on a 64 bit system:
+  // - 1 byte for the data type
+  // - 7 byte padding
+  // - 8 bytes for the actual data / pointers to data
+  EXPECT_EQ(sizeof(tdl::ParamValue), 16);
 
-        dv_ptr = new tdl::ParamValue;
-        EXPECT_NE(dv_ptr, dv_nullPointer);
+  dv_ptr = new tdl::ParamValue;
+  EXPECT_NE(dv_ptr, dv_nullPointer);
 }
 
 TEST(ParamValue_construction, destructor)
 {
-        tdl::ParamValue* dv_ptr = nullptr;
-        delete dv_ptr;
+  tdl::ParamValue* dv_ptr = nullptr;
+  delete dv_ptr;
 }
 
 // TODO adapt all tests below to google test (only default construction and deconstruction was done)
