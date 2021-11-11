@@ -1571,50 +1571,25 @@ TEST_F(ParamF2, setMaxFloat) {
   //EXPECT_THROW(d.setMaxFloat("dummy", 4.5), Exception::ElementNotFound);
 }
 
+class ParamF3 : public ::testing::Test
+{
+protected:
+  // warnings for unknown parameters
+  // keep outside the scope of a single test to avoid destruction,  leaving
+  // OpenMS_Log_warn in an undefined state
+  std::ostringstream os;
+
+  void SetUp() override
+  {
+    // checkDefaults sends its warnings to OPENMS_LOG_WARN so we register our own
+    // listener here to check the output
+    //OpenMS_Log_warn.remove(std::cout);
+    //OpenMS_Log_warn.insert(std::os);
+  }
+};
 
 
-
-
-// TODO Adapt all of the below tests (only default construction was adapted yet)
-// each TEST / } should be a separate TEST() {
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-/*
-#include <OpenMS/CONCEPT/ClassTest.h>
-#include <OpenMS/test_config.h>
-
-///////////////////////////
-
-#include <OpenMS/DATASTRUCTURES/Param.h>
-#include <OpenMS/CONCEPT/LogStream.h>
-#include <OpenMS/DATASTRUCTURES/ListUtils.h>
-#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
-
-///////////////////////////
-
-using namespace OpenMS;
-using namespace std;
-
-#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
-#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
-#pragma optimize( "", off )
-#endif
-
-START_TEST(Param, "$Id$")
-
-
-
-// warnings for unknown parameters
-// keep outside the scope of a single test to avoid destruction,  leaving
-// OpenMS_Log_warn in an undefined state
-ostringstream os;
-// checkDefaults sends its warnings to OPENMS_LOG_WARN so we register our own
-// listener here to check the output
-OpenMS_Log_warn.remove(cout);
-OpenMS_Log_warn.insert(os);
-
-TEST(Param, checkDefaults) {
+TEST_F(ParamF3, checkDefaults) {
     tdl::Param p, d;
     p.setValue("string",std::string("bla"), "string");
     p.setValue("int", 5, "int");
@@ -1645,7 +1620,7 @@ TEST(Param, checkDefaults) {
     EXPECT_EQ(os.str() == "", false);
 
     //check string restrictions
-    vector<std::string> s_rest = {"a", "b", "c"};
+    std::vector<std::string> s_rest = {"a", "b", "c"};
     d.setValue("stringv", "bla", "desc");
     d.setValidStrings("stringv",  s_rest);
     p.clear();
@@ -1699,7 +1674,7 @@ TEST(Param, checkDefaults) {
     //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 
     //check list restrictions
-    vector<std::string> s_rest1 = {"a", "b", "c"};
+    std::vector<std::string> s_rest1 = {"a", "b", "c"};
     d.setValue("stringlist",std::vector<std::string>{"aaa", "abc", "cab"}, "desc");
     d.setValidStrings("stringlist",  s_rest);
     p.clear();
@@ -1721,10 +1696,43 @@ TEST(Param, checkDefaults) {
     //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 }
 
-TEST(Param, update) {
-{
-  NOT_TESTABLE // see full implementation below
+TEST_F(ParamF3, update) {
+//  NOT_TESTABLE // see full implementation below
 }
+
+
+
+
+// TODO Adapt all of the below tests (only default construction was adapted yet)
+// each TEST / } should be a separate TEST() {
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+/*
+#include <OpenMS/CONCEPT/ClassTest.h>
+#include <OpenMS/test_config.h>
+
+///////////////////////////
+
+#include <OpenMS/DATASTRUCTURES/Param.h>
+#include <OpenMS/CONCEPT/LogStream.h>
+#include <OpenMS/DATASTRUCTURES/ListUtils.h>
+#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
+
+///////////////////////////
+
+using namespace OpenMS;
+using namespace std;
+
+#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
+#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
+#pragma optimize( "", off )
+#endif
+
+START_TEST(Param, "$Id$")
+
+
+
 }
 
 
