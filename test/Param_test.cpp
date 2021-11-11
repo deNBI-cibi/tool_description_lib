@@ -824,11 +824,11 @@ TEST(Param, insert) {
   EXPECT_EQ(p2.size(), 4);
   EXPECT_EQ(int(p2.getValue("prefixa")),  17);
   EXPECT_EQ(p2.getDescription("prefixa"),  "intdesc");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("prefixn1:b")),  17.4);
+  EXPECT_FLOAT_EQ(float(p2.getValue("prefixn1:b")),  17.4);
   EXPECT_EQ(p2.getDescription("prefixn1:b"),  "floatdesc");
   EXPECT_EQ(p2.getValue("prefixn1:c"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("prefixn1:c"),  "stringdesc");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("prefixn2:d")),  17.5);
+  EXPECT_FLOAT_EQ(float(p2.getValue("prefixn2:d")),  17.5);
   EXPECT_EQ(p2.getDescription("prefixn2:d"),  "");
   EXPECT_EQ(p2.getSectionDescription("prefixn1"), "sectiondesc");
 
@@ -836,11 +836,11 @@ TEST(Param, insert) {
   EXPECT_EQ(p2.size(), 8);
   EXPECT_EQ(int(p2.getValue("a")),  17);
   EXPECT_EQ(p2.getDescription("a"),  "intdesc");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("n1:b")),  17.4);
+  EXPECT_FLOAT_EQ(float(p2.getValue("n1:b")),  17.4);
   EXPECT_EQ(p2.getDescription("n1:b"),  "floatdesc");
   EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("n1:c"),  "stringdesc");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("n2:d")),  17.5);
+  EXPECT_FLOAT_EQ(float(p2.getValue("n2:d")),  17.5);
   EXPECT_EQ(p2.getDescription("n2:d"),  "");
   EXPECT_EQ(p2.getSectionDescription("n1"), "sectiondesc");
 
@@ -848,11 +848,11 @@ TEST(Param, insert) {
   EXPECT_EQ(p2.size(), 12);
   EXPECT_EQ(int(p2.getValue("n3:a")),  17);
   EXPECT_EQ(p2.getDescription("n3:a"),  "intdesc");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("n3:n1:b")),  17.4);
+  EXPECT_FLOAT_EQ(float(p2.getValue("n3:n1:b")),  17.4);
   EXPECT_EQ(p2.getDescription("n3:n1:b"),  "floatdesc");
   EXPECT_EQ(p2.getValue("n3:n1:c"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("n3:n1:c"),  "stringdesc");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("n3:n2:d")),  17.5);
+  EXPECT_FLOAT_EQ(float(p2.getValue("n3:n2:d")),  17.5);
   EXPECT_EQ(p2.getDescription("n3:n2:d"),  "");
   EXPECT_EQ(p2.getSectionDescription("n3:n1"), "sectiondesc");
 
@@ -865,9 +865,9 @@ TEST(Param, insert) {
   p2.insert("", p);
   EXPECT_EQ(p2.size(), 12);
   EXPECT_EQ(int(p2.getValue("a")),  18);
-  EXPECT_DOUBLE_EQ(float(p2.getValue("n1:b")),  17.7);
+  EXPECT_FLOAT_EQ(float(p2.getValue("n1:b")),  17.7);
   EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test, test");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("n2:d")),  17.8);
+  EXPECT_FLOAT_EQ(float(p2.getValue("n2:d")),  17.8);
 }
 
 
@@ -891,13 +891,13 @@ protected:
 
 TEST_F(ParamF1, Param) {
   tdl::Param p2(p_src);
-  EXPECT_DOUBLE_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_FLOAT_EQ(float(p2.getValue("test:float")),  17.4);
   EXPECT_EQ(p_src.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   EXPECT_EQ(p_src.getDescription("test:string"),  "stringdesc");
   EXPECT_EQ(int(p2.getValue("test:int")),  17);
   EXPECT_EQ(p_src.getDescription("test:int"),  "intdesc");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getDescription("test2:float"),  "");
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   EXPECT_EQ(p2.getDescription("test2:string"),  "");
@@ -911,13 +911,13 @@ TEST_F(ParamF1, Param) {
 TEST_F(ParamF1, assignoperator) {
   tdl::Param p2;
   p2=p_src;
-  EXPECT_DOUBLE_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_FLOAT_EQ(float(p2.getValue("test:float")),  17.4);
   EXPECT_EQ(p_src.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   EXPECT_EQ(p_src.getDescription("test:string"),  "stringdesc");
   EXPECT_EQ(int(p2.getValue("test:int")),  17);
   EXPECT_EQ(p2.getDescription("test:int"),  "intdesc");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getDescription("test2:float"),  "");
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   EXPECT_EQ(p2.getDescription("test2:string"),  "");
@@ -936,7 +936,7 @@ TEST_F(ParamF1, copy) {
 
   p2 = p_src.copy("test:");
 
-  EXPECT_DOUBLE_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_FLOAT_EQ(float(p2.getValue("test:float")),  17.4);
   EXPECT_EQ(p2.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("test:int"),  "intdesc");
@@ -945,19 +945,19 @@ TEST_F(ParamF1, copy) {
   //EXPECT_THROW(p2.getValue("test2:float"), Exception::ElementNotFound);
 
   p2 = p_src.copy("test:", true);
-  EXPECT_DOUBLE_EQ(float(p2.getValue("float")),  17.4);
+  EXPECT_FLOAT_EQ(float(p2.getValue("float")),  17.4);
   EXPECT_EQ(p2.getDescription("float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("string"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("string"),  "stringdesc");
 
   p2 = p_src.copy("test");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_FLOAT_EQ(float(p2.getValue("test:float")),  17.4);
   EXPECT_EQ(p2.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("test:string"),  "stringdesc");
   EXPECT_EQ(int(p2.getValue("test:int")),  17);
   EXPECT_EQ(p2.getDescription("test:int"),  "intdesc");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getDescription("test2:float"),  "");
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   EXPECT_EQ(p2.getDescription("test2:string"),  "");
@@ -1031,7 +1031,7 @@ TEST_F(ParamF1, removeAll) {
   //EXPECT_THROW(p2.getValue("test:float"), Exception::ElementNotFound);
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   EXPECT_EQ(int(p2.getValue("test:int")),  17);
-  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   EXPECT_EQ(int(p2.getValue("test2:int")),  18);
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
@@ -1039,7 +1039,7 @@ TEST_F(ParamF1, removeAll) {
   p2.removeAll("test:");
   //EXPECT_THROW(p2.getValue("test:string"), Exception::ElementNotFound);
   //EXPECT_THROW(p2.getValue("test:int"), Exception::ElementNotFound);
-  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   EXPECT_EQ(int(p2.getValue("test2:int")),  18);
 
@@ -1108,13 +1108,16 @@ TEST_F(ParamF1, setDefaults) {
 //  p2.setValue("PATH:doublelist2", ListUtils::create<double>("6.66, 6.16"), "PATH:doublelist2");
 //  p2.setValue("doublelist", ListUtils::create<double>("1.2, 5.55"), "doublelist");
 
-  EXPECT_EQ(p2.size(), 10);
+//  EXPECT_EQ(p2.size(), 10); Fails because ListUtils is missing
+EXPECT_EQ(p2.size(), 6);
+
 
   p2.setDefaults(defaults);
-  EXPECT_EQ(p2.size(), 16);
-  EXPECT_DOUBLE_EQ(float(p2.getValue("float")), -2.0);
+//  EXPECT_EQ(p2.size(), 16);  Fails because ListUtils is missing
+EXPECT_EQ(p2.size(), 10);
+  EXPECT_FLOAT_EQ(float(p2.getValue("float")), -2.0);
   EXPECT_EQ(p2.getDescription("float"), "float");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("float2")), 2.0);
+  EXPECT_FLOAT_EQ(float(p2.getValue("float2")), 2.0);
   EXPECT_EQ(p2.getDescription("float2"), "float2");
   EXPECT_EQ(std::string(p2.getValue("string")), "other string");
   EXPECT_EQ(p2.getDescription("string"), "string");
@@ -1133,10 +1136,11 @@ TEST_F(ParamF1, setDefaults) {
 
   p2.setDefaults(defaults, "PATH");
 
-  EXPECT_EQ(p2.size(), 22);
-  EXPECT_DOUBLE_EQ(float(p2.getValue("PATH:float")), -1.0);
+//  EXPECT_EQ(p2.size(), 22); Fails because ListUtils is missing
+    EXPECT_EQ(p2.size(), 14);
+  EXPECT_FLOAT_EQ(float(p2.getValue("PATH:float")), -1.0);
   EXPECT_EQ(p2.getDescription("PATH:float"), "PATH:float");
-  EXPECT_DOUBLE_EQ(float(p2.getValue("PATH:float2")), 2.0);
+  EXPECT_FLOAT_EQ(float(p2.getValue("PATH:float2")), 2.0);
   EXPECT_EQ(p2.getDescription("PATH:float2"), "float2");
   EXPECT_EQ(std::string(p2.getValue("PATH:string")), "some string");
   EXPECT_EQ(p2.getDescription("PATH:string"), "PATH:string");
@@ -1151,89 +1155,88 @@ TEST_F(ParamF1, setDefaults) {
 
 }
 
+class ParamF2 : public ::testing::Test
+{
+protected:
+  const char* a1  = "executable";
+  const char* a2  = "-a";
+  const char* a3  = "av";
+  const char* a4  = "-b";
+  const char* a5  = "bv";
+  const char* a6  = "-c";
+  const char* a7  = "cv";
+  const char* a8  = "rv1";
+  const char* a9  = "rv2";
+  const char* a10 = "-1.0";
+  const char* command_line[9]; // "executable -a av -b bv -c cv rv1 rv2"
+  const char* command_line2[6]; // "executable -a av -b -c cv"
+  const char* command_line3[6]; // "executable -a -b -c cv rv1"
+  const char* command_line4[10]; // "executable -a -1.0 -b bv -c cv rv1 rv2 -1.0"
+
+  const char* m1 ="mult";
+  const char* m2 ="-d";
+  const char* m3 ="1.333";
+  const char* m4 ="2.23";
+  const char* m5 ="3";
+  const char* m6 ="-e";
+  const char* m7 ="4";
+  const char* m8 ="-f";
+  const char* m9 ="-g";
+
+  const char* command_line_mult[9];  // "mult -d 1.333 2.23 3 -e 4 -f -g"
+
+  void SetUp() override
+  {
+    command_line[0] = a1;
+    command_line[1] = a2;
+    command_line[2] = a3;
+    command_line[3] = a4;
+    command_line[4] = a5;
+    command_line[5] = a6;
+    command_line[6] = a7;
+    command_line[7] = a8;
+    command_line[8] = a9;
+
+    command_line2[0] = a1;
+    command_line2[1] = a2;
+    command_line2[2] = a3;
+    command_line2[3] = a4;
+    command_line2[4] = a6;
+    command_line2[5] = a7;
+
+    command_line3[0] = a1;
+    command_line3[1] = a2;
+    command_line3[2] = a4;
+    command_line3[3] = a6;
+    command_line3[4] = a7;
+    command_line3[5] = a8;
+
+    command_line4[0] = a1;
+    command_line4[1] = a2;
+    command_line4[2] = a10;
+    command_line4[3] = a4;
+    command_line4[4] = a5;
+    command_line4[5] = a6;
+    command_line4[6] = a7;
+    command_line4[7] = a8;
+    command_line4[8] = a9;
+    command_line4[9] = a10;
+
+    command_line_mult[0] = m1;
+    command_line_mult[1] = m2;
+    command_line_mult[2] = m3;
+    command_line_mult[3] = m4;
+    command_line_mult[4] = m5;
+    command_line_mult[5] = m6;
+    command_line_mult[6] = m7;
+    command_line_mult[7] = m8;
+    command_line_mult[8] = m9;
+  }
+};
 
 
 
-// TODO Adapt all of the below tests (only default construction was adapted yet)
-// each TEST / } should be a separate TEST() {
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-/*
-#include <OpenMS/CONCEPT/ClassTest.h>
-#include <OpenMS/test_config.h>
-
-///////////////////////////
-
-#include <OpenMS/DATASTRUCTURES/Param.h>
-#include <OpenMS/CONCEPT/LogStream.h>
-#include <OpenMS/DATASTRUCTURES/ListUtils.h>
-#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
-
-///////////////////////////
-
-using namespace OpenMS;
-using namespace std;
-
-#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
-#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
-#pragma optimize( "", off )
-#endif
-
-START_TEST(Param, "$Id$")
-
-
-const char* a1 ="executable";
-const char* a2 ="-a";
-const char* a3 ="av";
-const char* a4 ="-b";
-const char* a5 ="bv";
-const char* a6 ="-c";
-const char* a7 ="cv";
-const char* a8 ="rv1";
-const char* a9 ="rv2";
-const char* a10="-1.0";
-
-const char* command_line[9]; // "executable -a av -b bv -c cv rv1 rv2"
-command_line[0] = a1;
-command_line[1] = a2;
-command_line[2] = a3;
-command_line[3] = a4;
-command_line[4] = a5;
-command_line[5] = a6;
-command_line[6] = a7;
-command_line[7] = a8;
-command_line[8] = a9;
-
-const char* command_line2[6]; // "executable -a av -b -c cv"
-command_line2[0] = a1;
-command_line2[1] = a2;
-command_line2[2] = a3;
-command_line2[3] = a4;
-command_line2[4] = a6;
-command_line2[5] = a7;
-
-const char* command_line3[6]; // "executable -a -b -c cv rv1"
-command_line3[0] = a1;
-command_line3[1] = a2;
-command_line3[2] = a4;
-command_line3[3] = a6;
-command_line3[4] = a7;
-command_line3[5] = a8;
-
-const char* command_line4[10]; // "executable -a -1.0 -b bv -c cv rv1 rv2 -1.0"
-command_line4[0] = a1;
-command_line4[1] = a2;
-command_line4[2] = a10;
-command_line4[3] = a4;
-command_line4[4] = a5;
-command_line4[5] = a6;
-command_line4[6] = a7;
-command_line4[7] = a8;
-command_line4[8] = a9;
-command_line4[9] = a10;
-
-TEST(Param, parseCommandLine) {
+TEST_F(ParamF2, parseCommandLine) {
   tdl::Param p2, p3;
   p2.parseCommandLine(9, command_line, "test4");
   p3.setValue("test4:-a", "av");
@@ -1259,28 +1262,8 @@ TEST(Param, parseCommandLine) {
 
 }
 
-const char* m1 ="mult";
-const char* m2 ="-d";
-const char* m3 ="1.333";
-const char* m4 ="2.23";
-const char* m5 ="3";
-const char* m6 ="-e";
-const char* m7 ="4";
-const char* m8 ="-f";
-const char* m9 ="-g";
 
-const char* command_line_mult[9];  // "mult -d 1.333 2.23 3 -e 4 -f -g"
-command_line_mult[0] = m1;
-command_line_mult[1] = m2;
-command_line_mult[2] = m3;
-command_line_mult[3] = m4;
-command_line_mult[4] = m5;
-command_line_mult[5] = m6;
-command_line_mult[6] = m7;
-command_line_mult[7] = m8;
-command_line_mult[8] = m9;
-
-TEST(Param, parseCommandLine) {
+TEST_F(ParamF2, parseCommandLineMulti) {
 
   std::map<std::string,std::string> with_one, without, with_multiple;
   with_one["-a"]="a";
@@ -1354,7 +1337,7 @@ TEST(Param, parseCommandLine) {
 
 }
 
-TEST(Param, update) {
+TEST_F(ParamF2, update) {
   tdl::Param common;
   common.setValue("float", 1.0f, "float");
   common.setValue("float2", 2.0f, "float2");
@@ -1364,7 +1347,7 @@ TEST(Param, update) {
 
   common.setValue("stringlist",std::vector<std::string>{"a", "b", "c"}, "stringlist");
   common.setValue("stringlist2",std::vector<std::string>{"d", "e", "f"}, "stringlist2");
-  common.setValue("intlist", ListUtils::create<Int>("1, 2, 3"), "intlist");
+//  common.setValue("intlist", ListUtils::create<Int>("1, 2, 3"), "intlist");
 
   // copy and alter
   tdl::Param old = common;
@@ -1374,7 +1357,7 @@ TEST(Param, update) {
   old.setValue("some:1:type", "unlabeled", "type");
   old.setValue("some:type", "unlabeled", "type");
   old.setValue("stringlist2",std::vector<std::string>{"d", "e", "f", "altered"}, "stringlist2"); // change some values,  we expect them to show up after update()
-  old.setValue("intlist", ListUtils::create<Int>("3"), "intlist");
+//  old.setValue("intlist", ListUtils::create<Int>("3"), "intlist");
 
   tdl::Param defaults = common;
   defaults.setValue("old_type", 3, "old_type has evolved from string to int"); // as type has changed,  this value should be kept
@@ -1385,7 +1368,7 @@ TEST(Param, update) {
 
   tdl::Param expected = defaults;
   expected.setValue("stringlist2",std::vector<std::string>{"d", "e", "f", "altered"}, "stringlist2"); // change some values,  we expect them to show up after update()
-  expected.setValue("intlist", ListUtils::create<Int>("3"), "intlist");
+//  expected.setValue("intlist", ListUtils::create<Int>("3"), "intlist");
   expected.setValue("some:type", "unlabeled", "type");
 
   // update()
@@ -1394,7 +1377,7 @@ TEST(Param, update) {
   EXPECT_EQ(defaults, expected);
 }
 
-TEST(Param, merge) {
+TEST_F(ParamF2, merge) {
 {
   tdl::Param original;
   original.setValue("a",  2.0f,  "a value");
@@ -1452,7 +1435,7 @@ TEST(Param, merge) {
 }
 }
 
-TEST(Param, findFirst) {
+TEST_F(ParamF2, findFirst) {
 {
   tdl::Param p;
   p.setValue("a:b:leaf",  "leaf_val1",  "leaf 1");
@@ -1477,7 +1460,7 @@ TEST(Param, findFirst) {
 }
 }
 
-TEST(Param, findNext) {
+TEST_F(ParamF2, findNext) {
 {
   tdl::Param p;
   p.setValue("a:b:leaf",  "leaf_val1",  "leaf 1");
@@ -1499,11 +1482,11 @@ TEST(Param, findNext) {
 }
 }
 
-TEST(Param, begin) {
-        NOT_TESTABLE;
+TEST_F(ParamF2, begin) {
+//        NOT_TESTABLE;
 }
 
-TEST(Param, end) {
+TEST_F(ParamF2, end) {
   tdl::Param p;
   p.setValue("a", 5);
   p.setValue("b:a", 6);
@@ -1513,29 +1496,29 @@ TEST(Param, end) {
   tdl::Param::ParamIterator it = p.begin();
   EXPECT_EQ(it->name,  "a");
   EXPECT_EQ(it.getName(),  "a");
-  EXPECT_EQ((UInt)it->value,  5);
+  EXPECT_EQ((uint32_t)it->value,  5);
 
   ++it;
   EXPECT_EQ(it->name,  "c");
   EXPECT_EQ(it.getName(),  "c");
-  EXPECT_EQ((UInt)it->value,  8);
+  EXPECT_EQ((uint32_t)it->value,  8);
 
   ++it;
   EXPECT_EQ(it->name,  "a");
   EXPECT_EQ(it.getName(),  "b:a");
-  EXPECT_EQ((UInt)it->value,  6);
+  EXPECT_EQ((uint32_t)it->value,  6);
 
   ++it;
   EXPECT_EQ(it->name,  "b");
   EXPECT_EQ(it.getName(),  "b:b");
-  EXPECT_EQ((UInt)it->value,  7);
+  EXPECT_EQ((uint32_t)it->value,  7);
 
   ++it;
   EXPECT_EQ(it == p.end(), true);
 }
 
-TEST(Param, setValidStrings) {
-  vector<std::string> strings;
+TEST_F(ParamF2, setValidStrings) {
+  std::vector<std::string> strings;
   strings.push_back("bla");
   tdl::Param d;
   d.setValue("ok", "string");
@@ -1548,7 +1531,7 @@ TEST(Param, setValidStrings) {
   //EXPECT_THROW(d.setValidStrings("ok",strings), Exception::InvalidParameter);
 }
 
-TEST(Param, setMinInt) {
+TEST_F(ParamF2, setMinInt) {
   tdl::Param d;
   d.setValue("ok", 4);
   d.setValue("dummy", 5.5);
@@ -1558,7 +1541,7 @@ TEST(Param, setMinInt) {
   //EXPECT_THROW(d.setMinInt("dummy", 4), Exception::ElementNotFound);
 }
 
-TEST(Param, setMaxInt) {
+TEST_F(ParamF2, setMaxInt) {
   tdl::Param d;
   d.setValue("ok", 4);
   d.setValue("dummy", 5.5);
@@ -1568,25 +1551,59 @@ TEST(Param, setMaxInt) {
   //EXPECT_THROW(d.setMaxInt("dummy", 4), Exception::ElementNotFound);
 }
 
-TEST(Param, (void setMinFloat(const std::string &key,  double min))) {
+TEST_F(ParamF2, setMinFloat) {
   tdl::Param d;
   d.setValue("ok", 4.5);
   d.setValue("dummy", 4);
 
   d.setMinFloat("ok", 4.0);
-  EXPECT_DOUBLE_EQ(d.getEntry("ok").min_float, 4.0);
+  EXPECT_FLOAT_EQ(d.getEntry("ok").min_float, 4.0);
   //EXPECT_THROW(d.setMinFloat("dummy", 4.5), Exception::ElementNotFound);
 }
 
-TEST(Param, (void setMaxFloat(const std::string &key,  double max))) {
+TEST_F(ParamF2, setMaxFloat) {
   tdl::Param d;
   d.setValue("ok", 4.5);
   d.setValue("dummy", 4);
 
   d.setMaxFloat("ok", 4.0);
-  EXPECT_DOUBLE_EQ(d.getEntry("ok").max_float, 4.0);
+  EXPECT_FLOAT_EQ(d.getEntry("ok").max_float, 4.0);
   //EXPECT_THROW(d.setMaxFloat("dummy", 4.5), Exception::ElementNotFound);
 }
+
+
+
+
+
+// TODO Adapt all of the below tests (only default construction was adapted yet)
+// each TEST / } should be a separate TEST() {
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+/*
+#include <OpenMS/CONCEPT/ClassTest.h>
+#include <OpenMS/test_config.h>
+
+///////////////////////////
+
+#include <OpenMS/DATASTRUCTURES/Param.h>
+#include <OpenMS/CONCEPT/LogStream.h>
+#include <OpenMS/DATASTRUCTURES/ListUtils.h>
+#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
+
+///////////////////////////
+
+using namespace OpenMS;
+using namespace std;
+
+#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
+#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
+#pragma optimize( "", off )
+#endif
+
+START_TEST(Param, "$Id$")
+
+
 
 // warnings for unknown parameters
 // keep outside the scope of a single test to avoid destruction,  leaving
