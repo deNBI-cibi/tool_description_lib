@@ -6,11 +6,11 @@
 
 # Note that tdl-config.cmake can be standalone and thus TDL_CLONE_DIR might be empty.
 find_path (TDL_CLONE_DIR NAMES build_system/tdl-config.cmake HINTS "${CMAKE_CURRENT_LIST_DIR}/..")
-find_path (TDL_INCLUDE_DIR NAMES tdl/version.hpp HINTS "${TDL_CLONE_DIR}/include")
+find_path (TDL_INCLUDE_DIR NAMES tdl/version.h HINTS "${TDL_CLONE_DIR}/include")
 
-# extract version from tdl/version.hpp header
-file(STRINGS "${TDL_INCLUDE_DIR}/tdl/version.hpp" TDL_VERSION_HPP REGEX "#define TDL_VERSION_(MAJOR|MINOR|PATCH)")
-string(REGEX REPLACE "#define TDL_VERSION_(MAJOR|MINOR|PATCH) " "" PACKAGE_VERSION "${TDL_VERSION_HPP}")
+# extract version from tdl/version.h header
+file(STRINGS "${TDL_INCLUDE_DIR}/tdl/version.h" TDL_version.h REGEX "#define TDL_VERSION_(MAJOR|MINOR|PATCH)")
+string(REGEX REPLACE "#define TDL_VERSION_(MAJOR|MINOR|PATCH) " "" PACKAGE_VERSION "${TDL_version.h}")
 string(REGEX REPLACE ";" "." PACKAGE_VERSION "${PACKAGE_VERSION}")
 
 if(PACKAGE_VERSION VERSION_LESS PACKAGE_FIND_VERSION)
@@ -33,7 +33,7 @@ else()
 endif()
 
 # extract release candidate
-file(STRINGS "${TDL_INCLUDE_DIR}/tdl/version.hpp" TDL_RELEASE_CANDIDATE_HPP REGEX "#define TDL_RELEASE_CANDIDATE ")
+file(STRINGS "${TDL_INCLUDE_DIR}/tdl/version.h" TDL_RELEASE_CANDIDATE_HPP REGEX "#define TDL_RELEASE_CANDIDATE ")
 string(REGEX REPLACE "#define TDL_RELEASE_CANDIDATE " "" TDL_RELEASE_CANDIDATE_VERSION "${TDL_RELEASE_CANDIDATE_HPP}")
 
 # As of writing this (cmake 3.20):

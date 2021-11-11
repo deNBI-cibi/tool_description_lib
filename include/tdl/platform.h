@@ -29,8 +29,8 @@ static_assert(__cplusplus >= 201709, "TDL requires C++20, make sure that you hav
 // ============================================================================
 
 // TDL [required]
-#if __has_include(<tdl/version.hpp>)
-#    include <tdl/version.hpp>
+#if __has_include(<tdl/version.h>)
+#    include <tdl/version.h>
 #else
 #    error TDL include directory not set correctly. Forgot to add -I ${INSTALLDIR}/include to your CXXFLAGS?
 #endif

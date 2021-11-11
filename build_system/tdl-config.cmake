@@ -271,11 +271,11 @@ else ()
 endif ()
 
 # ----------------------------------------------------------------------------
-# Perform compilability test of platform.hpp (tests some requirements)
+# Perform compilability test of platform.h (tests some requirements)
 # ----------------------------------------------------------------------------
 
 set (CXXSTD_TEST_SOURCE
-     "#include <tdl/platform.hpp>
+     "#include <tdl/platform.h>
      int main() {}")
 
 # using try_compile instead of check_cxx_source_compiles to capture output in case of failure
@@ -291,9 +291,9 @@ try_compile (TDL_PLATFORM_TEST
              OUTPUT_VARIABLE     TDL_PLATFORM_TEST_OUTPUT)
 
 if (TDL_PLATFORM_TEST)
-    tdl_config_print ("tdl platform.hpp build:  passed.")
+    tdl_config_print ("tdl platform.h build:  passed.")
 else ()
-    tdl_config_error ("tdl platform.hpp build:  failed!\n\
+    tdl_config_error ("tdl platform.h build:  failed!\n\
                         ${TDL_PLATFORM_TEST_OUTPUT}")
 endif ()
 
