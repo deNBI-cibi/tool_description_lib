@@ -365,9 +365,6 @@ protected:
   }
 };
 
-
-
-
 TEST_F(ParamParamIteratorF, prefixIncrement) {
   tdl::Param::ParamNode node;
   node.entries.push_back(tdl::Param::ParamEntry("name", "value", "description", {"advanced"}));
@@ -588,60 +585,24 @@ TEST_F(ParamParamIteratorF, getTrace) {
   EXPECT_EQ(it.getTrace()[0].opened, false);
 }
 
-
-
-
-// TODO Adapt all of the below tests (only default construction was adapted yet)
-// each TEST / } should be a separate TEST() {
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-/*
-#include <OpenMS/CONCEPT/ClassTest.h>
-#include <OpenMS/test_config.h>
-
-///////////////////////////
-
-#include <OpenMS/DATASTRUCTURES/Param.h>
-#include <OpenMS/CONCEPT/LogStream.h>
-#include <OpenMS/DATASTRUCTURES/ListUtils.h>
-#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
-
-///////////////////////////
-
-using namespace OpenMS;
-using namespace std;
-
-#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
-#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
-#pragma optimize( "", off )
-#endif
-
-START_TEST(Param, "$Id$")
-
-
 ///////////////////////// Param ///////////////////////////////
 ///////////////////////////////////////////////////////////////
 
-
-
-Param* d10_ptr = nullptr;
-Param* d10_nullPointer = nullptr;
 TEST(Param, constructor) {
-  d10_ptr = new Param();
-  EXPECT_NE(d10_ptr,  d10_nullPointer);
+  auto d10_ptr = new tdl::Param();
+  EXPECT_NE(d10_ptr,  nullptr);
   delete d10_ptr;
 }
 
 TEST(Param, exists) {
-  Param p;
+  tdl::Param p;
   EXPECT_EQ(p.exists(""),  false);
   EXPECT_EQ(p.exists("key"),  false);
   EXPECT_EQ(p.exists("key:value"),  false);
 }
 
 TEST(Param, hasSection) {
-  Param p;
+  tdl::Param p;
   p.addSection("test",  "");
   p.addSection("test:test",  "");
   EXPECT_EQ(p.hasSection("test"),  true);
@@ -654,36 +615,36 @@ TEST(Param, hasSection) {
   EXPECT_EQ(p.hasSection("Section:WithinSection:"),  false);
 }
 
-TEST(Param, getValue(const std::string &key)) {
-  Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getValue(""));
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getValue("key"));
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getValue("key:value"));
+TEST(Param, getValue) {
+  tdl::Param p;
+  //EXPECT_THROW(p.getValue(""), Exception::ElementNotFound);
+  //EXPECT_THROW(p.getValue("key"), Exception::ElementNotFound);
+  //EXPECT_THROW(p.getValue("key:value"), Exception::ElementNotFound);
 }
 
 TEST(Param, getSectionDescription) {
-  Param p;
+  tdl::Param p;
   EXPECT_EQ(p.getSectionDescription(""), "");
   EXPECT_EQ(p.getSectionDescription("key"), "");
   EXPECT_EQ(p.getSectionDescription("key:value"), "");
 }
 
 TEST(Param, getDescription) {
-  Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getDescription(""));
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getDescription("key"));
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getDescription("key:value"));
+  tdl::Param p;
+  //EXPECT_THROW(p.getDescription(""), Exception::ElementNotFound);
+  //EXPECT_THROW(p.getDescription("key"), Exception::ElementNotFound);
+  //EXPECT_THROW(p.getDescription("key:value"), Exception::ElementNotFound);
 }
 
 TEST(Param, getEntry) {
-  Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getEntry(""));
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getEntry("key"));
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getEntry("key:value"));
+  tdl::Param p;
+  //EXPECT_THROW(p.getEntry(""), Exception::ElementNotFound);
+  //EXPECT_THROW(p.getEntry("key"), Exception::ElementNotFound);
+  //EXPECT_THROW(p.getEntry("key:value"), Exception::ElementNotFound);
 }
 
 TEST(Param, setValue) {
-  Param p;
+  tdl::Param p;
   p.setValue("key", "value");
   EXPECT_EQ(p.exists("key"),  true);
   EXPECT_EQ(p.getValue("key"),  "value");
@@ -708,19 +669,19 @@ TEST(Param, setValue) {
 }
 
 TEST(Param, getTags) {
-  Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getTags("key"));
+  tdl::Param p;
+  //EXPECT_THROW(p.getTags("key"), Exception::ElementNotFound);
 
   p.setValue("key", "value");
   EXPECT_EQ(p.getTags("key").size(), 0);
 }
 
 TEST(Param, addTag) {
-  Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTag("key", "bla"));
+  tdl::Param p;
+  //EXPECT_THROW(p.addTag("key", "bla"), Exception::ElementNotFound);
   std::vector<std::string> error_list;
   error_list.push_back("a, b");
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTags("key", error_list));
+  //EXPECT_THROW(p.addTags("key", error_list), Exception::ElementNotFound);
 
   p.setValue("key", "value");
   EXPECT_EQ(p.getTags("key").size(), 0);
@@ -733,8 +694,8 @@ TEST(Param, addTag) {
 }
 
 TEST(Param, hasTag) {
-  Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.hasTag("key", "bla"));
+  tdl::Param p;
+  //EXPECT_THROW(p.hasTag("key", "bla"), Exception::ElementNotFound);
 
   p.setValue("key", "value");
   EXPECT_EQ(p.hasTag("key", "advanced"), false);
@@ -748,11 +709,11 @@ TEST(Param, hasTag) {
 }
 
 TEST(Param, addTags) {
-  Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTags("key",std::vector<std::string>()));
+  tdl::Param p;
+  //EXPECT_THROW(p.addTags("key",std::vector<std::string>()), Exception::ElementNotFound);
   std::vector<std::string> error_list;
   error_list.push_back("a, b");
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTags("key", error_list));
+  //EXPECT_THROW(p.addTags("key", error_list), Exception::ElementNotFound);
 
   p.setValue("key", "value");
   EXPECT_EQ(p.hasTag("key", "advanced"), false);
@@ -763,8 +724,8 @@ TEST(Param, addTags) {
 }
 
 TEST(Param, clearTags) {
-  Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.clearTags("key"));
+  tdl::Param p;
+  //EXPECT_THROW(p.clearTags("key"), Exception::ElementNotFound);
   p.setValue("key", "value");
   p.addTag("key", "advanced");
   EXPECT_EQ(p.getTags("key").size(), 1);
@@ -773,31 +734,31 @@ TEST(Param, clearTags) {
 }
 
 TEST(Param, empty) {
-  Param p;
+  tdl::Param p;
   EXPECT_EQ(p.empty(),  true);
   p.setValue("key", 17.4f);
   EXPECT_EQ(p.empty(),  false);
 
-  Param p2;
+  tdl::Param p2;
   EXPECT_EQ(p2.empty(),  true);
   p2.setValue("a:key", 17.4f);
   EXPECT_EQ(p2.empty(),  false);
 }
 
 TEST(Param, clear) {
-  Param p;
+  tdl::Param p;
   p.setValue("key", 17.4, "keydesc");
   p.clear();
   EXPECT_EQ(p.empty(),  true);
 
-  Param p2;
+  tdl::Param p2;
   p2.setValue("a:b:key", 17.4, "keydesc");
   p2.clear();
   EXPECT_EQ(p2.empty(),  true);
 }
 
 TEST(Param, size) {
-  Param p;
+  tdl::Param p;
   EXPECT_EQ(p.size(),  0);
   p.setValue("key", 17.4f);
   EXPECT_EQ(p.size(),  1);
@@ -814,7 +775,7 @@ TEST(Param, size) {
 }
 
 TEST(Param, setSectionDescription) {
-  Param p;
+  tdl::Param p;
 
   p.setValue("test:test", 47.1);
   p.setValue("test2:test", 47.1);
@@ -830,10 +791,10 @@ TEST(Param, setSectionDescription) {
   EXPECT_EQ(p.getSectionDescription("test:test2"),  "d");
 }
 
-TEST(Param, [EXTRA]<< ) {
-  Param p;
+TEST(Param, shift_operator) {
+  tdl::Param p;
   p.setValue("key",  17.5);
-  stringstream ss;
+  std::stringstream ss;
   ss << p;
   EXPECT_EQ(ss.str(),  "\"key\" -> \"17.5\"\n");
 
@@ -850,49 +811,49 @@ TEST(Param, [EXTRA]<< ) {
 }
 
 TEST(Param, insert) {
-  Param p;
+  tdl::Param p;
   p.setValue("a", 17, "intdesc");
   p.setValue("n1:b", 17.4f, "floatdesc");
   p.setValue("n1:c", "test, test, test", "stringdesc");
   p.setValue("n2:d", 17.5f);
   p.setSectionDescription("n1", "sectiondesc");
 
-  Param p2;
+  tdl::Param p2;
 
   p2.insert("prefix", p);
   EXPECT_EQ(p2.size(), 4);
-  EXPECT_EQ(Int(p2.getValue("prefixa")),  17);
-  TEST_STRING_EQUAL(p2.getDescription("prefixa"),  "intdesc")
-  TEST_REAL_SIMILAR(float(p2.getValue("prefixn1:b")),  17.4)
-  TEST_STRING_EQUAL(p2.getDescription("prefixn1:b"),  "floatdesc")
+  EXPECT_EQ(int(p2.getValue("prefixa")),  17);
+  EXPECT_EQ(p2.getDescription("prefixa"),  "intdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("prefixn1:b")),  17.4);
+  EXPECT_EQ(p2.getDescription("prefixn1:b"),  "floatdesc");
   EXPECT_EQ(p2.getValue("prefixn1:c"),  "test, test, test");
-  TEST_STRING_EQUAL(p2.getDescription("prefixn1:c"),  "stringdesc")
-  TEST_REAL_SIMILAR(float(p2.getValue("prefixn2:d")),  17.5)
-  TEST_STRING_EQUAL(p2.getDescription("prefixn2:d"),  "")
+  EXPECT_EQ(p2.getDescription("prefixn1:c"),  "stringdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("prefixn2:d")),  17.5);
+  EXPECT_EQ(p2.getDescription("prefixn2:d"),  "");
   EXPECT_EQ(p2.getSectionDescription("prefixn1"), "sectiondesc");
 
   p2.insert("", p);
   EXPECT_EQ(p2.size(), 8);
-  EXPECT_EQ(Int(p2.getValue("a")),  17);
-  TEST_STRING_EQUAL(p2.getDescription("a"),  "intdesc")
-  TEST_REAL_SIMILAR(float(p2.getValue("n1:b")),  17.4)
-  TEST_STRING_EQUAL(p2.getDescription("n1:b"),  "floatdesc")
+  EXPECT_EQ(int(p2.getValue("a")),  17);
+  EXPECT_EQ(p2.getDescription("a"),  "intdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("n1:b")),  17.4);
+  EXPECT_EQ(p2.getDescription("n1:b"),  "floatdesc");
   EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test");
-  TEST_STRING_EQUAL(p2.getDescription("n1:c"),  "stringdesc")
-  TEST_REAL_SIMILAR(float(p2.getValue("n2:d")),  17.5)
-  TEST_STRING_EQUAL(p2.getDescription("n2:d"),  "")
+  EXPECT_EQ(p2.getDescription("n1:c"),  "stringdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("n2:d")),  17.5);
+  EXPECT_EQ(p2.getDescription("n2:d"),  "");
   EXPECT_EQ(p2.getSectionDescription("n1"), "sectiondesc");
 
   p2.insert("n3:", p);
   EXPECT_EQ(p2.size(), 12);
-  EXPECT_EQ(Int(p2.getValue("n3:a")),  17);
-  TEST_STRING_EQUAL(p2.getDescription("n3:a"),  "intdesc")
-  TEST_REAL_SIMILAR(float(p2.getValue("n3:n1:b")),  17.4)
-  TEST_STRING_EQUAL(p2.getDescription("n3:n1:b"),  "floatdesc")
+  EXPECT_EQ(int(p2.getValue("n3:a")),  17);
+  EXPECT_EQ(p2.getDescription("n3:a"),  "intdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("n3:n1:b")),  17.4);
+  EXPECT_EQ(p2.getDescription("n3:n1:b"),  "floatdesc");
   EXPECT_EQ(p2.getValue("n3:n1:c"),  "test, test, test");
-  TEST_STRING_EQUAL(p2.getDescription("n3:n1:c"),  "stringdesc")
-  TEST_REAL_SIMILAR(float(p2.getValue("n3:n2:d")),  17.5)
-  TEST_STRING_EQUAL(p2.getDescription("n3:n2:d"),  "")
+  EXPECT_EQ(p2.getDescription("n3:n1:c"),  "stringdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("n3:n2:d")),  17.5);
+  EXPECT_EQ(p2.getDescription("n3:n2:d"),  "");
   EXPECT_EQ(p2.getSectionDescription("n3:n1"), "sectiondesc");
 
   p.clear();
@@ -903,102 +864,111 @@ TEST(Param, insert) {
 
   p2.insert("", p);
   EXPECT_EQ(p2.size(), 12);
-  EXPECT_EQ(Int(p2.getValue("a")),  18);
-  TEST_REAL_SIMILAR(float(p2.getValue("n1:b")),  17.7)
+  EXPECT_EQ(int(p2.getValue("a")),  18);
+  EXPECT_DOUBLE_EQ(float(p2.getValue("n1:b")),  17.7);
   EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test, test");
-  TEST_REAL_SIMILAR(float(p2.getValue("n2:d")),  17.8)
+  EXPECT_DOUBLE_EQ(float(p2.getValue("n2:d")),  17.8);
 }
 
-Param p_src;
-p_src.setValue("test:float", 17.4f, "floatdesc");
-p_src.setValue("test:string", "test, test, test", "stringdesc");
-p_src.setValue("test:int", 17, "intdesc");
-p_src.setValue("test2:float", 17.5f);
-p_src.setValue("test2:string", "test2");
-p_src.setValue("test2:int", 18);
-p_src.setSectionDescription("test", "sectiondesc");
-p_src.addTags("test:float",  {"a",  "b",  "c"});
 
-TEST(Param,Param) {
-  Param p2(p_src);
-  TEST_REAL_SIMILAR(float(p2.getValue("test:float")),  17.4)
-  TEST_STRING_EQUAL(p_src.getDescription("test:float"),  "floatdesc")
+class ParamF1 : public ::testing::Test
+{
+protected:
+  tdl::Param p_src;
+
+  void SetUp() override
+  {
+    p_src.setValue("test:float", 17.4f, "floatdesc");
+    p_src.setValue("test:string", "test, test, test", "stringdesc");
+    p_src.setValue("test:int", 17, "intdesc");
+    p_src.setValue("test2:float", 17.5f);
+    p_src.setValue("test2:string", "test2");
+    p_src.setValue("test2:int", 18);
+    p_src.setSectionDescription("test", "sectiondesc");
+    p_src.addTags("test:float",  {"a",  "b",  "c"});
+  }
+};
+
+TEST_F(ParamF1, Param) {
+  tdl::Param p2(p_src);
+  EXPECT_DOUBLE_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_EQ(p_src.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
-  TEST_STRING_EQUAL(p_src.getDescription("test:string"),  "stringdesc")
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
-  TEST_STRING_EQUAL(p_src.getDescription("test:int"),  "intdesc")
-  TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
-  TEST_STRING_EQUAL(p2.getDescription("test2:float"),  "")
+  EXPECT_EQ(p_src.getDescription("test:string"),  "stringdesc");
+  EXPECT_EQ(int(p2.getValue("test:int")),  17);
+  EXPECT_EQ(p_src.getDescription("test:int"),  "intdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_EQ(p2.getDescription("test2:float"),  "");
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
-  TEST_STRING_EQUAL(p2.getDescription("test2:string"),  "")
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
-  TEST_STRING_EQUAL(p2.getDescription("test2:int"),  "")
+  EXPECT_EQ(p2.getDescription("test2:string"),  "");
+  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(p2.getDescription("test2:int"),  "");
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
   EXPECT_EQ(p2.getTags("test:float").size(),  3);
-  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true);
+//  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true);
 }
 
-TEST(Param, = ) {
-  Param p2;
+TEST_F(ParamF1, assignoperator) {
+  tdl::Param p2;
   p2=p_src;
-  TEST_REAL_SIMILAR(float(p2.getValue("test:float")),  17.4)
-  TEST_STRING_EQUAL(p_src.getDescription("test:float"),  "floatdesc")
+  EXPECT_DOUBLE_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_EQ(p_src.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
-  TEST_STRING_EQUAL(p_src.getDescription("test:string"),  "stringdesc")
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
-  TEST_STRING_EQUAL(p2.getDescription("test:int"),  "intdesc")
-  TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
-  TEST_STRING_EQUAL(p2.getDescription("test2:float"),  "")
+  EXPECT_EQ(p_src.getDescription("test:string"),  "stringdesc");
+  EXPECT_EQ(int(p2.getValue("test:int")),  17);
+  EXPECT_EQ(p2.getDescription("test:int"),  "intdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_EQ(p2.getDescription("test2:float"),  "");
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
-  TEST_STRING_EQUAL(p2.getDescription("test2:string"),  "")
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
-  TEST_STRING_EQUAL(p2.getDescription("test2:int"),  "")
+  EXPECT_EQ(p2.getDescription("test2:string"),  "");
+  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(p2.getDescription("test2:int"),  "");
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
   EXPECT_EQ(p2.getTags("test:float").size(),  3);
-  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true);
+//  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true);
 }
 
-TEST(Param, copy) {
-  Param p2;
+TEST_F(ParamF1, copy) {
+  tdl::Param p2;
 
   p2 = p_src.copy("notthere:");
-  EXPECT_EQ((p2 == Param()), true);
+  EXPECT_EQ((p2 == tdl::Param()), true);
 
   p2 = p_src.copy("test:");
 
-  TEST_REAL_SIMILAR(float(p2.getValue("test:float")),  17.4)
-  TEST_STRING_EQUAL(p2.getDescription("test:float"),  "floatdesc")
+  EXPECT_DOUBLE_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_EQ(p2.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
-  TEST_STRING_EQUAL(p2.getDescription("test:int"),  "intdesc")
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
-  TEST_STRING_EQUAL(p2.getDescription("test:string"),  "stringdesc")
-  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test2:float"));
+  EXPECT_EQ(p2.getDescription("test:int"),  "intdesc");
+  EXPECT_EQ(int(p2.getValue("test:int")),  17);
+  EXPECT_EQ(p2.getDescription("test:string"),  "stringdesc");
+  //EXPECT_THROW(p2.getValue("test2:float"), Exception::ElementNotFound);
 
   p2 = p_src.copy("test:", true);
-  TEST_REAL_SIMILAR(float(p2.getValue("float")),  17.4)
-  TEST_STRING_EQUAL(p2.getDescription("float"),  "floatdesc")
+  EXPECT_DOUBLE_EQ(float(p2.getValue("float")),  17.4);
+  EXPECT_EQ(p2.getDescription("float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("string"),  "test, test, test");
-  TEST_STRING_EQUAL(p2.getDescription("string"),  "stringdesc")
+  EXPECT_EQ(p2.getDescription("string"),  "stringdesc");
 
   p2 = p_src.copy("test");
-  TEST_REAL_SIMILAR(float(p2.getValue("test:float")),  17.4)
-  TEST_STRING_EQUAL(p2.getDescription("test:float"),  "floatdesc")
+  EXPECT_DOUBLE_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_EQ(p2.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
-  TEST_STRING_EQUAL(p2.getDescription("test:string"),  "stringdesc")
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
-  TEST_STRING_EQUAL(p2.getDescription("test:int"),  "intdesc")
-  TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
-  TEST_STRING_EQUAL(p2.getDescription("test2:float"),  "")
+  EXPECT_EQ(p2.getDescription("test:string"),  "stringdesc");
+  EXPECT_EQ(int(p2.getValue("test:int")),  17);
+  EXPECT_EQ(p2.getDescription("test:int"),  "intdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_EQ(p2.getDescription("test2:float"),  "");
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
-  TEST_STRING_EQUAL(p2.getDescription("test2:string"),  "")
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
-  TEST_STRING_EQUAL(p2.getDescription("test2:int"),  "")
+  EXPECT_EQ(p2.getDescription("test2:string"),  "");
+  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(p2.getDescription("test2:int"),  "");
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
 }
 
-TEST(Param, remove) {
+TEST_F(ParamF1, remove) {
 
-  Param p2(p_src);
+  tdl::Param p2(p_src);
   p2.setValue("test:string2", "test, test");
 
   EXPECT_EQ(p2.size(), 7);
@@ -1032,7 +1002,7 @@ TEST(Param, remove) {
   p2.setValue("test:string2:sn2:e1", "subsubnode with entries");
   p2.setValue("test:string2:sn2:e2", "subsubnode with entries");
 
-  Param p3 = p2;
+  tdl::Param p3 = p2;
 
   EXPECT_EQ(p2.size(), 11);
 
@@ -1054,34 +1024,34 @@ TEST(Param, remove) {
 
 }
 
-TEST(Param, removeAll) {
-  Param p2(p_src);
+TEST_F(ParamF1, removeAll) {
+  tdl::Param p2(p_src);
 
   p2.removeAll("test:float");
-  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test:float"));
+  //EXPECT_THROW(p2.getValue("test:float"), Exception::ElementNotFound);
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
-  TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
+  EXPECT_EQ(int(p2.getValue("test:int")),  17);
+  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
 
   p2.removeAll("test:");
-  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test:string"));
-  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test:int"));
-  TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
+  //EXPECT_THROW(p2.getValue("test:string"), Exception::ElementNotFound);
+  //EXPECT_THROW(p2.getValue("test:int"), Exception::ElementNotFound);
+  EXPECT_DOUBLE_EQ(float(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
 
   p2.removeAll("test");
   EXPECT_EQ(p2.empty(), true);
 
-  cout << p2;
+  std::cout << p2;
 }
 
 
-TEST(Param, ==  ) {
-  Param p2(p_src);
+TEST_F(ParamF1, compareOperator) {
+  tdl::Param p2(p_src);
   EXPECT_EQ(p_src == p2,  true);
   p2.setValue("test:float", 17.5f);
   EXPECT_EQ(p_src == p2,  false);
@@ -1093,7 +1063,7 @@ TEST(Param, ==  ) {
   EXPECT_EQ(p_src == p2,  false);
 
   //it should be independent of entry order
-  Param p3, p4;
+  tdl::Param p3, p4;
   p3.setValue("1", 1);
   p3.setValue("2", 2);
   p4.setValue("2", 2);
@@ -1101,7 +1071,7 @@ TEST(Param, ==  ) {
   EXPECT_EQ(p3 == p4,  true);
 
   //it should be independent of node order
-  Param p5, p6;
+  tdl::Param p5, p6;
   p5.setValue("1:1", 1);
   p5.setValue("2:1", 1);
   p6.setValue("2:1", 1);
@@ -1110,8 +1080,8 @@ TEST(Param, ==  ) {
 
 }
 
-TEST(Param, setDefaults) {
-  Param defaults;
+TEST_F(ParamF1, setDefaults) {
+  tdl::Param defaults;
   defaults.setValue("float", 1.0f, "float");
   defaults.setValue("float2", 2.0f, "float2");
   defaults.setValue("string", "default string1", "string");
@@ -1120,12 +1090,12 @@ TEST(Param, setDefaults) {
 
   defaults.setValue("stringlist",std::vector<std::string>{"a", "b", "c"}, "stringlist");
   defaults.setValue("stringlist2",std::vector<std::string>{"d", "e", "f"}, "stringlist2");
-  defaults.setValue("intlist", ListUtils::create<Int>("1, 2, 3"), "intlist");
-  defaults.setValue("intlist2", ListUtils::create<Int>("11, 22, 33"), "intlist2");
-  defaults.setValue("doublelist", ListUtils::create<double>("1.2, 2.3"), "doublelist");
-  defaults.setValue("doublelist2", ListUtils::create<double>("11.22, 22.33"), "doublelist2");
+//  defaults.setValue("intlist", ListUtils::create<int>("1, 2, 3"), "intlist");
+//  defaults.setValue("intlist2", ListUtils::create<int>("11, 22, 33"), "intlist2");
+//  defaults.setValue("doublelist", ListUtils::create<double>("1.2, 2.3"), "doublelist");
+//  defaults.setValue("doublelist2", ListUtils::create<double>("11.22, 22.33"), "doublelist2");
   defaults.setSectionDescription("PATH", "PATHdesc");
-  Param p2;
+  tdl::Param p2;
   p2.setValue("PATH:float", -1.0f, "PATH:float");
   p2.setValue("PATH:string", "some string", "PATH:string");
   p2.setValue("float", -2.0f, "float");
@@ -1133,53 +1103,85 @@ TEST(Param, setDefaults) {
 
   p2.setValue("PATH:stringlist",std::vector<std::string>{"d", "a", "v", "i", "d"}, "PATH:stringlist");
   p2.setValue("stringlist",std::vector<std::string>{"r", "o", "c", "k", "s"}, "stringlist");
-  p2.setValue("PATH:intlist2", ListUtils::create<Int>("14, 9"), "PATH:intlist2");
-  p2.setValue("intlist",  ListUtils::create<Int>("16, 9"), "intlist");
-  p2.setValue("PATH:doublelist2", ListUtils::create<double>("6.66, 6.16"), "PATH:doublelist2");
-  p2.setValue("doublelist", ListUtils::create<double>("1.2, 5.55"), "doublelist");
+//  p2.setValue("PATH:intlist2", ListUtils::create<int>("14, 9"), "PATH:intlist2");
+//  p2.setValue("intlist",  ListUtils::create<int>("16, 9"), "intlist");
+//  p2.setValue("PATH:doublelist2", ListUtils::create<double>("6.66, 6.16"), "PATH:doublelist2");
+//  p2.setValue("doublelist", ListUtils::create<double>("1.2, 5.55"), "doublelist");
 
   EXPECT_EQ(p2.size(), 10);
 
   p2.setDefaults(defaults);
   EXPECT_EQ(p2.size(), 16);
-  TEST_REAL_SIMILAR(float(p2.getValue("float")), -2.0);
-  TEST_STRING_EQUAL(p2.getDescription("float"), "float");
-  TEST_REAL_SIMILAR(float(p2.getValue("float2")), 2.0);
-  TEST_STRING_EQUAL(p2.getDescription("float2"), "float2");
-  EXPECT_EQ(string(p2.getValue("string")), "other string");
-  TEST_STRING_EQUAL(p2.getDescription("string"), "string");
-  EXPECT_EQ(string(p2.getValue("string2")), "default string2");
-  TEST_STRING_EQUAL(p2.getDescription("string2"), "string2");
-  TEST_STRING_EQUAL(p2.getSectionDescription("PATH"), "PATHdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("float")), -2.0);
+  EXPECT_EQ(p2.getDescription("float"), "float");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("float2")), 2.0);
+  EXPECT_EQ(p2.getDescription("float2"), "float2");
+  EXPECT_EQ(std::string(p2.getValue("string")), "other string");
+  EXPECT_EQ(p2.getDescription("string"), "string");
+  EXPECT_EQ(std::string(p2.getValue("string2")), "default string2");
+  EXPECT_EQ(p2.getDescription("string2"), "string2");
+  EXPECT_EQ(p2.getSectionDescription("PATH"), "PATHdesc");
 
-  EXPECT_EQ(p2.getValue("stringlist")  ==  ListUtils::create<std::string>("r, o, c, k,s"),  true);
-  EXPECT_EQ(p2.getValue("intlist")  ==  ListUtils::create<Int>("16, 9"),  true);
-  EXPECT_EQ(p2.getValue("doublelist")  ==  ListUtils::create<double>("1.2, 5.55"),  true);
-  EXPECT_EQ(p2.getValue("stringlist2")  ==  ListUtils::create<std::string>("d, e, f"),  true);
-  EXPECT_EQ(p2.getValue("intlist2")  ==  ListUtils::create<Int>("11, 22, 33"),  true);
-  EXPECT_EQ(p2.getValue("doublelist2")  ==  ListUtils::create<double>("11.22, 22.33"),  true);
+//  EXPECT_EQ(p2.getValue("stringlist")  ==  ListUtils::create<std::string>("r, o, c, k,s"),  true);
+//  EXPECT_EQ(p2.getValue("intlist")  ==  ListUtils::create<int>("16, 9"),  true);
+//  EXPECT_EQ(p2.getValue("doublelist")  ==  ListUtils::create<double>("1.2, 5.55"),  true);
+//  EXPECT_EQ(p2.getValue("stringlist2")  ==  ListUtils::create<std::string>("d, e, f"),  true);
+//  EXPECT_EQ(p2.getValue("intlist2")  ==  ListUtils::create<int>("11, 22, 33"),  true);
+//  EXPECT_EQ(p2.getValue("doublelist2")  ==  ListUtils::create<double>("11.22, 22.33"),  true);
 
 
 
   p2.setDefaults(defaults, "PATH");
 
   EXPECT_EQ(p2.size(), 22);
-  TEST_REAL_SIMILAR(float(p2.getValue("PATH:float")), -1.0);
-  TEST_STRING_EQUAL(p2.getDescription("PATH:float"), "PATH:float");
-  TEST_REAL_SIMILAR(float(p2.getValue("PATH:float2")), 2.0);
-  TEST_STRING_EQUAL(p2.getDescription("PATH:float2"), "float2");
-  EXPECT_EQ(string(p2.getValue("PATH:string")), "some string");
-  TEST_STRING_EQUAL(p2.getDescription("PATH:string"), "PATH:string");
-  EXPECT_EQ(string(p2.getValue("PATH:string2")), "default string2");
-  TEST_STRING_EQUAL(p2.getDescription("PATH:string2"), "string2");
-  TEST_STRING_EQUAL(p2.getSectionDescription("PATH"), "PATHdesc");
-  TEST_STRING_EQUAL(p2.getSectionDescription("PATH:PATH"), "PATHdesc");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("PATH:float")), -1.0);
+  EXPECT_EQ(p2.getDescription("PATH:float"), "PATH:float");
+  EXPECT_DOUBLE_EQ(float(p2.getValue("PATH:float2")), 2.0);
+  EXPECT_EQ(p2.getDescription("PATH:float2"), "float2");
+  EXPECT_EQ(std::string(p2.getValue("PATH:string")), "some string");
+  EXPECT_EQ(p2.getDescription("PATH:string"), "PATH:string");
+  EXPECT_EQ(std::string(p2.getValue("PATH:string2")), "default string2");
+  EXPECT_EQ(p2.getDescription("PATH:string2"), "string2");
+  EXPECT_EQ(p2.getSectionDescription("PATH"), "PATHdesc");
+  EXPECT_EQ(p2.getSectionDescription("PATH:PATH"), "PATHdesc");
 
-  EXPECT_EQ(p2.getValue("PATH:stringlist")  ==  ListUtils::create<std::string>("d, a, v, i, d"),  true);
-  EXPECT_EQ(p2.getValue("PATH:intlist")  ==  ListUtils::create<Int>("1, 2, 3"),  true);
-  EXPECT_EQ(p2.getValue("PATH:doublelist")  ==  ListUtils::create<double>("1.2, 2.3"),  true);
+//  EXPECT_EQ(p2.getValue("PATH:stringlist")  ==  ListUtils::create<std::string>("d, a, v, i, d"),  true);
+//  EXPECT_EQ(p2.getValue("PATH:intlist")  ==  ListUtils::create<int>("1, 2, 3"),  true);
+//  EXPECT_EQ(p2.getValue("PATH:doublelist")  ==  ListUtils::create<double>("1.2, 2.3"),  true);
 
 }
+
+
+
+
+// TODO Adapt all of the below tests (only default construction was adapted yet)
+// each TEST / } should be a separate TEST() {
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+/*
+#include <OpenMS/CONCEPT/ClassTest.h>
+#include <OpenMS/test_config.h>
+
+///////////////////////////
+
+#include <OpenMS/DATASTRUCTURES/Param.h>
+#include <OpenMS/CONCEPT/LogStream.h>
+#include <OpenMS/DATASTRUCTURES/ListUtils.h>
+#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
+
+///////////////////////////
+
+using namespace OpenMS;
+using namespace std;
+
+#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
+#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
+#pragma optimize( "", off )
+#endif
+
+START_TEST(Param, "$Id$")
+
 
 const char* a1 ="executable";
 const char* a2 ="-a";
@@ -1232,7 +1234,7 @@ command_line4[8] = a9;
 command_line4[9] = a10;
 
 TEST(Param, parseCommandLine) {
-  Param p2, p3;
+  tdl::Param p2, p3;
   p2.parseCommandLine(9, command_line, "test4");
   p3.setValue("test4:-a", "av");
   p3.setValue("test4:-b", "bv");
@@ -1240,14 +1242,14 @@ TEST(Param, parseCommandLine) {
   p3.setValue("test4:misc",std::vector<std::string>{"rv1", "rv2"});
   EXPECT_EQ(p2 == p3, true);
 
-  Param p20, p30;
+  tdl::Param p20, p30;
   p20.parseCommandLine(6, command_line2);
   p30.setValue("-a", "av");
   p30.setValue("-b", "");
   p30.setValue("-c", "cv");
   EXPECT_EQ(p20 == p30, true);
 
-  Param p200, p300;
+  tdl::Param p200, p300;
   p200.parseCommandLine(10, command_line4, "test4");
   p300.setValue("test4:-a", "-1.0");
   p300.setValue("test4:-b", "bv");
@@ -1290,7 +1292,7 @@ TEST(Param, parseCommandLine) {
   with_multiple["-f"] = "f";
   with_multiple["-g"] = "g";
 
-  Param p2, p3;
+  tdl::Param p2, p3;
   p2.parseCommandLine(10, command_line4, with_one, without, with_multiple, "misc_", "unknown_");
   p3.setValue("a", "-1.0");
   p3.setValue("b", "bv");
@@ -1298,7 +1300,7 @@ TEST(Param, parseCommandLine) {
   p3.setValue("misc_",std::vector<std::string>{"rv1", "rv2", "-1.0"});
   EXPECT_EQ(p2 == p3, true);
 
-  Param p4, p5;
+  tdl::Param p4, p5;
   p4.parseCommandLine(9, command_line, with_one, without, with_multiple, "misc_", "unknown_");
   p5.setValue("a", "av");
   p5.setValue("b", "bv");
@@ -1310,7 +1312,7 @@ TEST(Param, parseCommandLine) {
   with_one["-a"]="a";
   without["-b"]="b";
 
-  Param p40, p50;
+  tdl::Param p40, p50;
   p40.parseCommandLine(9, command_line, with_one, without, with_multiple, "misc__", "unknown__");
   p50.setValue("a", "av");
   p50.setValue("b", "true");
@@ -1319,7 +1321,7 @@ TEST(Param, parseCommandLine) {
   EXPECT_EQ(p40 == p50, true);
   EXPECT_EQ(p40, p50);
   //"executable -a av -b -c cv"
-  Param p400, p500;
+  tdl::Param p400, p500;
   p400.parseCommandLine(6, command_line2, with_one, without, with_multiple, "misc__", "unknown__");
   p500.setValue("a", "av");
   p500.setValue("b", "true");
@@ -1328,7 +1330,7 @@ TEST(Param, parseCommandLine) {
   EXPECT_EQ(p400 == p500, true);
 
   //"executable -a -b -c cv rv1"
-  Param p4000, p5000;
+  tdl::Param p4000, p5000;
   p4000.parseCommandLine(6, command_line3, with_one, without, with_multiple, "misc__", "unknown__");
   p5000.setValue("a", "");
   p5000.setValue("b", "true");
@@ -1337,7 +1339,7 @@ TEST(Param, parseCommandLine) {
   EXPECT_EQ(p4000 == p5000, true);
 
   // list options:
-  Param p6, p7;
+  tdl::Param p6, p7;
   p6.parseCommandLine(9, command_line_mult, with_one, without, with_multiple, "misc__", "unkown__");
   p7.setValue("d",std::vector<std::string>{"1.333", "2.23", "3"});
   p7.setValue("e",std::vector<std::string>{"4"});
@@ -1345,7 +1347,7 @@ TEST(Param, parseCommandLine) {
   p7.setValue("g",std::vector<std::string>());
   EXPECT_EQ(p6, p7);
 
-  Param p8, p9;
+  tdl::Param p8, p9;
   p9.parseCommandLine(4, command_line_mult, with_one, without, with_multiple, "misc__", "unkown__");
   p8.setValue("d",  std::vector<std::string>{"1.333", "2.23"});
   EXPECT_EQ(p9, p8);
@@ -1353,7 +1355,7 @@ TEST(Param, parseCommandLine) {
 }
 
 TEST(Param, update) {
-  Param common;
+  tdl::Param common;
   common.setValue("float", 1.0f, "float");
   common.setValue("float2", 2.0f, "float2");
   common.setValue("string", "default string1", "string");
@@ -1365,7 +1367,7 @@ TEST(Param, update) {
   common.setValue("intlist", ListUtils::create<Int>("1, 2, 3"), "intlist");
 
   // copy and alter
-  Param old = common;
+  tdl::Param old = common;
   //old.setValue("recently_removed_float", 1.1f, "float");  // should not make it into new param
   old.setValue("old_type", "a string", "string");
   old.setValue("some:version", "1.2", "old version");
@@ -1374,14 +1376,14 @@ TEST(Param, update) {
   old.setValue("stringlist2",std::vector<std::string>{"d", "e", "f", "altered"}, "stringlist2"); // change some values,  we expect them to show up after update()
   old.setValue("intlist", ListUtils::create<Int>("3"), "intlist");
 
-  Param defaults = common;
+  tdl::Param defaults = common;
   defaults.setValue("old_type", 3, "old_type has evolved from string to int"); // as type has changed,  this value should be kept
   defaults.setValue("some:version", "1.9", "new version"); // this value should be kept (due to its reserved name)
   defaults.setValue("some:1:type", "information", "type");   // this value should be kept (due to its reserved name at depth 2)
   defaults.setValue("some:type", "information", "type");   // this value should NOT be kept (wrong depth)
   defaults.setValue("new_value", 3, "new param not present in old");
 
-  Param expected = defaults;
+  tdl::Param expected = defaults;
   expected.setValue("stringlist2",std::vector<std::string>{"d", "e", "f", "altered"}, "stringlist2"); // change some values,  we expect them to show up after update()
   expected.setValue("intlist", ListUtils::create<Int>("3"), "intlist");
   expected.setValue("some:type", "unlabeled", "type");
@@ -1394,18 +1396,18 @@ TEST(Param, update) {
 
 TEST(Param, merge) {
 {
-  Param original;
+  tdl::Param original;
   original.setValue("a",  2.0f,  "a value");
   original.setMinFloat("a",  0.0f);
   original.setValue("b",  "value",  "b value");
 
-  Param toMerge;
+  tdl::Param toMerge;
   toMerge.setValue("b",  "value",  "a value");
   toMerge.setValue("section:a",  "a-value",  "section:a");
   toMerge.setSectionDescription("section",  "section description");
   toMerge.setValue("section:b",  "b-value",  "section:b");
 
-  Param expected;
+  tdl::Param expected;
   expected.setValue("a",  2.0f,  "a value");
   expected.setMinFloat("a",  0.0f);
   expected.setValue("b",  "value",  "b value");
@@ -1417,14 +1419,14 @@ TEST(Param, merge) {
   EXPECT_EQ(original,  expected);
   EXPECT_EQ(original.getSectionDescription("section"), expected.getSectionDescription("section"));
 
-  Param p1;
+  tdl::Param p1;
   p1.setValue("in",  "in-value",  "in-description");
   p1.setValue("out",  "out-value",  "out-description");
   p1.setValue("reference:index",  "reference:index value",  "reference:index description");
   p1.setSectionDescription("reference",  "reference description");
   p1.setValue("algorithm:sub_param",  "algorithm:sub_param value",  "algorithm:sub_param description");
 
-  Param p2;
+  tdl::Param p2;
   p2.setValue("reference:index",  "reference:index value",  "reference:index description");
   p2.setSectionDescription("reference",  "reference description");
   p2.setValue("algorithm:sub_param",  "algorithm:sub_param value",  "algorithm:sub_param description");
@@ -1432,7 +1434,7 @@ TEST(Param, merge) {
   p2.setSectionDescription("algorithm",  "algorithm description");
   p2.setSectionDescription("algorithm:superimposer",  "algorithm:superimposer description");
 
-  Param expected_2;
+  tdl::Param expected_2;
   expected_2.setValue("in",  "in-value",  "in-description");
   expected_2.setValue("out",  "out-value",  "out-description");
   expected_2.setValue("algorithm:sub_param",  "algorithm:sub_param value",  "algorithm:sub_param description");
@@ -1452,7 +1454,7 @@ TEST(Param, merge) {
 
 TEST(Param, findFirst) {
 {
-  Param p;
+  tdl::Param p;
   p.setValue("a:b:leaf",  "leaf_val1",  "leaf 1");
   p.setValue("b:a:leaf",  "leaf_val2",  "leaf 2");
   p.setValue("a:c:leaf",  "leaf_val3",  "leaf 3");
@@ -1477,7 +1479,7 @@ TEST(Param, findFirst) {
 
 TEST(Param, findNext) {
 {
-  Param p;
+  tdl::Param p;
   p.setValue("a:b:leaf",  "leaf_val1",  "leaf 1");
   p.setValue("b:a:leaf",  "leaf_val2",  "leaf 2");
   p.setValue("a:c:leaf",  "leaf_val3",  "leaf 3");
@@ -1502,7 +1504,7 @@ TEST(Param, begin) {
 }
 
 TEST(Param, end) {
-  Param p;
+  tdl::Param p;
   p.setValue("a", 5);
   p.setValue("b:a", 6);
   p.setValue("b:b", 7);
@@ -1535,55 +1537,55 @@ TEST(Param, end) {
 TEST(Param, setValidStrings) {
   vector<std::string> strings;
   strings.push_back("bla");
-  Param d;
+  tdl::Param d;
   d.setValue("ok", "string");
   d.setValue("dummy", 5);
 
   d.setValidStrings("ok",strings);
   EXPECT_EQ(d.getEntry("ok").valid_strings == strings,  true);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setValidStrings("dummy",strings));
+  //EXPECT_THROW(d.setValidStrings("dummy",strings), Exception::ElementNotFound);
   strings.push_back("sdf,sdfd");
-  TEST_EXCEPTION(Exception::InvalidParameter,  d.setValidStrings("ok",strings));
+  //EXPECT_THROW(d.setValidStrings("ok",strings), Exception::InvalidParameter);
 }
 
 TEST(Param, setMinInt) {
-  Param d;
+  tdl::Param d;
   d.setValue("ok", 4);
   d.setValue("dummy", 5.5);
 
   d.setMinInt("ok", 4);
   EXPECT_EQ(d.getEntry("ok").min_int, 4);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMinInt("dummy", 4));
+  //EXPECT_THROW(d.setMinInt("dummy", 4), Exception::ElementNotFound);
 }
 
 TEST(Param, setMaxInt) {
-  Param d;
+  tdl::Param d;
   d.setValue("ok", 4);
   d.setValue("dummy", 5.5);
 
   d.setMaxInt("ok", 4);
   EXPECT_EQ(d.getEntry("ok").max_int, 4);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMaxInt("dummy", 4));
+  //EXPECT_THROW(d.setMaxInt("dummy", 4), Exception::ElementNotFound);
 }
 
 TEST(Param, (void setMinFloat(const std::string &key,  double min))) {
-  Param d;
+  tdl::Param d;
   d.setValue("ok", 4.5);
   d.setValue("dummy", 4);
 
   d.setMinFloat("ok", 4.0);
-  TEST_REAL_SIMILAR(d.getEntry("ok").min_float, 4.0);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMinFloat("dummy", 4.5));
+  EXPECT_DOUBLE_EQ(d.getEntry("ok").min_float, 4.0);
+  //EXPECT_THROW(d.setMinFloat("dummy", 4.5), Exception::ElementNotFound);
 }
 
 TEST(Param, (void setMaxFloat(const std::string &key,  double max))) {
-  Param d;
+  tdl::Param d;
   d.setValue("ok", 4.5);
   d.setValue("dummy", 4);
 
   d.setMaxFloat("ok", 4.0);
-  TEST_REAL_SIMILAR(d.getEntry("ok").max_float, 4.0);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMaxFloat("dummy", 4.5));
+  EXPECT_DOUBLE_EQ(d.getEntry("ok").max_float, 4.0);
+  //EXPECT_THROW(d.setMaxFloat("dummy", 4.5), Exception::ElementNotFound);
 }
 
 // warnings for unknown parameters
@@ -1596,7 +1598,7 @@ OpenMS_Log_warn.remove(cout);
 OpenMS_Log_warn.insert(os);
 
 TEST(Param, checkDefaults) {
-    Param p, d;
+    tdl::Param p, d;
     p.setValue("string",std::string("bla"), "string");
     p.setValue("int", 5, "int");
     p.setValue("double", 47.11, "double");
@@ -1633,7 +1635,7 @@ TEST(Param, checkDefaults) {
     p.setValue("stringv", "a");
     p.checkDefaults("Param_test", d, "");
     p.setValue("stringv", "d");
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
+    //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 
     //check int restrictions
     d.setValue("intv", 4, "desc");
@@ -1644,7 +1646,7 @@ TEST(Param, checkDefaults) {
     p.setValue("intv", 700);
     p.checkDefaults("Param_test", d, "");
     p.setValue("intv", -5);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
+    //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 
     d.setValue("intv2", 4, "desc");
     d.setMaxInt("intv2", 4);
@@ -1654,7 +1656,7 @@ TEST(Param, checkDefaults) {
     p.setValue("intv2", -700);
     p.checkDefaults("Param_test", d, "");
     p.setValue("intv2", 5);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
+    //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 
     //check double restrictions
     d.setValue("doublev", 4.0, "desc");
@@ -1667,7 +1669,7 @@ TEST(Param, checkDefaults) {
     p.setValue("doublev", 7.0);
     p.checkDefaults("Param_test", d, "");
     p.setValue("doublev", -4.1);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
+    //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 
     d.setValue("doublev2", 4.0, "desc");
     d.setMaxFloat("doublev2", 4.0);
@@ -1677,7 +1679,7 @@ TEST(Param, checkDefaults) {
     p.setValue("doublev2", -700.0);
     p.checkDefaults("Param_test", d, "");
     p.setValue("doublev2", 4.1);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
+    //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 
     //check list restrictions
     vector<std::string> s_rest1 = {"a", "b", "c"};
@@ -1687,19 +1689,19 @@ TEST(Param, checkDefaults) {
     p.setValue("stringlist",std::vector<std::string>{"a", "c"});
     p.checkDefaults("Param_test", d, "");
     p.setValue("stringlist",std::vector<std::string>{"aa", "dd", "cc"});
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
+    //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 
 
     //wrong type
     p.clear();
     p.setValue("doublev", 4);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
+    //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
     p.clear();
     p.setValue("intv", "bla");
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
+    //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
     p.clear();
     p.setValue("stringv", 4.5);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
+    //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 }
 
 TEST(Param, update) {
