@@ -3,17 +3,16 @@
 #include <tdl/Param.h>
 
 
-//////////////////// Param::ParamEntry /////////////////////////////
+//////////////////// tdl::Param::ParamEntry /////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-TEST(Param, ParamEntry_construction_test, default_construction)
+TEST(ParamEntry_construction_test, default_construction)
 {
   tdl::Param::ParamEntry* pe_ptr = nullptr;
-  tdl::Param::ParamEntry* pe_nullPointer = nullptr;
 
   pe_ptr = new tdl::Param::ParamEntry();
 
-  EXPECT_NE(pe_ptr, pe_nullPointer);
+  EXPECT_NE(pe_ptr, nullptr);
 }
 
 TEST(ParamEntry_listOfStrings,  ctor_and_copy_operator) {
@@ -96,43 +95,13 @@ TEST(ParamEntry, compare_operator) {
   EXPECT_TRUE(n1  ==  n2);
 }
 
-
-// TODO Adapt all of the below tests (only default construction was adapted yet)
-// each TEST / } should be a separate TEST() {
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-/*
-#include <OpenMS/CONCEPT/ClassTest.h>
-#include <OpenMS/test_config.h>
-
-///////////////////////////
-
-#include <OpenMS/DATASTRUCTURES/Param.h>
-#include <OpenMS/CONCEPT/LogStream.h>
-#include <OpenMS/DATASTRUCTURES/ListUtils.h>
-#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
-
-///////////////////////////
-
-using namespace OpenMS;
-using namespace std;
-
-#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
-#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
-#pragma optimize( "", off )
-#endif
-
-START_TEST(Param, "$Id$")
-
 ////////////////// tdl::Param::ParamNode ////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
 tdl::Param::ParamNode* pn_ptr = nullptr;
-tdl::Param::ParamNode* pn_nullPointer = nullptr;
 TEST(ParamParamNode, defaultConstructor) {
   pn_ptr = new tdl::Param::ParamNode();
-  EXPECT_NE(pn_ptr, pn_nullPointer);
+  EXPECT_NE(pn_ptr, nullptr);
   delete pn_ptr;
 }
 
@@ -168,10 +137,10 @@ TEST(ParamParamNode, compareOperator) {
   EXPECT_EQ(n1  ==  n2, false);
   n2 = n1;
 
-  n2.entries.push_back(Param::ParamEntry("a", "x", ""));
-  n2.entries.push_back(Param::ParamEntry("b", "y", ""));
-  n1.entries.push_back(Param::ParamEntry("b", "y", ""));
-  n1.entries.push_back(Param::ParamEntry("a", "x", ""));
+  n2.entries.push_back(tdl::Param::ParamEntry("a", "x", ""));
+  n2.entries.push_back(tdl::Param::ParamEntry("b", "y", ""));
+  n1.entries.push_back(tdl::Param::ParamEntry("b", "y", ""));
+  n1.entries.push_back(tdl::Param::ParamEntry("a", "x", ""));
   EXPECT_EQ(n1  ==  n2, true);
 
   n2.nodes.push_back(tdl::Param::ParamNode("a", "x"));
@@ -191,32 +160,41 @@ TEST(ParamParamNode, suffix) {
   EXPECT_EQ(node.suffix(":A"), "A");
 }
 
-//Dummy Tree:
-// A
-// |-B(1)
-// |-C
-// | |-D(2)
-// | |-E(3)
-// |-B
-//   |-G(4)
-tdl::Param::ParamNode pn, n;
-Param::ParamEntry e;
-pn.name="A";
-e.name="B"; e.value=1; pn.entries.push_back(e);
-n.name="C"; pn.nodes.push_back(n);
-e.name="D"; e.value=1; pn.nodes[0].entries.push_back(e);
-e.name="E"; e.value=1; pn.nodes[0].entries.push_back(e);
-n.name="B"; pn.nodes.push_back(n);
-e.name="G"; e.value=1; pn.nodes[1].entries.push_back(e);
+
+class ParamParamNodeF : public ::testing::Test
+{
+protected:
+  //Dummy Tree:
+  // A
+  // |-B(1)
+  // |-C
+  // | |-D(2)
+  // | |-E(3)
+  // |-B
+  //   |-G(4)
+  tdl::Param::ParamNode pn, n;
+  tdl::Param::ParamEntry e;
+
+  void SetUp() override
+  {
+    pn.name="A";
+    e.name="B"; e.value=1; pn.entries.push_back(e);
+    n.name="C"; pn.nodes.push_back(n);
+    e.name="D"; e.value=1; pn.nodes[0].entries.push_back(e);
+    e.name="E"; e.value=1; pn.nodes[0].entries.push_back(e);
+    n.name="B"; pn.nodes.push_back(n);
+    e.name="G"; e.value=1; pn.nodes[1].entries.push_back(e);
+  }
+};
 
 
-TEST(ParamParamNode, size) {
+TEST_F(ParamParamNodeF, size) {
   EXPECT_EQ(pn.size(), 4);
   EXPECT_EQ(pn.nodes[0].size(), 2);
   EXPECT_EQ(pn.nodes[1].size(), 1);
 }
 
-TEST(ParamParamNode, findEntry) {
+TEST_F(ParamParamNodeF, findEntry) {
   EXPECT_EQ(pn.findEntry("A") == pn.entries.end(), true);
   EXPECT_EQ(pn.findEntry("B") != pn.entries.end(), true);
   EXPECT_EQ(pn.findEntry("C") == pn.entries.end(), true);
@@ -227,7 +205,7 @@ TEST(ParamParamNode, findEntry) {
   EXPECT_EQ(pn.findEntry("H") == pn.entries.end(), true);
 }
 
-TEST(ParamParamNode, findNode) {
+TEST_F(ParamParamNodeF, findNode) {
   EXPECT_EQ(pn.findNode("A") == pn.nodes.end(), true);
   EXPECT_EQ(pn.findNode("B") != pn.nodes.end(), true);
   EXPECT_EQ(pn.findNode("C") != pn.nodes.end(), true);
@@ -238,32 +216,32 @@ TEST(ParamParamNode, findNode) {
   EXPECT_EQ(pn.findNode("H") == pn.nodes.end(), true);
 }
 
-TEST(ParamParamNode, findParentOf) {
-  EXPECT_EQ(pn.findParentOf("A"), pn_nullPointer);
+TEST_F(ParamParamNodeF, findParentOf) {
+  EXPECT_EQ(pn.findParentOf("A"), nullptr);
   EXPECT_EQ(pn.findParentOf("B"), &pn);
   EXPECT_EQ(pn.findParentOf("C"), &pn);
   EXPECT_EQ(pn.findParentOf("C:D"), &(pn.nodes[0]));
   EXPECT_EQ(pn.findParentOf("C:E"), &(pn.nodes[0]));
-  EXPECT_EQ(pn.findParentOf("F"), pn_nullPointer);
+  EXPECT_EQ(pn.findParentOf("F"), nullptr);
   EXPECT_EQ(pn.findParentOf("B:G"), &(pn.nodes[1]));
-  EXPECT_EQ(pn.findParentOf("X"), pn_nullPointer);
-  EXPECT_EQ(pn.findParentOf("H:X"), pn_nullPointer);
-  EXPECT_EQ(pn.findParentOf("H:C:X"), pn_nullPointer);
-  EXPECT_EQ(pn.findParentOf("H:C:"), pn_nullPointer);
+  EXPECT_EQ(pn.findParentOf("X"), nullptr);
+  EXPECT_EQ(pn.findParentOf("H:X"), nullptr);
+  EXPECT_EQ(pn.findParentOf("H:C:X"), nullptr);
+  EXPECT_EQ(pn.findParentOf("H:C:"), nullptr);
 }
 
-TEST(ParamParamNode, findEntryRecursive) {
-  EXPECT_EQ(pn.findEntryRecursive("A"), pe_nullPointer);
+TEST_F(ParamParamNodeF, findEntryRecursive) {
+  EXPECT_EQ(pn.findEntryRecursive("A"), nullptr);
   EXPECT_EQ(pn.findEntryRecursive("B"), &(pn.entries[0]));
-  EXPECT_EQ(pn.findEntryRecursive("C"), pe_nullPointer);
+  EXPECT_EQ(pn.findEntryRecursive("C"), nullptr);
   EXPECT_EQ(pn.findEntryRecursive("C:D"), &(pn.nodes[0].entries[0]));
   EXPECT_EQ(pn.findEntryRecursive("C:E"), &(pn.nodes[0].entries[1]));
-  EXPECT_EQ(pn.findEntryRecursive("F"), pe_nullPointer);
+  EXPECT_EQ(pn.findEntryRecursive("F"), nullptr);
   EXPECT_EQ(pn.findEntryRecursive("B:G"), &(pn.nodes[1].entries[0]));
-  EXPECT_EQ(pn.findEntryRecursive("X"), pe_nullPointer);
-  EXPECT_EQ(pn.findEntryRecursive("H:X"), pe_nullPointer);
-  EXPECT_EQ(pn.findEntryRecursive("H:C:X"), pe_nullPointer);
-  EXPECT_EQ(pn.findEntryRecursive("H:C:"), pe_nullPointer);
+  EXPECT_EQ(pn.findEntryRecursive("X"), nullptr);
+  EXPECT_EQ(pn.findEntryRecursive("H:X"), nullptr);
+  EXPECT_EQ(pn.findEntryRecursive("H:C:X"), nullptr);
+  EXPECT_EQ(pn.findEntryRecursive("H:C:"), nullptr);
 }
 
 //Dummy Tree:
@@ -277,45 +255,75 @@ TEST(ParamParamNode, findEntryRecursive) {
 // |-F
 //   |-H(5)
 
-TEST(ParamParamNode, insert_ParamNode) {
+TEST_F(ParamParamNodeF, insert_ParamNode) {
   tdl::Param::ParamNode node("", "");
-  node.entries.push_back(Param::ParamEntry("H", 5, "", {"advanced"}));
+  node.entries.push_back(tdl::Param::ParamEntry("H", 5, "", {"advanced"}));
   pn.insert(node, "F");
-  EXPECT_NE(pn.findEntryRecursive("F:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("F:H"), nullptr);
 
   pn.insert(node, "F:Z");
-  EXPECT_NE(pn.findEntryRecursive("F:Z:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("F:Z:H"), nullptr);
 
   pn.insert(node, "F:Z:");
-  EXPECT_NE(pn.findEntryRecursive("F:Z::H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("F:Z::H"), nullptr);
 
   pn.insert(node, "FD:ZD:D");
-  EXPECT_NE(pn.findEntryRecursive("FD:ZD:D:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("FD:ZD:D:H"), nullptr);
 
   node.name = "W";
   pn.insert(node);
-  EXPECT_NE(pn.findEntryRecursive("W:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("W:H"), nullptr);
 
   pn.insert(node, "Q");
-  EXPECT_NE(pn.findEntryRecursive("QW:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("QW:H"), nullptr);
 }
 
-TEST(ParamParamNode, insert_ParamEntry) {
-  Param::ParamEntry entry("H", "", "5", {"advanced"});
+TEST_F(ParamParamNodeF, insert_ParamEntry) {
+  tdl::Param::ParamEntry entry("H", "", "5", {"advanced"});
 
   pn.insert(entry);
-  EXPECT_NE(pn.findEntryRecursive("H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("H"), nullptr);
 
   pn.insert(entry, "F");
-  EXPECT_NE(pn.findEntryRecursive("FH"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("FH"), nullptr);
 
   pn.insert(entry, "G:");
-  EXPECT_NE(pn.findEntryRecursive("G:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("G:H"), nullptr);
 
   pn.insert(entry, "FD:ZD:D");
-  EXPECT_NE(pn.findEntryRecursive("FD:ZD:DH"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("FD:ZD:DH"), nullptr);
 }
 
+
+
+
+// TODO Adapt all of the below tests (only default construction was adapted yet)
+// each TEST / } should be a separate TEST() {
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+/*
+#include <OpenMS/CONCEPT/ClassTest.h>
+#include <OpenMS/test_config.h>
+
+///////////////////////////
+
+#include <OpenMS/DATASTRUCTURES/Param.h>
+#include <OpenMS/CONCEPT/LogStream.h>
+#include <OpenMS/DATASTRUCTURES/ListUtils.h>
+#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
+
+///////////////////////////
+
+using namespace OpenMS;
+using namespace std;
+
+#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
+#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
+#pragma optimize( "", off )
+#endif
+
+START_TEST(Param, "$Id$")
 
 ////////////////// tdl::Param::ParamIterator ////////////////////////////
 ////////////////////////////////////////////////////////////////////
@@ -338,7 +346,7 @@ TEST(ParamParamIterator, construct_from_ParamNode) {
 
 TEST(ParamParamIterator, dereferenceOperator) {
   tdl::Param::ParamNode node;
-  node.entries.push_back(Param::ParamEntry("name", "value", "description", {"advanced"}));
+  node.entries.push_back(tdl::Param::ParamEntry("name", "value", "description", {"advanced"}));
   tdl::Param::ParamIterator it(node);
   EXPECT_EQ((*it).name, "name");
   EXPECT_EQ((*it).value, "value");
@@ -348,7 +356,7 @@ TEST(ParamParamIterator, dereferenceOperator) {
 
 TEST(ParamParamIterator, arrowOperator) {
   tdl::Param::ParamNode node;
-  node.entries.push_back(Param::ParamEntry("name", "value", "description", {"advanced"}));
+  node.entries.push_back(tdl::Param::ParamEntry("name", "value", "description", {"advanced"}));
   tdl::Param::ParamIterator it(node);
   EXPECT_EQ(it->name, "name");
   EXPECT_EQ(it->value, "value");
@@ -371,20 +379,20 @@ root.name="root";
 r.name="r";
 s.name="s";
 t.name="t";
-root.entries.push_back(Param::ParamEntry("A", "1", ""));
-s.entries.push_back(Param::ParamEntry("B", "2", ""));
+root.entries.push_back(tdl::Param::ParamEntry("A", "1", ""));
+s.entries.push_back(tdl::Param::ParamEntry("B", "2", ""));
 s.description="s_desc";
-s.entries.push_back(Param::ParamEntry("C", "3", ""));
-t.entries.push_back(Param::ParamEntry("D", "4", ""));
+s.entries.push_back(tdl::Param::ParamEntry("C", "3", ""));
+t.entries.push_back(tdl::Param::ParamEntry("D", "4", ""));
 r.nodes.push_back(s);
 root.nodes.push_back(r);
 root.nodes.push_back(t);
 
 TEST(ParamParamIterator, prefixIncrement) {
   tdl::Param::ParamNode node;
-  node.entries.push_back(Param::ParamEntry("name", "value", "description", {"advanced"}));
-  node.entries.push_back(Param::ParamEntry("name2", "value2", "description2"));
-  node.entries.push_back(Param::ParamEntry("name3", "value3", "description3", {"advanced"}));
+  node.entries.push_back(tdl::Param::ParamEntry("name", "value", "description", {"advanced"}));
+  node.entries.push_back(tdl::Param::ParamEntry("name2", "value2", "description2"));
+  node.entries.push_back(tdl::Param::ParamEntry("name3", "value3", "description3", {"advanced"}));
 
   //linear list
   tdl::Param::ParamIterator it(node);
@@ -470,9 +478,9 @@ TEST(ParamParamIterator, prefixIncrement) {
 
 TEST(ParamParamIterator, PostfixIncrement) {
   tdl::Param::ParamNode node;
-  node.entries.push_back(Param::ParamEntry("name", "value", "description", {"advanced"}));
-  node.entries.push_back(Param::ParamEntry("name2", "value2", "description2"));
-  node.entries.push_back(Param::ParamEntry("name3", "value3", "description3", {"advanced"}));
+  node.entries.push_back(tdl::Param::ParamEntry("name", "value", "description", {"advanced"}));
+  node.entries.push_back(tdl::Param::ParamEntry("name2", "value2", "description2"));
+  node.entries.push_back(tdl::Param::ParamEntry("name3", "value3", "description3", {"advanced"}));
 
   //linear list
   tdl::Param::ParamIterator it(node),  it2(node);
