@@ -137,7 +137,7 @@ Param::ParamNode* pn_ptr = nullptr;
 Param::ParamNode* pn_nullPointer = nullptr;
 START_SECTION(([Param::ParamNode] ParamNode()))
   pn_ptr = new Param::ParamNode();
-  TEST_NOT_EQUAL(pn_ptr, pn_nullPointer);
+  EXPECT_NE(pn_ptr, pn_nullPointer);
 END_SECTION
 
 START_SECTION(([Param::ParamNode] ~ParamNode()))
@@ -289,39 +289,39 @@ START_SECTION(([Param::ParamNode] void insert(const ParamNode& node,  const std:
   Param::ParamNode node("", "");
   node.entries.push_back(Param::ParamEntry("H", 5, "", {"advanced"}));
   pn.insert(node, "F");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("F:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("F:H"), pe_nullPointer);
 
   pn.insert(node, "F:Z");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("F:Z:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("F:Z:H"), pe_nullPointer);
 
   pn.insert(node, "F:Z:");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("F:Z::H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("F:Z::H"), pe_nullPointer);
 
   pn.insert(node, "FD:ZD:D");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("FD:ZD:D:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("FD:ZD:D:H"), pe_nullPointer);
 
   node.name = "W";
   pn.insert(node);
-  TEST_NOT_EQUAL(pn.findEntryRecursive("W:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("W:H"), pe_nullPointer);
 
   pn.insert(node, "Q");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("QW:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("QW:H"), pe_nullPointer);
 END_SECTION
 
 START_SECTION(([Param::ParamNode] void insert(const ParamEntry& entry,  const std::string& prefix = "")))
   Param::ParamEntry entry("H", "", "5", {"advanced"});
 
   pn.insert(entry);
-  TEST_NOT_EQUAL(pn.findEntryRecursive("H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("H"), pe_nullPointer);
 
   pn.insert(entry, "F");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("FH"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("FH"), pe_nullPointer);
 
   pn.insert(entry, "G:");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("G:H"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("G:H"), pe_nullPointer);
 
   pn.insert(entry, "FD:ZD:D");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("FD:ZD:DH"), pe_nullPointer);
+  EXPECT_NE(pn.findEntryRecursive("FD:ZD:DH"), pe_nullPointer);
 END_SECTION
 
 
@@ -333,7 +333,7 @@ Param::ParamIterator* pi_ptr = nullptr;
 Param::ParamIterator* pi_nullPointer = nullptr;
 START_SECTION(([Param::ParamIterator] ParamIterator()))
   pi_ptr = new Param::ParamIterator();
-  TEST_NOT_EQUAL(pi_ptr, pi_nullPointer);
+  EXPECT_NE(pi_ptr, pi_nullPointer);
 END_SECTION
 
 START_SECTION(([Param::ParamIterator] ~ParamIterator()))
@@ -343,7 +343,7 @@ END_SECTION
 START_SECTION(([Param::ParamIterator] ParamIterator(const Param::ParamNode& root)))
   Param::ParamNode node;
   pi_ptr = new Param::ParamIterator(node);
-  TEST_NOT_EQUAL(pi_ptr, pi_nullPointer);
+  EXPECT_NE(pi_ptr, pi_nullPointer);
   delete pi_ptr;
 END_SECTION
 
@@ -620,7 +620,7 @@ Param* d10_ptr = nullptr;
 Param* d10_nullPointer = nullptr;
 START_SECTION((Param()))
   d10_ptr = new Param();
-  TEST_NOT_EQUAL(d10_ptr,  d10_nullPointer);
+  EXPECT_NE(d10_ptr,  d10_nullPointer);
 END_SECTION
 
 START_SECTION((~Param()))
