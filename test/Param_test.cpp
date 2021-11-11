@@ -12,6 +12,89 @@ TEST(ParamEntry_construction_test, default_construction)
   EXPECT_NE(pe_ptr, pe_nullPointer);
 }
 
+TEST(ParamEntry_listOfStrings,  ctor_and_copy_operator) {
+  tdl::Param::ParamEntry pe("n", "v", "d", {"advanced"});
+  EXPECT_EQ(pe.name, "n");
+  EXPECT_EQ(pe.description, "d");
+  EXPECT_EQ(pe.value, "v");
+  EXPECT_EQ(pe.tags.count("advanced") == 1, true);
+
+  pe = tdl::Param::ParamEntry("n1", "v1", "d1");
+  EXPECT_EQ(pe.name, "n1");
+  EXPECT_EQ(pe.description, "d1");
+  EXPECT_EQ(pe.value, "v1");
+  EXPECT_EQ(pe.tags.count("advanced") == 1, false);
+}
+
+TEST(ParamEntry, isValid) {
+  tdl::Param p;
+  std::string m;
+  p.setValue("int", 5);
+  EXPECT_EQ(p.getEntry("int").isValid(m), true);
+  p.setMinInt("int", 5);
+  EXPECT_EQ(p.getEntry("int").isValid(m), true);
+  p.setMaxInt("int", 8);
+  EXPECT_EQ(p.getEntry("int").isValid(m), true);
+  p.setValue("int", 10);
+  EXPECT_EQ(p.getEntry("int").isValid(m), false);
+
+  p.setValue("float", 5.1);
+  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  p.setMinFloat("float", 5.1);
+  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  p.setMaxFloat("float", 8.1);
+  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  p.setValue("float", 10.1);
+  EXPECT_EQ(p.getEntry("float").isValid(m), false);
+
+  p.setValue("float", 5.1);
+  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  p.setMinFloat("float", 5.1);
+  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  p.setMaxFloat("float", 8.1);
+  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  p.setValue("float", 10.1);
+  EXPECT_EQ(p.getEntry("float").isValid(m), false);
+
+
+  std::vector<std::string> strings;
+  strings.push_back("bla");
+  strings.push_back("bluff");
+  p.setValue("string", "bli");
+  EXPECT_EQ(p.getEntry("string").isValid(m), true);
+  p.setValidStrings("string",strings);
+  EXPECT_EQ(p.getEntry("string").isValid(m), false);
+
+  p.setValue("string_2", "bla");
+  EXPECT_EQ(p.getEntry("string_2").isValid(m), true);
+  p.setValidStrings("string_2",strings);
+  EXPECT_EQ(p.getEntry("string_2").isValid(m), true);
+}
+
+TEST(ParamEntry, compare_operator) {
+  tdl::Param::ParamEntry n1("n",  "d", "v", {"advanced"});
+  tdl::Param::ParamEntry n2("n",  "d", "v", {"advanced"});
+
+  EXPECT_TRUE(n1 == n2);
+
+  n2.name = "name";
+  EXPECT_FALSE(n1 == n2);
+  n2 = n1;
+
+  n2.value = "bla";
+  EXPECT_FALSE(n1 == n2);
+  n2 = n1;
+
+  n2.description = "bla";
+  EXPECT_TRUE(n1 == n2);
+
+  n2.tags.clear();
+  EXPECT_TRUE(n1 == n2);
+}
+
+
+
+
 // TODO Adapt all of the below tests (only default construction was adapted yet)
 // each START_SECTION / END_SECTION should be a separate TEST()
 
@@ -43,98 +126,9 @@ START_TEST(Param, "$Id$")
 //////////////////// Param::ParamEntry /////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-Param::ParamEntry* pe_ptr = nullptr;
-Param::ParamEntry* pe_nullPointer = nullptr;
-START_SECTION(([Param::ParamEntry] ParamEntry()))
-  pe_ptr = new Param::ParamEntry();
-  TEST_NOT_EQUAL(pe_ptr,pe_nullPointer)
-END_SECTION
-
-START_SECTION(([Param::ParamEntry] ~ParamEntry()))
-  delete pe_ptr;
-END_SECTION
-
-START_SECTION(([Param::ParamEntry] ParamEntry(const std::string &n, const DataValue &v, const std::string &d, const std::vector<std::string> &t=std::vector<std::string>())))
-  Param::ParamEntry pe("n","v","d",{"advanced"});
-  TEST_EQUAL(pe.name,"n")
-  TEST_EQUAL(pe.description,"d")
-  TEST_EQUAL(pe.value,"v")
-  TEST_EQUAL(pe.tags.count("advanced")==1,true)
-
-   pe = Param::ParamEntry("n1","v1","d1");
-  TEST_EQUAL(pe.name,"n1")
-  TEST_EQUAL(pe.description,"d1")
-  TEST_EQUAL(pe.value,"v1")
-  TEST_EQUAL(pe.tags.count("advanced")==1,false)
-END_SECTION
-
-START_SECTION(([Param::ParamEntry] bool isValid(std::string& message) const))
-
-  Param p;
-  std::string m;
-  p.setValue("int",5);
-  TEST_EQUAL(p.getEntry("int").isValid(m),true);
-  p.setMinInt("int",5);
-  TEST_EQUAL(p.getEntry("int").isValid(m),true);
-  p.setMaxInt("int",8);
-  TEST_EQUAL(p.getEntry("int").isValid(m),true);
-  p.setValue("int",10);
-  TEST_EQUAL(p.getEntry("int").isValid(m),false);
-
-  p.setValue("float",5.1);
-  TEST_EQUAL(p.getEntry("float").isValid(m),true);
-  p.setMinFloat("float",5.1);
-  TEST_EQUAL(p.getEntry("float").isValid(m),true);
-  p.setMaxFloat("float",8.1);
-  TEST_EQUAL(p.getEntry("float").isValid(m),true);
-  p.setValue("float",10.1);
-  TEST_EQUAL(p.getEntry("float").isValid(m),false);
-
-  p.setValue("float",5.1);
-  TEST_EQUAL(p.getEntry("float").isValid(m),true);
-  p.setMinFloat("float",5.1);
-  TEST_EQUAL(p.getEntry("float").isValid(m),true);
-  p.setMaxFloat("float",8.1);
-  TEST_EQUAL(p.getEntry("float").isValid(m),true);
-  p.setValue("float",10.1);
-  TEST_EQUAL(p.getEntry("float").isValid(m),false);
 
 
-  vector<std::string> strings;
-  strings.push_back("bla");
-  strings.push_back("bluff");
-  p.setValue("string","bli");
-  TEST_EQUAL(p.getEntry("string").isValid(m),true);
-  p.setValidStrings("string",strings);
-  TEST_EQUAL(p.getEntry("string").isValid(m),false);
 
-  p.setValue("string_2","bla");
-  TEST_EQUAL(p.getEntry("string_2").isValid(m),true);
-  p.setValidStrings("string_2",strings);
-  TEST_EQUAL(p.getEntry("string_2").isValid(m),true);
-
-END_SECTION
-
-START_SECTION(([Param::ParamEntry] bool operator==(const ParamEntry& rhs) const))
-  Param::ParamEntry n1("n","d","v",{"advanced"});
-  Param::ParamEntry n2("n","d","v",{"advanced"});
-
-  TEST_EQUAL(n1==n2,true)
-
-  n2.name = "name";
-  TEST_EQUAL(n1==n2,false)
-  n2 = n1;
-
-  n2.value = "bla";
-  TEST_EQUAL(n1==n2,false)
-  n2 = n1;
-
-  n2.description = "bla";
-  TEST_EQUAL(n1==n2,true)
-
-  n2.tags.clear();
-  TEST_EQUAL(n1==n2,true)
-END_SECTION
 
 ////////////////// Param::ParamNode ////////////////////////////////
 ////////////////////////////////////////////////////////////////////
