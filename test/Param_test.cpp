@@ -294,53 +294,20 @@ TEST_F(ParamParamNodeF, insert_ParamEntry) {
   EXPECT_NE(pn.findEntryRecursive("FD:ZD:DH"), nullptr);
 }
 
-
-
-
-// TODO Adapt all of the below tests (only default construction was adapted yet)
-// each TEST / } should be a separate TEST() {
-
-// ---------------------------------------------------------------------------------------------------------------------
-
-/*
-#include <OpenMS/CONCEPT/ClassTest.h>
-#include <OpenMS/test_config.h>
-
-///////////////////////////
-
-#include <OpenMS/DATASTRUCTURES/Param.h>
-#include <OpenMS/CONCEPT/LogStream.h>
-#include <OpenMS/DATASTRUCTURES/ListUtils.h>
-#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
-
-///////////////////////////
-
-using namespace OpenMS;
-using namespace std;
-
-#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
-#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
-#pragma optimize( "", off )
-#endif
-
-START_TEST(Param, "$Id$")
-
 ////////////////// tdl::Param::ParamIterator ////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
 
-tdl::Param::ParamIterator* pi_ptr = nullptr;
-tdl::Param::ParamIterator* pi_nullPointer = nullptr;
 TEST(ParamParamIterator, constructor) {
-  pi_ptr = new tdl::Param::ParamIterator();
-  EXPECT_NE(pi_ptr, pi_nullPointer);
+  auto pi_ptr = new tdl::Param::ParamIterator();
+  EXPECT_NE(pi_ptr, nullptr);
   delete pi_ptr;
 }
 
 TEST(ParamParamIterator, construct_from_ParamNode) {
   tdl::Param::ParamNode node;
-  pi_ptr = new tdl::Param::ParamIterator(node);
-  EXPECT_NE(pi_ptr, pi_nullPointer);
+  auto pi_ptr = new tdl::Param::ParamIterator(node);
+  EXPECT_NE(pi_ptr, nullptr);
   delete pi_ptr;
 }
 
@@ -364,6 +331,11 @@ TEST(ParamParamIterator, arrowOperator) {
   EXPECT_EQ(it->tags.count("advanced") == 1, true);
 }
 
+
+
+class ParamParamIteratorF : public ::testing::Test
+{
+protected:
 //complicated subtree
 // Root
 //  |-A=1
@@ -374,21 +346,29 @@ TEST(ParamParamIterator, arrowOperator) {
 //  | |-C=3
 //  |-T
 //    |-D=4
-tdl::Param::ParamNode root,  r,  s,  t;
-root.name="root";
-r.name="r";
-s.name="s";
-t.name="t";
-root.entries.push_back(tdl::Param::ParamEntry("A", "1", ""));
-s.entries.push_back(tdl::Param::ParamEntry("B", "2", ""));
-s.description="s_desc";
-s.entries.push_back(tdl::Param::ParamEntry("C", "3", ""));
-t.entries.push_back(tdl::Param::ParamEntry("D", "4", ""));
-r.nodes.push_back(s);
-root.nodes.push_back(r);
-root.nodes.push_back(t);
+  tdl::Param::ParamNode root,  r,  s,  t;
 
-TEST(ParamParamIterator, prefixIncrement) {
+  void SetUp() override
+  {
+    root.name="root";
+    r.name="r";
+    s.name="s";
+    t.name="t";
+    root.entries.push_back(tdl::Param::ParamEntry("A", "1", ""));
+    s.entries.push_back(tdl::Param::ParamEntry("B", "2", ""));
+    s.description="s_desc";
+    s.entries.push_back(tdl::Param::ParamEntry("C", "3", ""));
+    t.entries.push_back(tdl::Param::ParamEntry("D", "4", ""));
+    r.nodes.push_back(s);
+    root.nodes.push_back(r);
+    root.nodes.push_back(t);
+  }
+};
+
+
+
+
+TEST_F(ParamParamIteratorF, prefixIncrement) {
   tdl::Param::ParamNode node;
   node.entries.push_back(tdl::Param::ParamEntry("name", "value", "description", {"advanced"}));
   node.entries.push_back(tdl::Param::ParamEntry("name2", "value2", "description2"));
@@ -476,7 +456,7 @@ TEST(ParamParamIterator, prefixIncrement) {
   ++it2;
 }
 
-TEST(ParamParamIterator, PostfixIncrement) {
+TEST_F(ParamParamIteratorF, PostfixIncrement) {
   tdl::Param::ParamNode node;
   node.entries.push_back(tdl::Param::ParamEntry("name", "value", "description", {"advanced"}));
   node.entries.push_back(tdl::Param::ParamEntry("name2", "value2", "description2"));
@@ -496,7 +476,7 @@ TEST(ParamParamIterator, PostfixIncrement) {
   EXPECT_EQ(it2->tags.count("advanced") == 1, true);
 }
 
-TEST(ParamParamIterator, getName) {
+TEST_F(ParamParamIteratorF, getName) {
   tdl::Param::ParamIterator it(root);
 
   EXPECT_EQ(it.getName(), "A");
@@ -513,7 +493,7 @@ TEST(ParamParamIterator, getName) {
 }
 
 
-TEST(ParamParamIterator, compareOperator) {
+TEST_F(ParamParamIteratorF, compareOperator) {
   tdl::Param::ParamIterator begin(root),  begin2(root),  end;
   EXPECT_EQ(begin == end,  false);
   EXPECT_EQ(begin == begin,  true);
@@ -561,7 +541,7 @@ TEST(ParamParamIterator, compareOperator) {
   EXPECT_EQ(begin2 == end,  true);
 }
 
-TEST(ParamParamIterator, inequalityCompareOperator) {
+TEST_F(ParamParamIteratorF, inequalityCompareOperator) {
   tdl::Param::ParamIterator begin(root),  begin2(root),  end;
   EXPECT_EQ(begin == end,  false);
   EXPECT_EQ(begin2 == end,  false);
@@ -572,7 +552,7 @@ TEST(ParamParamIterator, inequalityCompareOperator) {
 }
 
 
-TEST(ParamParamIterator, getTrace) {
+TEST_F(ParamParamIteratorF, getTrace) {
 
   //A
   tdl::Param::ParamIterator it(root);
@@ -607,6 +587,38 @@ TEST(ParamParamIterator, getTrace) {
   EXPECT_EQ(it.getTrace()[0].name, "t");
   EXPECT_EQ(it.getTrace()[0].opened, false);
 }
+
+
+
+
+// TODO Adapt all of the below tests (only default construction was adapted yet)
+// each TEST / } should be a separate TEST() {
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+/*
+#include <OpenMS/CONCEPT/ClassTest.h>
+#include <OpenMS/test_config.h>
+
+///////////////////////////
+
+#include <OpenMS/DATASTRUCTURES/Param.h>
+#include <OpenMS/CONCEPT/LogStream.h>
+#include <OpenMS/DATASTRUCTURES/ListUtils.h>
+#include <OpenMS/APPLICATIONS/TOPPBase.h> // for "ParameterInformation"
+
+///////////////////////////
+
+using namespace OpenMS;
+using namespace std;
+
+#ifdef _MSC_VER  // disable optimization in VS only for this test (as its size triggers 'heap-overflow' during compile otherwise)
+#pragma warning (disable: 4748) // disable warning that occurs when switching optimzation off (as /GS is still enabled)
+#pragma optimize( "", off )
+#endif
+
+START_TEST(Param, "$Id$")
+
 
 ///////////////////////// Param ///////////////////////////////
 ///////////////////////////////////////////////////////////////
