@@ -125,30 +125,30 @@ using namespace std;
 
 START_TEST(Param, "$Id$")
 
-////////////////// Param::ParamNode ////////////////////////////////
+////////////////// tdl::Param::ParamNode ////////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
-Param::ParamNode* pn_ptr = nullptr;
-Param::ParamNode* pn_nullPointer = nullptr;
+tdl::Param::ParamNode* pn_ptr = nullptr;
+tdl::Param::ParamNode* pn_nullPointer = nullptr;
 TEST(ParamParamNode, defaultConstructor) {
-  pn_ptr = new Param::ParamNode();
+  pn_ptr = new tdl::Param::ParamNode();
   EXPECT_NE(pn_ptr, pn_nullPointer);
   delete pn_ptr;
 }
 
 TEST(ParamParamNode, advancedConstructor) {
-  Param::ParamNode n("n", "d");
+  tdl::Param::ParamNode n("n", "d");
   EXPECT_EQ(n.name, "n");
   EXPECT_EQ(n.description, "d");
 
-  n = Param::ParamNode("n1", "d1");
+  n = tdl::Param::ParamNode("n1", "d1");
   EXPECT_EQ(n.name, "n1");
   EXPECT_EQ(n.description, "d1");
 }
 
 TEST(ParamParamNode, compareOperator) {
-  Param::ParamNode n1("n", "d");
-  Param::ParamNode n2("n", "d");
+  tdl::Param::ParamNode n1("n", "d");
+  tdl::Param::ParamNode n2("n", "d");
 
   EXPECT_EQ(n1  ==  n2, true);
 
@@ -174,15 +174,15 @@ TEST(ParamParamNode, compareOperator) {
   n1.entries.push_back(Param::ParamEntry("a", "x", ""));
   EXPECT_EQ(n1  ==  n2, true);
 
-  n2.nodes.push_back(Param::ParamNode("a", "x"));
-  n2.nodes.push_back(Param::ParamNode("b", "y"));
-  n1.nodes.push_back(Param::ParamNode("b", "y"));
-  n1.nodes.push_back(Param::ParamNode("a", "x"));
+  n2.nodes.push_back(tdl::Param::ParamNode("a", "x"));
+  n2.nodes.push_back(tdl::Param::ParamNode("b", "y"));
+  n1.nodes.push_back(tdl::Param::ParamNode("b", "y"));
+  n1.nodes.push_back(tdl::Param::ParamNode("a", "x"));
   EXPECT_EQ(n1  ==  n2, true);
 }
 
 TEST(ParamParamNode, suffix) {
-  Param::ParamNode node;
+  tdl::Param::ParamNode node;
   EXPECT_EQ(node.suffix(""), "");
   EXPECT_EQ(node.suffix("A"), "A");
   EXPECT_EQ(node.suffix("A:A"), "A");
@@ -199,7 +199,7 @@ TEST(ParamParamNode, suffix) {
 // | |-E(3)
 // |-B
 //   |-G(4)
-Param::ParamNode pn, n;
+tdl::Param::ParamNode pn, n;
 Param::ParamEntry e;
 pn.name="A";
 e.name="B"; e.value=1; pn.entries.push_back(e);
@@ -278,7 +278,7 @@ TEST(ParamParamNode, findEntryRecursive) {
 //   |-H(5)
 
 TEST(ParamParamNode, insert_ParamNode) {
-  Param::ParamNode node("", "");
+  tdl::Param::ParamNode node("", "");
   node.entries.push_back(Param::ParamEntry("H", 5, "", {"advanced"}));
   pn.insert(node, "F");
   EXPECT_NE(pn.findEntryRecursive("F:H"), pe_nullPointer);
@@ -317,29 +317,29 @@ TEST(ParamParamNode, insert_ParamEntry) {
 }
 
 
-////////////////// Param::ParamIterator ////////////////////////////
+////////////////// tdl::Param::ParamIterator ////////////////////////////
 ////////////////////////////////////////////////////////////////////
 
 
-Param::ParamIterator* pi_ptr = nullptr;
-Param::ParamIterator* pi_nullPointer = nullptr;
+tdl::Param::ParamIterator* pi_ptr = nullptr;
+tdl::Param::ParamIterator* pi_nullPointer = nullptr;
 TEST(ParamParamIterator, constructor) {
-  pi_ptr = new Param::ParamIterator();
+  pi_ptr = new tdl::Param::ParamIterator();
   EXPECT_NE(pi_ptr, pi_nullPointer);
   delete pi_ptr;
 }
 
 TEST(ParamParamIterator, construct_from_ParamNode) {
-  Param::ParamNode node;
-  pi_ptr = new Param::ParamIterator(node);
+  tdl::Param::ParamNode node;
+  pi_ptr = new tdl::Param::ParamIterator(node);
   EXPECT_NE(pi_ptr, pi_nullPointer);
   delete pi_ptr;
 }
 
 TEST(ParamParamIterator, dereferenceOperator) {
-  Param::ParamNode node;
+  tdl::Param::ParamNode node;
   node.entries.push_back(Param::ParamEntry("name", "value", "description", {"advanced"}));
-  Param::ParamIterator it(node);
+  tdl::Param::ParamIterator it(node);
   EXPECT_EQ((*it).name, "name");
   EXPECT_EQ((*it).value, "value");
   EXPECT_EQ((*it).description, "description");
@@ -347,9 +347,9 @@ TEST(ParamParamIterator, dereferenceOperator) {
 }
 
 TEST(ParamParamIterator, arrowOperator) {
-  Param::ParamNode node;
+  tdl::Param::ParamNode node;
   node.entries.push_back(Param::ParamEntry("name", "value", "description", {"advanced"}));
-  Param::ParamIterator it(node);
+  tdl::Param::ParamIterator it(node);
   EXPECT_EQ(it->name, "name");
   EXPECT_EQ(it->value, "value");
   EXPECT_EQ(it->description, "description");
@@ -366,7 +366,7 @@ TEST(ParamParamIterator, arrowOperator) {
 //  | |-C=3
 //  |-T
 //    |-D=4
-Param::ParamNode root,  r,  s,  t;
+tdl::Param::ParamNode root,  r,  s,  t;
 root.name="root";
 r.name="r";
 s.name="s";
@@ -381,13 +381,13 @@ root.nodes.push_back(r);
 root.nodes.push_back(t);
 
 TEST(ParamParamIterator, prefixIncrement) {
-  Param::ParamNode node;
+  tdl::Param::ParamNode node;
   node.entries.push_back(Param::ParamEntry("name", "value", "description", {"advanced"}));
   node.entries.push_back(Param::ParamEntry("name2", "value2", "description2"));
   node.entries.push_back(Param::ParamEntry("name3", "value3", "description3", {"advanced"}));
 
   //linear list
-  Param::ParamIterator it(node);
+  tdl::Param::ParamIterator it(node);
   ++it;
   EXPECT_EQ(it->name, "name2");
   EXPECT_EQ(it->value, "value2");
@@ -410,7 +410,7 @@ TEST(ParamParamIterator, prefixIncrement) {
   node.nodes[0].entries[1].name = "name5";
   node.nodes[0].entries[2].name = "name6";
 
-  it = Param::ParamIterator(node);
+  it = tdl::Param::ParamIterator(node);
   EXPECT_EQ(it->name, "name");
   EXPECT_EQ(it->value, "value");
   EXPECT_EQ(it->description, "description");
@@ -449,7 +449,7 @@ TEST(ParamParamIterator, prefixIncrement) {
   ++it;
 
   //complicated subtree
-  Param::ParamIterator it2(root);
+  tdl::Param::ParamIterator it2(root);
 
   EXPECT_EQ(it2->name, "A");
   EXPECT_EQ(it2->value, "1");
@@ -469,13 +469,13 @@ TEST(ParamParamIterator, prefixIncrement) {
 }
 
 TEST(ParamParamIterator, PostfixIncrement) {
-  Param::ParamNode node;
+  tdl::Param::ParamNode node;
   node.entries.push_back(Param::ParamEntry("name", "value", "description", {"advanced"}));
   node.entries.push_back(Param::ParamEntry("name2", "value2", "description2"));
   node.entries.push_back(Param::ParamEntry("name3", "value3", "description3", {"advanced"}));
 
   //linear list
-  Param::ParamIterator it(node),  it2(node);
+  tdl::Param::ParamIterator it(node),  it2(node);
 
   it2 = it++;
   EXPECT_EQ(it->name, "name2");
@@ -489,7 +489,7 @@ TEST(ParamParamIterator, PostfixIncrement) {
 }
 
 TEST(ParamParamIterator, getName) {
-  Param::ParamIterator it(root);
+  tdl::Param::ParamIterator it(root);
 
   EXPECT_EQ(it.getName(), "A");
   ++it;
@@ -506,7 +506,7 @@ TEST(ParamParamIterator, getName) {
 
 
 TEST(ParamParamIterator, compareOperator) {
-  Param::ParamIterator begin(root),  begin2(root),  end;
+  tdl::Param::ParamIterator begin(root),  begin2(root),  end;
   EXPECT_EQ(begin == end,  false);
   EXPECT_EQ(begin == begin,  true);
   EXPECT_EQ(begin == begin2,  true);
@@ -554,7 +554,7 @@ TEST(ParamParamIterator, compareOperator) {
 }
 
 TEST(ParamParamIterator, inequalityCompareOperator) {
-  Param::ParamIterator begin(root),  begin2(root),  end;
+  tdl::Param::ParamIterator begin(root),  begin2(root),  end;
   EXPECT_EQ(begin == end,  false);
   EXPECT_EQ(begin2 == end,  false);
   EXPECT_EQ(begin == begin2,  true);
@@ -567,7 +567,7 @@ TEST(ParamParamIterator, inequalityCompareOperator) {
 TEST(ParamParamIterator, getTrace) {
 
   //A
-  Param::ParamIterator it(root);
+  tdl::Param::ParamIterator it(root);
   EXPECT_EQ(it.getTrace().size(), 0);
   ++it;
 
@@ -1438,7 +1438,7 @@ TEST(Param, findFirst) {
   p.setValue("a:c:leaf",  "leaf_val3",  "leaf 3");
   p.setValue("a:c:another-leaf",  "leaf_val4",  "leaf 3");
 
-  Param::ParamIterator pI = p.findFirst("leaf");
+  tdl::Param::ParamIterator pI = p.findFirst("leaf");
   EXPECT_EQ(pI.getName(),  "a:b:leaf");
 
   p.remove("a:b:leaf");
@@ -1463,7 +1463,7 @@ TEST(Param, findNext) {
   p.setValue("a:c:leaf",  "leaf_val3",  "leaf 3");
   p.setValue("a:c:another-leaf",  "leaf_val4",  "leaf 3");
 
-  Param::ParamIterator pI = p.findFirst("leaf");
+  tdl::Param::ParamIterator pI = p.findFirst("leaf");
   EXPECT_EQ(pI.getName(),  "a:b:leaf");
 
   pI = p.findNext("leaf",  pI);
@@ -1488,7 +1488,7 @@ TEST(Param, end) {
   p.setValue("b:b", 7);
   p.setValue("c", 8);
 
-  Param::ParamIterator it = p.begin();
+  tdl::Param::ParamIterator it = p.begin();
   EXPECT_EQ(it->name,  "a");
   EXPECT_EQ(it.getName(),  "a");
   EXPECT_EQ((UInt)it->value,  5);
