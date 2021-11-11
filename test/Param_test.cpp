@@ -137,7 +137,7 @@ Param::ParamNode* pn_ptr = nullptr;
 Param::ParamNode* pn_nullPointer = nullptr;
 START_SECTION(([Param::ParamNode] ParamNode()))
   pn_ptr = new Param::ParamNode();
-  TEST_NOT_EQUAL(pn_ptr, pn_nullPointer)
+  TEST_NOT_EQUAL(pn_ptr, pn_nullPointer);
 END_SECTION
 
 START_SECTION(([Param::ParamNode] ~ParamNode()))
@@ -146,57 +146,57 @@ END_SECTION
 
 START_SECTION(([Param::ParamNode] ParamNode(const std::string& n,  const std::string& d)))
   Param::ParamNode n("n", "d");
-  EXPECT_EQ(n.name, "n")
-  EXPECT_EQ(n.description, "d")
+  EXPECT_EQ(n.name, "n");
+  EXPECT_EQ(n.description, "d");
 
   n = Param::ParamNode("n1", "d1");
-  EXPECT_EQ(n.name, "n1")
-  EXPECT_EQ(n.description, "d1")
+  EXPECT_EQ(n.name, "n1");
+  EXPECT_EQ(n.description, "d1");
 END_SECTION
 
 START_SECTION(([Param::ParamNode] bool operator==(const ParamNode& rhs) const))
   Param::ParamNode n1("n", "d");
   Param::ParamNode n2("n", "d");
 
-  EXPECT_EQ(n1  ==  n2, true)
+  EXPECT_EQ(n1  ==  n2, true);
 
   n2.name = "name";
-  EXPECT_EQ(n1  ==  n2, false)
+  EXPECT_EQ(n1  ==  n2, false);
   n2 = n1;
 
   n2.description = "bla";
-  EXPECT_EQ(n1  ==  n2, true)
+  EXPECT_EQ(n1  ==  n2, true);
   n2 = n1;
 
   n2.nodes.resize(5);
-  EXPECT_EQ(n1  ==  n2, false)
+  EXPECT_EQ(n1  ==  n2, false);
   n2 = n1;
 
   n2.entries.resize(5);
-  EXPECT_EQ(n1  ==  n2, false)
+  EXPECT_EQ(n1  ==  n2, false);
   n2 = n1;
 
   n2.entries.push_back(Param::ParamEntry("a", "x", ""));
   n2.entries.push_back(Param::ParamEntry("b", "y", ""));
   n1.entries.push_back(Param::ParamEntry("b", "y", ""));
   n1.entries.push_back(Param::ParamEntry("a", "x", ""));
-  EXPECT_EQ(n1  ==  n2, true)
+  EXPECT_EQ(n1  ==  n2, true);
 
   n2.nodes.push_back(Param::ParamNode("a", "x"));
   n2.nodes.push_back(Param::ParamNode("b", "y"));
   n1.nodes.push_back(Param::ParamNode("b", "y"));
   n1.nodes.push_back(Param::ParamNode("a", "x"));
-  EXPECT_EQ(n1  ==  n2, true)
+  EXPECT_EQ(n1  ==  n2, true);
 END_SECTION
 
 START_SECTION(([Param::ParamNode] std::string suffix(const std::string &key) const ))
   Param::ParamNode node;
-  EXPECT_EQ(node.suffix(""), "")
-  EXPECT_EQ(node.suffix("A"), "A")
-  EXPECT_EQ(node.suffix("A:A"), "A")
-  EXPECT_EQ(node.suffix("A:AB"), "AB")
-  EXPECT_EQ(node.suffix("AB:A"), "A")
-  EXPECT_EQ(node.suffix(":A"), "A")
+  EXPECT_EQ(node.suffix(""), "");
+  EXPECT_EQ(node.suffix("A"), "A");
+  EXPECT_EQ(node.suffix("A:A"), "A");
+  EXPECT_EQ(node.suffix("A:AB"), "AB");
+  EXPECT_EQ(node.suffix("AB:A"), "A");
+  EXPECT_EQ(node.suffix(":A"), "A");
 END_SECTION
 
 //Dummy Tree:
@@ -219,59 +219,59 @@ e.name="G"; e.value=1; pn.nodes[1].entries.push_back(e);
 
 
 START_SECTION(([Param::ParamNode] Size size() const ))
-  EXPECT_EQ(pn.size(), 4)
-  EXPECT_EQ(pn.nodes[0].size(), 2)
-  EXPECT_EQ(pn.nodes[1].size(), 1)
+  EXPECT_EQ(pn.size(), 4);
+  EXPECT_EQ(pn.nodes[0].size(), 2);
+  EXPECT_EQ(pn.nodes[1].size(), 1);
 END_SECTION
 
 START_SECTION(([Param::ParamNode] EntryIterator findEntry(const std::string& name)))
-  EXPECT_EQ(pn.findEntry("A") == pn.entries.end(), true)
-  EXPECT_EQ(pn.findEntry("B") != pn.entries.end(), true)
-  EXPECT_EQ(pn.findEntry("C") == pn.entries.end(), true)
-  EXPECT_EQ(pn.findEntry("D") == pn.entries.end(), true)
-  EXPECT_EQ(pn.findEntry("E") == pn.entries.end(), true)
-  EXPECT_EQ(pn.findEntry("F") == pn.entries.end(), true)
-  EXPECT_EQ(pn.findEntry("G") == pn.entries.end(), true)
-  EXPECT_EQ(pn.findEntry("H") == pn.entries.end(), true)
+  EXPECT_EQ(pn.findEntry("A") == pn.entries.end(), true);
+  EXPECT_EQ(pn.findEntry("B") != pn.entries.end(), true);
+  EXPECT_EQ(pn.findEntry("C") == pn.entries.end(), true);
+  EXPECT_EQ(pn.findEntry("D") == pn.entries.end(), true);
+  EXPECT_EQ(pn.findEntry("E") == pn.entries.end(), true);
+  EXPECT_EQ(pn.findEntry("F") == pn.entries.end(), true);
+  EXPECT_EQ(pn.findEntry("G") == pn.entries.end(), true);
+  EXPECT_EQ(pn.findEntry("H") == pn.entries.end(), true);
 END_SECTION
 
 START_SECTION(([Param::ParamNode] NodeIterator findNode(const std::string& name)))
-  EXPECT_EQ(pn.findNode("A") == pn.nodes.end(), true)
-  EXPECT_EQ(pn.findNode("B") != pn.nodes.end(), true)
-  EXPECT_EQ(pn.findNode("C") != pn.nodes.end(), true)
-  EXPECT_EQ(pn.findNode("D") == pn.nodes.end(), true)
-  EXPECT_EQ(pn.findNode("E") == pn.nodes.end(), true)
-  EXPECT_EQ(pn.findNode("F") == pn.nodes.end(), true)
-  EXPECT_EQ(pn.findNode("G") == pn.nodes.end(), true)
-  EXPECT_EQ(pn.findNode("H") == pn.nodes.end(), true)
+  EXPECT_EQ(pn.findNode("A") == pn.nodes.end(), true);
+  EXPECT_EQ(pn.findNode("B") != pn.nodes.end(), true);
+  EXPECT_EQ(pn.findNode("C") != pn.nodes.end(), true);
+  EXPECT_EQ(pn.findNode("D") == pn.nodes.end(), true);
+  EXPECT_EQ(pn.findNode("E") == pn.nodes.end(), true);
+  EXPECT_EQ(pn.findNode("F") == pn.nodes.end(), true);
+  EXPECT_EQ(pn.findNode("G") == pn.nodes.end(), true);
+  EXPECT_EQ(pn.findNode("H") == pn.nodes.end(), true);
 END_SECTION
 
 START_SECTION(([Param::ParamNode] ParamNode* findParentOf(const std::string &name)))
-  EXPECT_EQ(pn.findParentOf("A"), pn_nullPointer)
-  EXPECT_EQ(pn.findParentOf("B"), &pn)
-  EXPECT_EQ(pn.findParentOf("C"), &pn)
-  EXPECT_EQ(pn.findParentOf("C:D"), &(pn.nodes[0]))
-  EXPECT_EQ(pn.findParentOf("C:E"), &(pn.nodes[0]))
-  EXPECT_EQ(pn.findParentOf("F"), pn_nullPointer)
-  EXPECT_EQ(pn.findParentOf("B:G"), &(pn.nodes[1]))
-  EXPECT_EQ(pn.findParentOf("X"), pn_nullPointer)
-  EXPECT_EQ(pn.findParentOf("H:X"), pn_nullPointer)
-  EXPECT_EQ(pn.findParentOf("H:C:X"), pn_nullPointer)
-  EXPECT_EQ(pn.findParentOf("H:C:"), pn_nullPointer)
+  EXPECT_EQ(pn.findParentOf("A"), pn_nullPointer);
+  EXPECT_EQ(pn.findParentOf("B"), &pn);
+  EXPECT_EQ(pn.findParentOf("C"), &pn);
+  EXPECT_EQ(pn.findParentOf("C:D"), &(pn.nodes[0]));
+  EXPECT_EQ(pn.findParentOf("C:E"), &(pn.nodes[0]));
+  EXPECT_EQ(pn.findParentOf("F"), pn_nullPointer);
+  EXPECT_EQ(pn.findParentOf("B:G"), &(pn.nodes[1]));
+  EXPECT_EQ(pn.findParentOf("X"), pn_nullPointer);
+  EXPECT_EQ(pn.findParentOf("H:X"), pn_nullPointer);
+  EXPECT_EQ(pn.findParentOf("H:C:X"), pn_nullPointer);
+  EXPECT_EQ(pn.findParentOf("H:C:"), pn_nullPointer);
 END_SECTION
 
 START_SECTION(([Param::ParamNode] ParamEntry* findEntryRecursive(const std::string& name)))
-  EXPECT_EQ(pn.findEntryRecursive("A"), pe_nullPointer)
-  EXPECT_EQ(pn.findEntryRecursive("B"), &(pn.entries[0]))
-  EXPECT_EQ(pn.findEntryRecursive("C"), pe_nullPointer)
-  EXPECT_EQ(pn.findEntryRecursive("C:D"), &(pn.nodes[0].entries[0]))
-  EXPECT_EQ(pn.findEntryRecursive("C:E"), &(pn.nodes[0].entries[1]))
-  EXPECT_EQ(pn.findEntryRecursive("F"), pe_nullPointer)
-  EXPECT_EQ(pn.findEntryRecursive("B:G"), &(pn.nodes[1].entries[0]))
-  EXPECT_EQ(pn.findEntryRecursive("X"), pe_nullPointer)
-  EXPECT_EQ(pn.findEntryRecursive("H:X"), pe_nullPointer)
-  EXPECT_EQ(pn.findEntryRecursive("H:C:X"), pe_nullPointer)
-  EXPECT_EQ(pn.findEntryRecursive("H:C:"), pe_nullPointer)
+  EXPECT_EQ(pn.findEntryRecursive("A"), pe_nullPointer);
+  EXPECT_EQ(pn.findEntryRecursive("B"), &(pn.entries[0]));
+  EXPECT_EQ(pn.findEntryRecursive("C"), pe_nullPointer);
+  EXPECT_EQ(pn.findEntryRecursive("C:D"), &(pn.nodes[0].entries[0]));
+  EXPECT_EQ(pn.findEntryRecursive("C:E"), &(pn.nodes[0].entries[1]));
+  EXPECT_EQ(pn.findEntryRecursive("F"), pe_nullPointer);
+  EXPECT_EQ(pn.findEntryRecursive("B:G"), &(pn.nodes[1].entries[0]));
+  EXPECT_EQ(pn.findEntryRecursive("X"), pe_nullPointer);
+  EXPECT_EQ(pn.findEntryRecursive("H:X"), pe_nullPointer);
+  EXPECT_EQ(pn.findEntryRecursive("H:C:X"), pe_nullPointer);
+  EXPECT_EQ(pn.findEntryRecursive("H:C:"), pe_nullPointer);
 END_SECTION
 
 //Dummy Tree:
@@ -289,39 +289,39 @@ START_SECTION(([Param::ParamNode] void insert(const ParamNode& node,  const std:
   Param::ParamNode node("", "");
   node.entries.push_back(Param::ParamEntry("H", 5, "", {"advanced"}));
   pn.insert(node, "F");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("F:H"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("F:H"), pe_nullPointer);
 
   pn.insert(node, "F:Z");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("F:Z:H"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("F:Z:H"), pe_nullPointer);
 
   pn.insert(node, "F:Z:");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("F:Z::H"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("F:Z::H"), pe_nullPointer);
 
   pn.insert(node, "FD:ZD:D");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("FD:ZD:D:H"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("FD:ZD:D:H"), pe_nullPointer);
 
   node.name = "W";
   pn.insert(node);
-  TEST_NOT_EQUAL(pn.findEntryRecursive("W:H"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("W:H"), pe_nullPointer);
 
   pn.insert(node, "Q");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("QW:H"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("QW:H"), pe_nullPointer);
 END_SECTION
 
 START_SECTION(([Param::ParamNode] void insert(const ParamEntry& entry,  const std::string& prefix = "")))
   Param::ParamEntry entry("H", "", "5", {"advanced"});
 
   pn.insert(entry);
-  TEST_NOT_EQUAL(pn.findEntryRecursive("H"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("H"), pe_nullPointer);
 
   pn.insert(entry, "F");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("FH"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("FH"), pe_nullPointer);
 
   pn.insert(entry, "G:");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("G:H"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("G:H"), pe_nullPointer);
 
   pn.insert(entry, "FD:ZD:D");
-  TEST_NOT_EQUAL(pn.findEntryRecursive("FD:ZD:DH"), pe_nullPointer)
+  TEST_NOT_EQUAL(pn.findEntryRecursive("FD:ZD:DH"), pe_nullPointer);
 END_SECTION
 
 
@@ -333,7 +333,7 @@ Param::ParamIterator* pi_ptr = nullptr;
 Param::ParamIterator* pi_nullPointer = nullptr;
 START_SECTION(([Param::ParamIterator] ParamIterator()))
   pi_ptr = new Param::ParamIterator();
-  TEST_NOT_EQUAL(pi_ptr, pi_nullPointer)
+  TEST_NOT_EQUAL(pi_ptr, pi_nullPointer);
 END_SECTION
 
 START_SECTION(([Param::ParamIterator] ~ParamIterator()))
@@ -343,7 +343,7 @@ END_SECTION
 START_SECTION(([Param::ParamIterator] ParamIterator(const Param::ParamNode& root)))
   Param::ParamNode node;
   pi_ptr = new Param::ParamIterator(node);
-  TEST_NOT_EQUAL(pi_ptr, pi_nullPointer)
+  TEST_NOT_EQUAL(pi_ptr, pi_nullPointer);
   delete pi_ptr;
 END_SECTION
 
@@ -351,10 +351,10 @@ START_SECTION(([Param::ParamIterator] const Param::ParamEntry& operator*()))
   Param::ParamNode node;
   node.entries.push_back(Param::ParamEntry("name", "value", "description", {"advanced"}));
   Param::ParamIterator it(node);
-  EXPECT_EQ((*it).name, "name")
+  EXPECT_EQ((*it).name, "name");
   EXPECT_EQ((*it).value, "value");
-  EXPECT_EQ((*it).description, "description")
-  EXPECT_EQ((*it).tags.count("advanced") == 1, true)
+  EXPECT_EQ((*it).description, "description");
+  EXPECT_EQ((*it).tags.count("advanced") == 1, true);
 END_SECTION
 
 START_SECTION(([Param::ParamIterator] const Param::ParamEntry* operator->()))
@@ -518,60 +518,60 @@ END_SECTION
 
 START_SECTION(([Param::ParamIterator] bool operator==(const ParamIterator& rhs) const))
   Param::ParamIterator begin(root),  begin2(root),  end;
-  EXPECT_EQ(begin == end,  false)
-  EXPECT_EQ(begin == begin,  true)
-  EXPECT_EQ(begin == begin2,  true)
-  EXPECT_EQ(end == end,  true)
+  EXPECT_EQ(begin == end,  false);
+  EXPECT_EQ(begin == begin,  true);
+  EXPECT_EQ(begin == begin2,  true);
+  EXPECT_EQ(end == end,  true);
 
   ++begin;
-  EXPECT_EQ(begin == begin2,  false)
-  EXPECT_EQ(begin == end,  false)
-  EXPECT_EQ(begin2 == end,  false)
+  EXPECT_EQ(begin == begin2,  false);
+  EXPECT_EQ(begin == end,  false);
+  EXPECT_EQ(begin2 == end,  false);
 
   ++begin2;
-  EXPECT_EQ(begin == begin2,  true)
-  EXPECT_EQ(begin == end,  false)
-  EXPECT_EQ(begin2 == end,  false)
+  EXPECT_EQ(begin == begin2,  true);
+  EXPECT_EQ(begin == end,  false);
+  EXPECT_EQ(begin2 == end,  false);
 
   ++begin;
-  EXPECT_EQ(begin == begin2,  false)
-  EXPECT_EQ(begin == end,  false)
-  EXPECT_EQ(begin2 == end,  false)
+  EXPECT_EQ(begin == begin2,  false);
+  EXPECT_EQ(begin == end,  false);
+  EXPECT_EQ(begin2 == end,  false);
 
   ++begin2;
-  EXPECT_EQ(begin == begin2,  true)
-  EXPECT_EQ(begin == end,  false)
-  EXPECT_EQ(begin2 == end,  false)
+  EXPECT_EQ(begin == begin2,  true);
+  EXPECT_EQ(begin == end,  false);
+  EXPECT_EQ(begin2 == end,  false);
 
   ++begin;
-  EXPECT_EQ(begin == begin2,  false)
-  EXPECT_EQ(begin == end,  false)
-  EXPECT_EQ(begin2 == end,  false)
+  EXPECT_EQ(begin == begin2,  false);
+  EXPECT_EQ(begin == end,  false);
+  EXPECT_EQ(begin2 == end,  false);
 
   ++begin2;
-  EXPECT_EQ(begin == begin2,  true)
-  EXPECT_EQ(begin == end,  false)
-  EXPECT_EQ(begin2 == end,  false)
+  EXPECT_EQ(begin == begin2,  true);
+  EXPECT_EQ(begin == end,  false);
+  EXPECT_EQ(begin2 == end,  false);
 
   ++begin;
-  EXPECT_EQ(begin == begin2,  false)
-  EXPECT_EQ(begin == end,  true)
-  EXPECT_EQ(begin2 == end,  false)
+  EXPECT_EQ(begin == begin2,  false);
+  EXPECT_EQ(begin == end,  true);
+  EXPECT_EQ(begin2 == end,  false);
 
   ++begin2;
-  EXPECT_EQ(begin == begin2,  true)
-  EXPECT_EQ(begin == end,  true)
-  EXPECT_EQ(begin2 == end,  true)
+  EXPECT_EQ(begin == begin2,  true);
+  EXPECT_EQ(begin == end,  true);
+  EXPECT_EQ(begin2 == end,  true);
 END_SECTION
 
 START_SECTION(([Param::ParamIterator] bool operator!=(const ParamIterator& rhs) const))
   Param::ParamIterator begin(root),  begin2(root),  end;
-  EXPECT_EQ(begin == end,  false)
-  EXPECT_EQ(begin2 == end,  false)
-  EXPECT_EQ(begin == begin2,  true)
-  EXPECT_EQ(begin == begin,  true)
-  EXPECT_EQ(begin2 == begin2,  true)
-  EXPECT_EQ(end == end,  true)
+  EXPECT_EQ(begin == end,  false);
+  EXPECT_EQ(begin2 == end,  false);
+  EXPECT_EQ(begin == begin2,  true);
+  EXPECT_EQ(begin == begin,  true);
+  EXPECT_EQ(begin2 == begin2,  true);
+  EXPECT_EQ(end == end,  true);
 END_SECTION
 
 
@@ -620,7 +620,7 @@ Param* d10_ptr = nullptr;
 Param* d10_nullPointer = nullptr;
 START_SECTION((Param()))
   d10_ptr = new Param();
-  TEST_NOT_EQUAL(d10_ptr,  d10_nullPointer)
+  TEST_NOT_EQUAL(d10_ptr,  d10_nullPointer);
 END_SECTION
 
 START_SECTION((~Param()))
@@ -629,182 +629,182 @@ END_SECTION
 
 START_SECTION((bool exists(const std::string& key) const))
   Param p;
-  EXPECT_EQ(p.exists(""),  false)
-  EXPECT_EQ(p.exists("key"),  false)
-  EXPECT_EQ(p.exists("key:value"),  false)
+  EXPECT_EQ(p.exists(""),  false);
+  EXPECT_EQ(p.exists("key"),  false);
+  EXPECT_EQ(p.exists("key:value"),  false);
 END_SECTION
 
 START_SECTION((bool hasSection(const std::string& key) const))
   Param p;
   p.addSection("test",  "");
   p.addSection("test:test",  "");
-  EXPECT_EQ(p.hasSection("test"),  true)
-  EXPECT_EQ(p.hasSection("test:test"),  true)
-  EXPECT_EQ(p.hasSection("test:"),  true)
-  EXPECT_EQ(p.hasSection("test:test:"),  true)
-  EXPECT_EQ(p.hasSection("sectionThatDoesNotExist"),  false)
-  EXPECT_EQ(p.hasSection("AnotherSection:"),  false)
-  EXPECT_EQ(p.hasSection("Section:WithinSection"),  false)
-  EXPECT_EQ(p.hasSection("Section:WithinSection:"),  false)
+  EXPECT_EQ(p.hasSection("test"),  true);
+  EXPECT_EQ(p.hasSection("test:test"),  true);
+  EXPECT_EQ(p.hasSection("test:"),  true);
+  EXPECT_EQ(p.hasSection("test:test:"),  true);
+  EXPECT_EQ(p.hasSection("sectionThatDoesNotExist"),  false);
+  EXPECT_EQ(p.hasSection("AnotherSection:"),  false);
+  EXPECT_EQ(p.hasSection("Section:WithinSection"),  false);
+  EXPECT_EQ(p.hasSection("Section:WithinSection:"),  false);
 END_SECTION
 
 START_SECTION((const DataValue& getValue(const std::string &key) const))
   Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getValue(""))
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getValue("key"))
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getValue("key:value"))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getValue(""));
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getValue("key"));
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getValue("key:value"));
 END_SECTION
 
 START_SECTION((const std::string& getSectionDescription(const std::string& key) const))
   Param p;
-  EXPECT_EQ(p.getSectionDescription(""), "")
-  EXPECT_EQ(p.getSectionDescription("key"), "")
-  EXPECT_EQ(p.getSectionDescription("key:value"), "")
+  EXPECT_EQ(p.getSectionDescription(""), "");
+  EXPECT_EQ(p.getSectionDescription("key"), "");
+  EXPECT_EQ(p.getSectionDescription("key:value"), "");
 END_SECTION
 
 START_SECTION((const std::string& getDescription(const std::string &key) const))
   Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getDescription(""))
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getDescription("key"))
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getDescription("key:value"))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getDescription(""));
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getDescription("key"));
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getDescription("key:value"));
 END_SECTION
 
 START_SECTION((const ParamEntry& getEntry(const std::string &key) const))
   Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getEntry(""))
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getEntry("key"))
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getEntry("key:value"))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getEntry(""));
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getEntry("key"));
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getEntry("key:value"));
 END_SECTION
 
 START_SECTION((void setValue(const std::string &key,  const DataValue& value,  const std::string &description="",  const std::stringList &tags=std::stringList())))
   Param p;
   p.setValue("key", "value");
-  EXPECT_EQ(p.exists("key"),  true)
-  EXPECT_EQ(p.getValue("key"),  "value")
-  EXPECT_EQ(p.getDescription("key"),  "")
-  EXPECT_EQ(p.hasTag("key", "advanced"),  false)
+  EXPECT_EQ(p.exists("key"),  true);
+  EXPECT_EQ(p.getValue("key"),  "value");
+  EXPECT_EQ(p.getDescription("key"),  "");
+  EXPECT_EQ(p.hasTag("key", "advanced"),  false);
 
   p.setValue("key", "value", "description", {"advanced"});
-  EXPECT_EQ(p.exists("key"),  true)
-  EXPECT_EQ(p.getValue("key"),  "value")
-  EXPECT_EQ(p.getDescription("key"),  "description")
-  EXPECT_EQ(p.hasTag("key", "advanced"),  true)
+  EXPECT_EQ(p.exists("key"),  true);
+  EXPECT_EQ(p.getValue("key"),  "value");
+  EXPECT_EQ(p.getDescription("key"),  "description");
+  EXPECT_EQ(p.hasTag("key", "advanced"),  true);
 
   p.setValue("key:key", "value2", "description2");
-  EXPECT_EQ(p.exists("key"),  true)
-  EXPECT_EQ(p.getValue("key"),  "value")
-  EXPECT_EQ(p.getDescription("key"),  "description")
-  EXPECT_EQ(p.hasTag("key", "advanced"),  true)
-  EXPECT_EQ(p.exists("key:key"),  true)
-  EXPECT_EQ(p.getValue("key:key"),  "value2")
-  EXPECT_EQ(p.getDescription("key:key"),  "description2")
-  EXPECT_EQ(p.hasTag("key:key", "advanced"),  false)
+  EXPECT_EQ(p.exists("key"),  true);
+  EXPECT_EQ(p.getValue("key"),  "value");
+  EXPECT_EQ(p.getDescription("key"),  "description");
+  EXPECT_EQ(p.hasTag("key", "advanced"),  true);
+  EXPECT_EQ(p.exists("key:key"),  true);
+  EXPECT_EQ(p.getValue("key:key"),  "value2");
+  EXPECT_EQ(p.getDescription("key:key"),  "description2");
+  EXPECT_EQ(p.hasTag("key:key", "advanced"),  false);
 END_SECTION
 
 START_SECTION((std::vector<std::string> getTags(const std::string& key) const))
   Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.getTags("key"))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.getTags("key"));
 
   p.setValue("key", "value");
-  EXPECT_EQ(p.getTags("key").size(), 0)
+  EXPECT_EQ(p.getTags("key").size(), 0);
 END_SECTION
 
 START_SECTION((void addTag(const std::string& key,  const std::string& tag)))
   Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTag("key", "bla"))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTag("key", "bla"));
   std::vector<std::string> error_list;
   error_list.push_back("a, b");
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTags("key", error_list))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTags("key", error_list));
 
   p.setValue("key", "value");
-  EXPECT_EQ(p.getTags("key").size(), 0)
+  EXPECT_EQ(p.getTags("key").size(), 0);
   p.addTag("key", "advanced");
-  EXPECT_EQ(p.getTags("key").size(), 1)
+  EXPECT_EQ(p.getTags("key").size(), 1);
   p.addTag("key", "advanced");
-  EXPECT_EQ(p.getTags("key").size(), 1)
+  EXPECT_EQ(p.getTags("key").size(), 1);
   p.addTag("key", "advanced2");
-  EXPECT_EQ(p.getTags("key").size(), 2)
+  EXPECT_EQ(p.getTags("key").size(), 2);
 END_SECTION
 
 START_SECTION((bool hasTag(const std::string& key,  const std::string& tag) const))
   Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.hasTag("key", "bla"))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.hasTag("key", "bla"));
 
   p.setValue("key", "value");
-  EXPECT_EQ(p.hasTag("key", "advanced"), false)
-  EXPECT_EQ(p.hasTag("key", "advanced2"), false)
+  EXPECT_EQ(p.hasTag("key", "advanced"), false);
+  EXPECT_EQ(p.hasTag("key", "advanced2"), false);
   p.addTag("key", "advanced");
-  EXPECT_EQ(p.hasTag("key", "advanced"), true)
-  EXPECT_EQ(p.hasTag("key", "advanced2"), false)
+  EXPECT_EQ(p.hasTag("key", "advanced"), true);
+  EXPECT_EQ(p.hasTag("key", "advanced2"), false);
   p.addTag("key", "advanced2");
-  EXPECT_EQ(p.hasTag("key", "advanced"), true)
-  EXPECT_EQ(p.hasTag("key", "advanced2"), true)
+  EXPECT_EQ(p.hasTag("key", "advanced"), true);
+  EXPECT_EQ(p.hasTag("key", "advanced2"), true);
 END_SECTION
 
 START_SECTION((void addTags(const std::string& key,  const std::vector<std::string>& tags)))
   Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTags("key",std::vector<std::string>()))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTags("key",std::vector<std::string>()));
   std::vector<std::string> error_list;
   error_list.push_back("a, b");
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTags("key", error_list))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.addTags("key", error_list));
 
   p.setValue("key", "value");
-  EXPECT_EQ(p.hasTag("key", "advanced"), false)
-  EXPECT_EQ(p.hasTag("key", "advanced2"), false)
+  EXPECT_EQ(p.hasTag("key", "advanced"), false);
+  EXPECT_EQ(p.hasTag("key", "advanced2"), false);
   p.addTags("key", {"advanced", "advanced2"});
-  EXPECT_EQ(p.hasTag("key", "advanced"), true)
-  EXPECT_EQ(p.hasTag("key", "advanced2"), true)
+  EXPECT_EQ(p.hasTag("key", "advanced"), true);
+  EXPECT_EQ(p.hasTag("key", "advanced2"), true);
 END_SECTION
 
 START_SECTION((void clearTags(const std::string& key)))
   Param p;
-  TEST_EXCEPTION(Exception::ElementNotFound,  p.clearTags("key"))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p.clearTags("key"));
   p.setValue("key", "value");
   p.addTag("key", "advanced");
-  EXPECT_EQ(p.getTags("key").size(), 1)
+  EXPECT_EQ(p.getTags("key").size(), 1);
   p.clearTags("key");
-  EXPECT_EQ(p.getTags("key").size(), 0)
+  EXPECT_EQ(p.getTags("key").size(), 0);
 END_SECTION
 
 START_SECTION((bool empty() const))
   Param p;
-  EXPECT_EQ(p.empty(),  true)
+  EXPECT_EQ(p.empty(),  true);
   p.setValue("key", 17.4f);
-  EXPECT_EQ(p.empty(),  false)
+  EXPECT_EQ(p.empty(),  false);
 
   Param p2;
-  EXPECT_EQ(p2.empty(),  true)
+  EXPECT_EQ(p2.empty(),  true);
   p2.setValue("a:key", 17.4f);
-  EXPECT_EQ(p2.empty(),  false)
+  EXPECT_EQ(p2.empty(),  false);
 END_SECTION
 
 START_SECTION((void clear()))
   Param p;
   p.setValue("key", 17.4, "keydesc");
   p.clear();
-  EXPECT_EQ(p.empty(),  true)
+  EXPECT_EQ(p.empty(),  true);
 
   Param p2;
   p2.setValue("a:b:key", 17.4, "keydesc");
   p2.clear();
-  EXPECT_EQ(p2.empty(),  true)
+  EXPECT_EQ(p2.empty(),  true);
 END_SECTION
 
 START_SECTION((Size size() const))
   Param p;
-  EXPECT_EQ(p.size(),  0)
+  EXPECT_EQ(p.size(),  0);
   p.setValue("key", 17.4f);
-  EXPECT_EQ(p.size(),  1)
+  EXPECT_EQ(p.size(),  1);
   p.setValue("key", 17.4f);
-  EXPECT_EQ(p.size(),  1)
+  EXPECT_EQ(p.size(),  1);
   p.setValue("key:a", 17.5f);
-  EXPECT_EQ(p.size(),  2)
+  EXPECT_EQ(p.size(),  2);
   p.setValue("key:a", 18.5f);
-  EXPECT_EQ(p.size(),  2)
+  EXPECT_EQ(p.size(),  2);
   p.setValue("key:b", 18.5f);
-  EXPECT_EQ(p.size(),  3)
+  EXPECT_EQ(p.size(),  3);
   p.setValue("b", 18.5f);
-  EXPECT_EQ(p.size(),  4)
+  EXPECT_EQ(p.size(),  4);
 END_SECTION
 
 START_SECTION((void setSectionDescription(const std::string &key,  const std::string &description)))
@@ -818,10 +818,10 @@ START_SECTION((void setSectionDescription(const std::string &key,  const std::st
   p.setSectionDescription("test2", "b");
   p.setSectionDescription("test:test", "c");
   p.setSectionDescription("test:test2", "d");
-  EXPECT_EQ(p.getSectionDescription("test"),  "a")
-  EXPECT_EQ(p.getSectionDescription("test2"),  "b")
-  EXPECT_EQ(p.getSectionDescription("test:test"),  "c")
-  EXPECT_EQ(p.getSectionDescription("test:test2"),  "d")
+  EXPECT_EQ(p.getSectionDescription("test"),  "a");
+  EXPECT_EQ(p.getSectionDescription("test2"),  "b");
+  EXPECT_EQ(p.getSectionDescription("test:test"),  "c");
+  EXPECT_EQ(p.getSectionDescription("test:test2"),  "d");
 END_SECTION
 
 START_SECTION([EXTRA](friend std::ostream& operator << (std::ostream& os,  const Param& param)))
@@ -829,18 +829,18 @@ START_SECTION([EXTRA](friend std::ostream& operator << (std::ostream& os,  const
   p.setValue("key",  17.5);
   stringstream ss;
   ss << p;
-  EXPECT_EQ(ss.str(),  "\"key\" -> \"17.5\"\n")
+  EXPECT_EQ(ss.str(),  "\"key\" -> \"17.5\"\n");
 
   ss.str("");
   p.setValue("key",  17.5,  "thiskey");
   ss<<p;
-  EXPECT_EQ(ss.str(),  "\"key\" -> \"17.5\" (thiskey)\n")
+  EXPECT_EQ(ss.str(),  "\"key\" -> \"17.5\" (thiskey)\n");
 
   ss.str("");
   p.clear();
   p.setValue("tree:key",  17.5);
   ss<<p;
-  EXPECT_EQ(ss.str(),  "\"tree|key\" -> \"17.5\"\n")
+  EXPECT_EQ(ss.str(),  "\"tree|key\" -> \"17.5\"\n");
 END_SECTION
 
 START_SECTION((void insert(const std::string& prefix,  const Param &param)))
@@ -854,40 +854,40 @@ START_SECTION((void insert(const std::string& prefix,  const Param &param)))
   Param p2;
 
   p2.insert("prefix", p);
-  EXPECT_EQ(p2.size(), 4)
-  EXPECT_EQ(Int(p2.getValue("prefixa")),  17)
+  EXPECT_EQ(p2.size(), 4);
+  EXPECT_EQ(Int(p2.getValue("prefixa")),  17);
   TEST_STRING_EQUAL(p2.getDescription("prefixa"),  "intdesc")
   TEST_REAL_SIMILAR(float(p2.getValue("prefixn1:b")),  17.4)
   TEST_STRING_EQUAL(p2.getDescription("prefixn1:b"),  "floatdesc")
-  EXPECT_EQ(p2.getValue("prefixn1:c"),  "test, test, test")
+  EXPECT_EQ(p2.getValue("prefixn1:c"),  "test, test, test");
   TEST_STRING_EQUAL(p2.getDescription("prefixn1:c"),  "stringdesc")
   TEST_REAL_SIMILAR(float(p2.getValue("prefixn2:d")),  17.5)
   TEST_STRING_EQUAL(p2.getDescription("prefixn2:d"),  "")
-  EXPECT_EQ(p2.getSectionDescription("prefixn1"), "sectiondesc")
+  EXPECT_EQ(p2.getSectionDescription("prefixn1"), "sectiondesc");
 
   p2.insert("", p);
-  EXPECT_EQ(p2.size(), 8)
-  EXPECT_EQ(Int(p2.getValue("a")),  17)
+  EXPECT_EQ(p2.size(), 8);
+  EXPECT_EQ(Int(p2.getValue("a")),  17);
   TEST_STRING_EQUAL(p2.getDescription("a"),  "intdesc")
   TEST_REAL_SIMILAR(float(p2.getValue("n1:b")),  17.4)
   TEST_STRING_EQUAL(p2.getDescription("n1:b"),  "floatdesc")
-  EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test")
+  EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test");
   TEST_STRING_EQUAL(p2.getDescription("n1:c"),  "stringdesc")
   TEST_REAL_SIMILAR(float(p2.getValue("n2:d")),  17.5)
   TEST_STRING_EQUAL(p2.getDescription("n2:d"),  "")
-  EXPECT_EQ(p2.getSectionDescription("n1"), "sectiondesc")
+  EXPECT_EQ(p2.getSectionDescription("n1"), "sectiondesc");
 
   p2.insert("n3:", p);
-  EXPECT_EQ(p2.size(), 12)
-  EXPECT_EQ(Int(p2.getValue("n3:a")),  17)
+  EXPECT_EQ(p2.size(), 12);
+  EXPECT_EQ(Int(p2.getValue("n3:a")),  17);
   TEST_STRING_EQUAL(p2.getDescription("n3:a"),  "intdesc")
   TEST_REAL_SIMILAR(float(p2.getValue("n3:n1:b")),  17.4)
   TEST_STRING_EQUAL(p2.getDescription("n3:n1:b"),  "floatdesc")
-  EXPECT_EQ(p2.getValue("n3:n1:c"),  "test, test, test")
+  EXPECT_EQ(p2.getValue("n3:n1:c"),  "test, test, test");
   TEST_STRING_EQUAL(p2.getDescription("n3:n1:c"),  "stringdesc")
   TEST_REAL_SIMILAR(float(p2.getValue("n3:n2:d")),  17.5)
   TEST_STRING_EQUAL(p2.getDescription("n3:n2:d"),  "")
-  EXPECT_EQ(p2.getSectionDescription("n3:n1"), "sectiondesc")
+  EXPECT_EQ(p2.getSectionDescription("n3:n1"), "sectiondesc");
 
   p.clear();
   p.setValue("a", 18, "intdesc");
@@ -896,10 +896,10 @@ START_SECTION((void insert(const std::string& prefix,  const Param &param)))
   p.setValue("n2:d", 17.8f);
 
   p2.insert("", p);
-  EXPECT_EQ(p2.size(), 12)
-  EXPECT_EQ(Int(p2.getValue("a")),  18)
+  EXPECT_EQ(p2.size(), 12);
+  EXPECT_EQ(Int(p2.getValue("a")),  18);
   TEST_REAL_SIMILAR(float(p2.getValue("n1:b")),  17.7)
-  EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test, test")
+  EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test, test");
   TEST_REAL_SIMILAR(float(p2.getValue("n2:d")),  17.8)
 END_SECTION
 
@@ -917,19 +917,19 @@ START_SECTION((Param(const Param& rhs)))
   Param p2(p_src);
   TEST_REAL_SIMILAR(float(p2.getValue("test:float")),  17.4)
   TEST_STRING_EQUAL(p_src.getDescription("test:float"),  "floatdesc")
-  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test")
+  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   TEST_STRING_EQUAL(p_src.getDescription("test:string"),  "stringdesc")
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17)
+  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
   TEST_STRING_EQUAL(p_src.getDescription("test:int"),  "intdesc")
   TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
   TEST_STRING_EQUAL(p2.getDescription("test2:float"),  "")
-  EXPECT_EQ(p2.getValue("test2:string"),  "test2")
+  EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   TEST_STRING_EQUAL(p2.getDescription("test2:string"),  "")
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18)
+  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
   TEST_STRING_EQUAL(p2.getDescription("test2:int"),  "")
-  EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc")
-  EXPECT_EQ(p2.getTags("test:float").size(),  3)
-  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true)
+  EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
+  EXPECT_EQ(p2.getTags("test:float").size(),  3);
+  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true);
 END_SECTION
 
 START_SECTION((Param& operator = (const Param& rhs)))
@@ -937,57 +937,57 @@ START_SECTION((Param& operator = (const Param& rhs)))
   p2=p_src;
   TEST_REAL_SIMILAR(float(p2.getValue("test:float")),  17.4)
   TEST_STRING_EQUAL(p_src.getDescription("test:float"),  "floatdesc")
-  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test")
+  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   TEST_STRING_EQUAL(p_src.getDescription("test:string"),  "stringdesc")
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17)
+  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
   TEST_STRING_EQUAL(p2.getDescription("test:int"),  "intdesc")
   TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
   TEST_STRING_EQUAL(p2.getDescription("test2:float"),  "")
-  EXPECT_EQ(p2.getValue("test2:string"),  "test2")
+  EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   TEST_STRING_EQUAL(p2.getDescription("test2:string"),  "")
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18)
+  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
   TEST_STRING_EQUAL(p2.getDescription("test2:int"),  "")
-  EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc")
-  EXPECT_EQ(p2.getTags("test:float").size(),  3)
-  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true)
+  EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
+  EXPECT_EQ(p2.getTags("test:float").size(),  3);
+  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true);
 END_SECTION
 
 START_SECTION((Param copy(const std::string &prefix,  bool remove_prefix=false) const))
   Param p2;
 
   p2 = p_src.copy("notthere:");
-  EXPECT_EQ((p2 == Param()), true)
+  EXPECT_EQ((p2 == Param()), true);
 
   p2 = p_src.copy("test:");
 
   TEST_REAL_SIMILAR(float(p2.getValue("test:float")),  17.4)
   TEST_STRING_EQUAL(p2.getDescription("test:float"),  "floatdesc")
-  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test")
+  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   TEST_STRING_EQUAL(p2.getDescription("test:int"),  "intdesc")
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17)
+  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
   TEST_STRING_EQUAL(p2.getDescription("test:string"),  "stringdesc")
-  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test2:float"))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test2:float"));
 
   p2 = p_src.copy("test:", true);
   TEST_REAL_SIMILAR(float(p2.getValue("float")),  17.4)
   TEST_STRING_EQUAL(p2.getDescription("float"),  "floatdesc")
-  EXPECT_EQ(p2.getValue("string"),  "test, test, test")
+  EXPECT_EQ(p2.getValue("string"),  "test, test, test");
   TEST_STRING_EQUAL(p2.getDescription("string"),  "stringdesc")
 
   p2 = p_src.copy("test");
   TEST_REAL_SIMILAR(float(p2.getValue("test:float")),  17.4)
   TEST_STRING_EQUAL(p2.getDescription("test:float"),  "floatdesc")
-  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test")
+  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   TEST_STRING_EQUAL(p2.getDescription("test:string"),  "stringdesc")
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17)
+  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
   TEST_STRING_EQUAL(p2.getDescription("test:int"),  "intdesc")
   TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
   TEST_STRING_EQUAL(p2.getDescription("test2:float"),  "")
-  EXPECT_EQ(p2.getValue("test2:string"),  "test2")
+  EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   TEST_STRING_EQUAL(p2.getDescription("test2:string"),  "")
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18)
+  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
   TEST_STRING_EQUAL(p2.getDescription("test2:int"),  "")
-  EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc")
+  EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
 END_SECTION
 
 START_SECTION((void remove(const std::string& key)))
@@ -995,28 +995,28 @@ START_SECTION((void remove(const std::string& key)))
   Param p2(p_src);
   p2.setValue("test:string2", "test, test");
 
-  EXPECT_EQ(p2.size(), 7)
+  EXPECT_EQ(p2.size(), 7);
 
   p2.remove("test");
-  EXPECT_EQ(p2.size(), 7)
+  EXPECT_EQ(p2.size(), 7);
 
   p2.remove("test2");
-  EXPECT_EQ(p2.size(), 7)
+  EXPECT_EQ(p2.size(), 7);
 
   p2.remove("test:strin");
-  EXPECT_EQ(p2.size(), 7)
+  EXPECT_EQ(p2.size(), 7);
 
   p2.remove("test:string");
-  EXPECT_EQ(p2.size(), 6)
+  EXPECT_EQ(p2.size(), 6);
 
   p2.remove("test:string2");
-  EXPECT_EQ(p2.size(), 5)
+  EXPECT_EQ(p2.size(), 5);
 
   p2.remove("test:float");
-  EXPECT_EQ(p2.size(), 4)
+  EXPECT_EQ(p2.size(), 4);
 
   p2.remove("test:int");
-  EXPECT_EQ(p2.size(), 3)
+  EXPECT_EQ(p2.size(), 3);
 
   // test deletion of nodes (when using a trailing ':')
   p2 = p_src;
@@ -1028,22 +1028,22 @@ START_SECTION((void remove(const std::string& key)))
 
   Param p3 = p2;
 
-  EXPECT_EQ(p2.size(), 11)
+  EXPECT_EQ(p2.size(), 11);
 
   std::cout << "p2 is " << p2 << "\n";
 
   p2.remove("test:"); // test subtree removal
-  EXPECT_EQ(p2.size(), 3)
+  EXPECT_EQ(p2.size(), 3);
 
 
   p3.remove("test:string2:sn2:e2:"); // nothing should happen
-  EXPECT_EQ(p3.size(), 11)
+  EXPECT_EQ(p3.size(), 11);
 
   p3.remove("test:string2:sn2:e1");  // delete one,  the parent node is still populated
-  EXPECT_EQ(p3.size(), 10)
+  EXPECT_EQ(p3.size(), 10);
 
   p3.remove("test:string2:sn2:e2");  // delete last entry in subnode sn2
-  EXPECT_EQ(p3.size(), 9)
+  EXPECT_EQ(p3.size(), 9);
 
 
 END_SECTION
@@ -1052,23 +1052,23 @@ START_SECTION((void removeAll(const std::string& prefix)))
   Param p2(p_src);
 
   p2.removeAll("test:float");
-  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test:float"))
-  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test")
-  EXPECT_EQ(Int(p2.getValue("test:int")),  17)
+  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test:float"));
+  EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
+  EXPECT_EQ(Int(p2.getValue("test:int")),  17);
   TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
-  EXPECT_EQ(p2.getValue("test2:string"),  "test2")
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18)
-  EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc")
+  EXPECT_EQ(p2.getValue("test2:string"),  "test2");
+  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
 
   p2.removeAll("test:");
-  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test:string"))
-  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test:int"))
+  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test:string"));
+  TEST_EXCEPTION(Exception::ElementNotFound,  p2.getValue("test:int"));
   TEST_REAL_SIMILAR(float(p2.getValue("test2:float")),  17.5)
-  EXPECT_EQ(p2.getValue("test2:string"),  "test2")
-  EXPECT_EQ(Int(p2.getValue("test2:int")),  18)
+  EXPECT_EQ(p2.getValue("test2:string"),  "test2");
+  EXPECT_EQ(Int(p2.getValue("test2:int")),  18);
 
   p2.removeAll("test");
-  EXPECT_EQ(p2.empty(), true)
+  EXPECT_EQ(p2.empty(), true);
 
   cout << p2;
 END_SECTION
@@ -1076,15 +1076,15 @@ END_SECTION
 
 START_SECTION((bool operator  ==  (const Param& rhs) const))
   Param p2(p_src);
-  EXPECT_EQ(p_src == p2,  true)
+  EXPECT_EQ(p_src == p2,  true);
   p2.setValue("test:float", 17.5f);
-  EXPECT_EQ(p_src == p2,  false)
+  EXPECT_EQ(p_src == p2,  false);
   p2 = p_src;
   p2.setValue("test:float3", 17.4f);
-  EXPECT_EQ(p_src == p2,  false)
+  EXPECT_EQ(p_src == p2,  false);
   p2 = p_src;
   p2.removeAll("test:float");
-  EXPECT_EQ(p_src == p2,  false)
+  EXPECT_EQ(p_src == p2,  false);
 
   //it should be independent of entry order
   Param p3, p4;
@@ -1092,7 +1092,7 @@ START_SECTION((bool operator  ==  (const Param& rhs) const))
   p3.setValue("2", 2);
   p4.setValue("2", 2);
   p4.setValue("1", 1);
-  EXPECT_EQ(p3 == p4,  true)
+  EXPECT_EQ(p3 == p4,  true);
 
   //it should be independent of node order
   Param p5, p6;
@@ -1100,7 +1100,7 @@ START_SECTION((bool operator  ==  (const Param& rhs) const))
   p5.setValue("2:1", 1);
   p6.setValue("2:1", 1);
   p6.setValue("1:1", 1);
-  EXPECT_EQ(p5 == p6,  true)
+  EXPECT_EQ(p5 == p6,  true);
 
 END_SECTION
 
@@ -1146,12 +1146,12 @@ START_SECTION((void setDefaults(const Param& defaults,  const std::string& prefi
   TEST_STRING_EQUAL(p2.getDescription("string2"), "string2");
   TEST_STRING_EQUAL(p2.getSectionDescription("PATH"), "PATHdesc");
 
-  EXPECT_EQ(p2.getValue("stringlist")  ==  ListUtils::create<std::string>("r, o, c, k,s"),  true)
-  EXPECT_EQ(p2.getValue("intlist")  ==  ListUtils::create<Int>("16, 9"),  true)
-  EXPECT_EQ(p2.getValue("doublelist")  ==  ListUtils::create<double>("1.2, 5.55"),  true)
-  EXPECT_EQ(p2.getValue("stringlist2")  ==  ListUtils::create<std::string>("d, e, f"),  true)
-  EXPECT_EQ(p2.getValue("intlist2")  ==  ListUtils::create<Int>("11, 22, 33"),  true)
-  EXPECT_EQ(p2.getValue("doublelist2")  ==  ListUtils::create<double>("11.22, 22.33"),  true)
+  EXPECT_EQ(p2.getValue("stringlist")  ==  ListUtils::create<std::string>("r, o, c, k,s"),  true);
+  EXPECT_EQ(p2.getValue("intlist")  ==  ListUtils::create<Int>("16, 9"),  true);
+  EXPECT_EQ(p2.getValue("doublelist")  ==  ListUtils::create<double>("1.2, 5.55"),  true);
+  EXPECT_EQ(p2.getValue("stringlist2")  ==  ListUtils::create<std::string>("d, e, f"),  true);
+  EXPECT_EQ(p2.getValue("intlist2")  ==  ListUtils::create<Int>("11, 22, 33"),  true);
+  EXPECT_EQ(p2.getValue("doublelist2")  ==  ListUtils::create<double>("11.22, 22.33"),  true);
 
 
 
@@ -1169,9 +1169,9 @@ START_SECTION((void setDefaults(const Param& defaults,  const std::string& prefi
   TEST_STRING_EQUAL(p2.getSectionDescription("PATH"), "PATHdesc");
   TEST_STRING_EQUAL(p2.getSectionDescription("PATH:PATH"), "PATHdesc");
 
-  EXPECT_EQ(p2.getValue("PATH:stringlist")  ==  ListUtils::create<std::string>("d, a, v, i, d"),  true)
-  EXPECT_EQ(p2.getValue("PATH:intlist")  ==  ListUtils::create<Int>("1, 2, 3"),  true)
-  EXPECT_EQ(p2.getValue("PATH:doublelist")  ==  ListUtils::create<double>("1.2, 2.3"),  true)
+  EXPECT_EQ(p2.getValue("PATH:stringlist")  ==  ListUtils::create<std::string>("d, a, v, i, d"),  true);
+  EXPECT_EQ(p2.getValue("PATH:intlist")  ==  ListUtils::create<Int>("1, 2, 3"),  true);
+  EXPECT_EQ(p2.getValue("PATH:doublelist")  ==  ListUtils::create<double>("1.2, 2.3"),  true);
 
 END_SECTION
 
@@ -1232,14 +1232,14 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p3.setValue("test4:-b", "bv");
   p3.setValue("test4:-c", "cv");
   p3.setValue("test4:misc",std::vector<std::string>{"rv1", "rv2"});
-  EXPECT_EQ(p2 == p3, true)
+  EXPECT_EQ(p2 == p3, true);
 
   Param p20, p30;
   p20.parseCommandLine(6, command_line2);
   p30.setValue("-a", "av");
   p30.setValue("-b", "");
   p30.setValue("-c", "cv");
-  EXPECT_EQ(p20 == p30, true)
+  EXPECT_EQ(p20 == p30, true);
 
   Param p200, p300;
   p200.parseCommandLine(10, command_line4, "test4");
@@ -1247,7 +1247,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p300.setValue("test4:-b", "bv");
   p300.setValue("test4:-c", "cv");
   p300.setValue("test4:misc",std::vector<std::string>{"rv1", "rv2", "-1.0"});
-  EXPECT_EQ(p200 == p300, true)
+  EXPECT_EQ(p200 == p300, true);
 
 END_SECTION
 
@@ -1290,7 +1290,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p3.setValue("b", "bv");
   p3.setValue("c", "cv");
   p3.setValue("misc_",std::vector<std::string>{"rv1", "rv2", "-1.0"});
-  EXPECT_EQ(p2 == p3, true)
+  EXPECT_EQ(p2 == p3, true);
 
   Param p4, p5;
   p4.parseCommandLine(9, command_line, with_one, without, with_multiple, "misc_", "unknown_");
@@ -1298,7 +1298,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p5.setValue("b", "bv");
   p5.setValue("c", "cv");
   p5.setValue("misc_",std::vector<std::string>{"rv1", "rv2"});
-  EXPECT_EQ(p4 == p5, true)
+  EXPECT_EQ(p4 == p5, true);
 
   with_one.clear();
   with_one["-a"]="a";
@@ -1310,8 +1310,8 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p50.setValue("b", "true");
   p50.setValue("misc__",std::vector<std::string>{"bv", "cv", "rv1", "rv2"});
   p50.setValue("unknown__",std::vector<std::string>{"-c"});
-  EXPECT_EQ(p40 == p50, true)
-  EXPECT_EQ(p40, p50)
+  EXPECT_EQ(p40 == p50, true);
+  EXPECT_EQ(p40, p50);
   //"executable -a av -b -c cv"
   Param p400, p500;
   p400.parseCommandLine(6, command_line2, with_one, without, with_multiple, "misc__", "unknown__");
@@ -1319,7 +1319,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p500.setValue("b", "true");
   p500.setValue("misc__",std::vector<std::string>{"cv"});
   p500.setValue("unknown__",std::vector<std::string>{"-c"});
-  EXPECT_EQ(p400 == p500, true)
+  EXPECT_EQ(p400 == p500, true);
 
   //"executable -a -b -c cv rv1"
   Param p4000, p5000;
@@ -1328,7 +1328,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p5000.setValue("b", "true");
   p5000.setValue("misc__",std::vector<std::string>{"cv", "rv1"});
   p5000.setValue("unknown__",std::vector<std::string>{"-c"});
-  EXPECT_EQ(p4000 == p5000, true)
+  EXPECT_EQ(p4000 == p5000, true);
 
   // list options:
   Param p6, p7;
@@ -1408,8 +1408,8 @@ START_SECTION((void merge(const Param& toMerge)))
   expected.setSectionDescription("section",  "section description");
 
   original.merge(toMerge);
-  EXPECT_EQ(original,  expected)
-  EXPECT_EQ(original.getSectionDescription("section"), expected.getSectionDescription("section"))
+  EXPECT_EQ(original,  expected);
+  EXPECT_EQ(original.getSectionDescription("section"), expected.getSectionDescription("section"));
 
   Param p1;
   p1.setValue("in",  "in-value",  "in-description");
@@ -1437,10 +1437,10 @@ START_SECTION((void merge(const Param& toMerge)))
   expected_2.setSectionDescription("algorithm:superimposer",  "algorithm:superimposer description");
 
   p1.merge(p2);
-  EXPECT_EQ(p1,  expected_2)
-  EXPECT_EQ(p1.getSectionDescription("algorithm"), expected_2.getSectionDescription("algorithm"))
-  EXPECT_EQ(p1.getSectionDescription("algorithm:superimposer"), expected_2.getSectionDescription("algorithm:superimposer"))
-  EXPECT_EQ(p1.getSectionDescription("reference"), expected_2.getSectionDescription("reference"))
+  EXPECT_EQ(p1,  expected_2);
+  EXPECT_EQ(p1.getSectionDescription("algorithm"), expected_2.getSectionDescription("algorithm"));
+  EXPECT_EQ(p1.getSectionDescription("algorithm:superimposer"), expected_2.getSectionDescription("algorithm:superimposer"));
+  EXPECT_EQ(p1.getSectionDescription("reference"), expected_2.getSectionDescription("reference"));
 }
 END_SECTION
 
@@ -1453,19 +1453,19 @@ START_SECTION((ParamIterator findFirst(const std::string &leaf) const ))
   p.setValue("a:c:another-leaf",  "leaf_val4",  "leaf 3");
 
   Param::ParamIterator pI = p.findFirst("leaf");
-  EXPECT_EQ(pI.getName(),  "a:b:leaf")
+  EXPECT_EQ(pI.getName(),  "a:b:leaf");
 
   p.remove("a:b:leaf");
   pI = p.findFirst("leaf");
-  EXPECT_EQ(pI.getName(),  "a:c:leaf")
+  EXPECT_EQ(pI.getName(),  "a:c:leaf");
 
   p.remove("a:c:leaf");
   pI = p.findFirst("leaf");
-  EXPECT_EQ(pI.getName(),  "b:a:leaf")
+  EXPECT_EQ(pI.getName(),  "b:a:leaf");
 
   p.remove("b:a:leaf");
   pI = p.findFirst("leaf");
-  EXPECT_EQ(pI  ==  p.end(),  true)
+  EXPECT_EQ(pI  ==  p.end(),  true);
 }
 END_SECTION
 
@@ -1478,16 +1478,16 @@ START_SECTION((ParamIterator findNext(const std::string &leaf,  const ParamItera
   p.setValue("a:c:another-leaf",  "leaf_val4",  "leaf 3");
 
   Param::ParamIterator pI = p.findFirst("leaf");
-  EXPECT_EQ(pI.getName(),  "a:b:leaf")
+  EXPECT_EQ(pI.getName(),  "a:b:leaf");
 
   pI = p.findNext("leaf",  pI);
-  EXPECT_EQ(pI.getName(),  "a:c:leaf")
+  EXPECT_EQ(pI.getName(),  "a:c:leaf");
 
   pI = p.findNext("leaf",  pI);
-  EXPECT_EQ(pI.getName(),  "b:a:leaf")
+  EXPECT_EQ(pI.getName(),  "b:a:leaf");
 
   pI = p.findNext("leaf",  pI);
-  EXPECT_EQ(pI  ==  p.end(),  true)
+  EXPECT_EQ(pI  ==  p.end(),  true);
 }
 END_SECTION
 
@@ -1503,27 +1503,27 @@ START_SECTION((ParamIterator end() const))
   p.setValue("c", 8);
 
   Param::ParamIterator it = p.begin();
-  EXPECT_EQ(it->name,  "a")
-  EXPECT_EQ(it.getName(),  "a")
-  EXPECT_EQ((UInt)it->value,  5)
+  EXPECT_EQ(it->name,  "a");
+  EXPECT_EQ(it.getName(),  "a");
+  EXPECT_EQ((UInt)it->value,  5);
 
   ++it;
-  EXPECT_EQ(it->name,  "c")
-  EXPECT_EQ(it.getName(),  "c")
-  EXPECT_EQ((UInt)it->value,  8)
+  EXPECT_EQ(it->name,  "c");
+  EXPECT_EQ(it.getName(),  "c");
+  EXPECT_EQ((UInt)it->value,  8);
 
   ++it;
-  EXPECT_EQ(it->name,  "a")
-  EXPECT_EQ(it.getName(),  "b:a")
-  EXPECT_EQ((UInt)it->value,  6)
+  EXPECT_EQ(it->name,  "a");
+  EXPECT_EQ(it.getName(),  "b:a");
+  EXPECT_EQ((UInt)it->value,  6);
 
   ++it;
-  EXPECT_EQ(it->name,  "b")
-  EXPECT_EQ(it.getName(),  "b:b")
-  EXPECT_EQ((UInt)it->value,  7)
+  EXPECT_EQ(it->name,  "b");
+  EXPECT_EQ(it.getName(),  "b:b");
+  EXPECT_EQ((UInt)it->value,  7);
 
   ++it;
-  EXPECT_EQ(it == p.end(), true)
+  EXPECT_EQ(it == p.end(), true);
 END_SECTION
 
 START_SECTION((void setValidStrings(const std::string &key,  const std::vector< std::string > &strings)))
@@ -1535,9 +1535,9 @@ START_SECTION((void setValidStrings(const std::string &key,  const std::vector< 
 
   d.setValidStrings("ok",strings);
   EXPECT_EQ(d.getEntry("ok").valid_strings == strings,  true);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setValidStrings("dummy",strings))
+  TEST_EXCEPTION(Exception::ElementNotFound,  d.setValidStrings("dummy",strings));
   strings.push_back("sdf,sdfd");
-  TEST_EXCEPTION(Exception::InvalidParameter,  d.setValidStrings("ok",strings))
+  TEST_EXCEPTION(Exception::InvalidParameter,  d.setValidStrings("ok",strings));
 END_SECTION
 
 START_SECTION((void setMinInt(const std::string &key,  Int min)))
@@ -1547,7 +1547,7 @@ START_SECTION((void setMinInt(const std::string &key,  Int min)))
 
   d.setMinInt("ok", 4);
   EXPECT_EQ(d.getEntry("ok").min_int, 4);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMinInt("dummy", 4))
+  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMinInt("dummy", 4));
 END_SECTION
 
 START_SECTION((void setMaxInt(const std::string &key,  Int max)))
@@ -1557,7 +1557,7 @@ START_SECTION((void setMaxInt(const std::string &key,  Int max)))
 
   d.setMaxInt("ok", 4);
   EXPECT_EQ(d.getEntry("ok").max_int, 4);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMaxInt("dummy", 4))
+  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMaxInt("dummy", 4));
 END_SECTION
 
 START_SECTION((void setMinFloat(const std::string &key,  double min)))
@@ -1567,7 +1567,7 @@ START_SECTION((void setMinFloat(const std::string &key,  double min)))
 
   d.setMinFloat("ok", 4.0);
   TEST_REAL_SIMILAR(d.getEntry("ok").min_float, 4.0);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMinFloat("dummy", 4.5))
+  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMinFloat("dummy", 4.5));
 END_SECTION
 
 START_SECTION((void setMaxFloat(const std::string &key,  double max)))
@@ -1577,7 +1577,7 @@ START_SECTION((void setMaxFloat(const std::string &key,  double max)))
 
   d.setMaxFloat("ok", 4.0);
   TEST_REAL_SIMILAR(d.getEntry("ok").max_float, 4.0);
-  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMaxFloat("dummy", 4.5))
+  TEST_EXCEPTION(Exception::ElementNotFound,  d.setMaxFloat("dummy", 4.5));
 END_SECTION
 
 // warnings for unknown parameters
@@ -1596,14 +1596,14 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     p.setValue("double", 47.11, "double");
 
     p.checkDefaults("Test", d, "");
-    EXPECT_EQ(os.str() == "", false)
+    EXPECT_EQ(os.str() == "", false);
 
     d.setValue("int", 5, "int");
     d.setValue("double", 47.11, "double");
     os.str("");
   os.clear();
     p.checkDefaults("Test", d, "");
-    EXPECT_EQ(os.str() == "", false)
+    EXPECT_EQ(os.str() == "", false);
 
     p.clear();
     p.setValue("pref:string",std::string("bla"), "pref:string");
@@ -1612,12 +1612,12 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     os.str("");
   os.clear();
     p.checkDefaults("Test", d, "pref");
-    EXPECT_EQ(os.str() == "", false)
+    EXPECT_EQ(os.str() == "", false);
 
     os.str("");
   os.clear();
     p.checkDefaults("Test2", d, "pref:");
-    EXPECT_EQ(os.str() == "", false)
+    EXPECT_EQ(os.str() == "", false);
 
     //check string restrictions
     vector<std::string> s_rest = {"a", "b", "c"};
@@ -1627,7 +1627,7 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     p.setValue("stringv", "a");
     p.checkDefaults("Param_test", d, "");
     p.setValue("stringv", "d");
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""))
+    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
 
     //check int restrictions
     d.setValue("intv", 4, "desc");
@@ -1638,7 +1638,7 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     p.setValue("intv", 700);
     p.checkDefaults("Param_test", d, "");
     p.setValue("intv", -5);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""))
+    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
 
     d.setValue("intv2", 4, "desc");
     d.setMaxInt("intv2", 4);
@@ -1648,7 +1648,7 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     p.setValue("intv2", -700);
     p.checkDefaults("Param_test", d, "");
     p.setValue("intv2", 5);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""))
+    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
 
     //check double restrictions
     d.setValue("doublev", 4.0, "desc");
@@ -1661,7 +1661,7 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     p.setValue("doublev", 7.0);
     p.checkDefaults("Param_test", d, "");
     p.setValue("doublev", -4.1);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""))
+    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
 
     d.setValue("doublev2", 4.0, "desc");
     d.setMaxFloat("doublev2", 4.0);
@@ -1671,7 +1671,7 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     p.setValue("doublev2", -700.0);
     p.checkDefaults("Param_test", d, "");
     p.setValue("doublev2", 4.1);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""))
+    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
 
     //check list restrictions
     vector<std::string> s_rest1 = {"a", "b", "c"};
@@ -1681,19 +1681,19 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     p.setValue("stringlist",std::vector<std::string>{"a", "c"});
     p.checkDefaults("Param_test", d, "");
     p.setValue("stringlist",std::vector<std::string>{"aa", "dd", "cc"});
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""))
+    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
 
 
     //wrong type
     p.clear();
     p.setValue("doublev", 4);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""))
+    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
     p.clear();
     p.setValue("intv", "bla");
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""))
+    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
     p.clear();
     p.setValue("stringv", 4.5);
-    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""))
+    TEST_EXCEPTION(Exception::InvalidParameter, p.checkDefaults("Param_test", d, ""));
 END_SECTION
 
 START_SECTION((void update(const Param& old_version,  const bool add_unknown = false)))
