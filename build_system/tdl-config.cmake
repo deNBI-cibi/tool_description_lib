@@ -259,9 +259,9 @@ if ((${CMAKE_SYSTEM_NAME} STREQUAL "Linux") OR
 endif ()
 
 # libexecinfo -- implicit
-check_include_file_cxx (execinfo.h _TDL_HAVE_EXECINFO)
-mark_as_advanced (_TDL_HAVE_EXECINFO)
-if (_TDL_HAVE_EXECINFO)
+check_include_file_cxx (execinfo.h _TDL_HAS_EXECINFO)
+mark_as_advanced (_TDL_HAS_EXECINFO)
+if (_TDL_HAS_EXECINFO)
     tdl_config_print ("Optional dependency:        libexecinfo found.")
     if ((${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD") OR (${CMAKE_SYSTEM_NAME} STREQUAL "OpenBSD"))
         set (TDL_LIBRARIES ${TDL_LIBRARIES} execinfo elf)
