@@ -154,31 +154,31 @@ set (CMAKE_REQUIRED_FLAGS       ${CMAKE_CXX_FLAGS})
 # Require C++20
 # ----------------------------------------------------------------------------
 
-set (CMAKE_REQUIRED_FLAGS_SAVE ${CMAKE_REQUIRED_FLAGS})
-
-set (CXXSTD_TEST_SOURCE
-    "#if !defined (__cplusplus) || (__cplusplus < 201709L)
-    #error NOCXX20
-    #endif
-    int main() {}")
-
-check_cxx_source_compiles ("${CXXSTD_TEST_SOURCE}" CXX20_BUILTIN)
-
-if (CXX20_BUILTIN)
-    tdl_config_print ("C++ Standard-20 support:    builtin")
-else ()
-    set (CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS_SAVE} -std=c++20")
-
-    check_cxx_source_compiles ("${CXXSTD_TEST_SOURCE}" CXX20_FLAG)
-
-    if (CXX20_FLAG)
-        tdl_config_print ("C++ Standard-20 support:    via -std=c++20")
-    else ()
-        tdl_config_error ("tdl requires C++20, but your compiler does not support it.")
-    endif ()
-
-    set (TDL_CXX_FLAGS "${TDL_CXX_FLAGS} -std=c++20")
-endif ()
+#set (CMAKE_REQUIRED_FLAGS_SAVE ${CMAKE_REQUIRED_FLAGS})
+#
+#set (CXXSTD_TEST_SOURCE
+#    "#if !defined (__cplusplus) || (__cplusplus < 201709L)
+#    #error NOCXX20
+#    #endif
+#    int main() {}")
+#
+#check_cxx_source_compiles ("${CXXSTD_TEST_SOURCE}" CXX20_BUILTIN)
+#
+#if (CXX20_BUILTIN)
+#    tdl_config_print ("C++ Standard-20 support:    builtin")
+#else ()
+#    set (CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS_SAVE} -std=c++20")
+#
+#    check_cxx_source_compiles ("${CXXSTD_TEST_SOURCE}" CXX20_FLAG)
+#
+#    if (CXX20_FLAG)
+#        tdl_config_print ("C++ Standard-20 support:    via -std=c++20")
+#    else ()
+#        tdl_config_error ("tdl requires C++20, but your compiler does not support it.")
+#    endif ()
+#
+#    set (TDL_CXX_FLAGS "${TDL_CXX_FLAGS} -std=c++20")
+#endif ()
 
 # ----------------------------------------------------------------------------
 # Require C++ Concepts

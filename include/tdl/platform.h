@@ -10,21 +10,6 @@
  */
 
 // ============================================================================
-//  C++ standard and features
-// ============================================================================
-
-// C++ standard [required]
-#ifdef __cplusplus
-static_assert(__cplusplus >= 201709, "TDL requires C++20, make sure that you have set -std=c++20.");
-#else
-#    error "This is not a C++ compiler."
-#endif
-
-#if __has_include(<version>)
-#    include <version>
-#endif
-
-// ============================================================================
 //  Dependencies
 // ============================================================================
 
