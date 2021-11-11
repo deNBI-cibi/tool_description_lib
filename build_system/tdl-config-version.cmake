@@ -9,8 +9,8 @@ find_path (TDL_CLONE_DIR NAMES build_system/tdl-config.cmake HINTS "${CMAKE_CURR
 find_path (TDL_INCLUDE_DIR NAMES tdl/version.h HINTS "${TDL_CLONE_DIR}/include")
 
 # extract version from tdl/version.h header
-file(STRINGS "${TDL_INCLUDE_DIR}/tdl/version.h" TDL_version.h REGEX "#define TDL_VERSION_(MAJOR|MINOR|PATCH)")
-string(REGEX REPLACE "#define TDL_VERSION_(MAJOR|MINOR|PATCH) " "" PACKAGE_VERSION "${TDL_VERION_h}")
+file(STRINGS "${TDL_INCLUDE_DIR}/tdl/version.h" TDL_VERSION_H REGEX "#define TDL_VERSION_(MAJOR|MINOR|PATCH)")
+string(REGEX REPLACE "#define TDL_VERSION_(MAJOR|MINOR|PATCH)[^0-9]+([0-9]+)" "\\2" PACKAGE_VERSION "${TDL_VERSION_H}")
 string(REGEX REPLACE ";" "." PACKAGE_VERSION "${PACKAGE_VERSION}")
 
 if(PACKAGE_VERSION VERSION_LESS PACKAGE_FIND_VERSION)
