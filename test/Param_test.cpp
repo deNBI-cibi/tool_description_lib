@@ -17,13 +17,13 @@ TEST(ParamEntry_listOfStrings,  ctor_and_copy_operator) {
   EXPECT_EQ(pe.name, "n");
   EXPECT_EQ(pe.description, "d");
   EXPECT_EQ(pe.value, "v");
-  EXPECT_EQ(pe.tags.count("advanced") == 1, true);
+  EXPECT_EQ(pe.tags.count("advanced")  ==  1, true);
 
   pe = tdl::Param::ParamEntry("n1", "v1", "d1");
   EXPECT_EQ(pe.name, "n1");
   EXPECT_EQ(pe.description, "d1");
   EXPECT_EQ(pe.value, "v1");
-  EXPECT_EQ(pe.tags.count("advanced") == 1, false);
+  EXPECT_EQ(pe.tags.count("advanced")  ==  1, false);
 }
 
 TEST(ParamEntry, isValid) {
@@ -75,21 +75,21 @@ TEST(ParamEntry, compare_operator) {
   tdl::Param::ParamEntry n1("n",  "d", "v", {"advanced"});
   tdl::Param::ParamEntry n2("n",  "d", "v", {"advanced"});
 
-  EXPECT_TRUE(n1 == n2);
+  EXPECT_TRUE(n1  ==  n2);
 
   n2.name = "name";
-  EXPECT_FALSE(n1 == n2);
+  EXPECT_FALSE(n1  ==  n2);
   n2 = n1;
 
   n2.value = "bla";
-  EXPECT_FALSE(n1 == n2);
+  EXPECT_FALSE(n1  ==  n2);
   n2 = n1;
 
   n2.description = "bla";
-  EXPECT_TRUE(n1 == n2);
+  EXPECT_TRUE(n1  ==  n2);
 
   n2.tags.clear();
-  EXPECT_TRUE(n1 == n2);
+  EXPECT_TRUE(n1  ==  n2);
 }
 
 
@@ -158,35 +158,35 @@ START_SECTION(([Param::ParamNode] bool operator==(const ParamNode& rhs) const))
   Param::ParamNode n1("n", "d");
   Param::ParamNode n2("n", "d");
 
-  TEST_EQUAL(n1==n2, true)
+  TEST_EQUAL(n1  ==  n2, true)
 
   n2.name = "name";
-  TEST_EQUAL(n1==n2, false)
+  TEST_EQUAL(n1  ==  n2, false)
   n2 = n1;
 
   n2.description = "bla";
-  TEST_EQUAL(n1==n2, true)
+  TEST_EQUAL(n1  ==  n2, true)
   n2 = n1;
 
   n2.nodes.resize(5);
-  TEST_EQUAL(n1==n2, false)
+  TEST_EQUAL(n1  ==  n2, false)
   n2 = n1;
 
   n2.entries.resize(5);
-  TEST_EQUAL(n1==n2, false)
+  TEST_EQUAL(n1  ==  n2, false)
   n2 = n1;
 
   n2.entries.push_back(Param::ParamEntry("a", "x", ""));
   n2.entries.push_back(Param::ParamEntry("b", "y", ""));
   n1.entries.push_back(Param::ParamEntry("b", "y", ""));
   n1.entries.push_back(Param::ParamEntry("a", "x", ""));
-  TEST_EQUAL(n1==n2, true)
+  TEST_EQUAL(n1  ==  n2, true)
 
   n2.nodes.push_back(Param::ParamNode("a", "x"));
   n2.nodes.push_back(Param::ParamNode("b", "y"));
   n1.nodes.push_back(Param::ParamNode("b", "y"));
   n1.nodes.push_back(Param::ParamNode("a", "x"));
-  TEST_EQUAL(n1==n2, true)
+  TEST_EQUAL(n1  ==  n2, true)
 END_SECTION
 
 START_SECTION(([Param::ParamNode] std::string suffix(const std::string &key) const ))
@@ -225,25 +225,25 @@ START_SECTION(([Param::ParamNode] Size size() const ))
 END_SECTION
 
 START_SECTION(([Param::ParamNode] EntryIterator findEntry(const std::string& name)))
-  TEST_EQUAL(pn.findEntry("A")==pn.entries.end(), true)
-  TEST_EQUAL(pn.findEntry("B")!=pn.entries.end(), true)
-  TEST_EQUAL(pn.findEntry("C")==pn.entries.end(), true)
-  TEST_EQUAL(pn.findEntry("D")==pn.entries.end(), true)
-  TEST_EQUAL(pn.findEntry("E")==pn.entries.end(), true)
-  TEST_EQUAL(pn.findEntry("F")==pn.entries.end(), true)
-  TEST_EQUAL(pn.findEntry("G")==pn.entries.end(), true)
-  TEST_EQUAL(pn.findEntry("H")==pn.entries.end(), true)
+  TEST_EQUAL(pn.findEntry("A") == pn.entries.end(), true)
+  TEST_EQUAL(pn.findEntry("B") != pn.entries.end(), true)
+  TEST_EQUAL(pn.findEntry("C") == pn.entries.end(), true)
+  TEST_EQUAL(pn.findEntry("D") == pn.entries.end(), true)
+  TEST_EQUAL(pn.findEntry("E") == pn.entries.end(), true)
+  TEST_EQUAL(pn.findEntry("F") == pn.entries.end(), true)
+  TEST_EQUAL(pn.findEntry("G") == pn.entries.end(), true)
+  TEST_EQUAL(pn.findEntry("H") == pn.entries.end(), true)
 END_SECTION
 
 START_SECTION(([Param::ParamNode] NodeIterator findNode(const std::string& name)))
-  TEST_EQUAL(pn.findNode("A")==pn.nodes.end(), true)
-  TEST_EQUAL(pn.findNode("B")!=pn.nodes.end(), true)
-  TEST_EQUAL(pn.findNode("C")!=pn.nodes.end(), true)
-  TEST_EQUAL(pn.findNode("D")==pn.nodes.end(), true)
-  TEST_EQUAL(pn.findNode("E")==pn.nodes.end(), true)
-  TEST_EQUAL(pn.findNode("F")==pn.nodes.end(), true)
-  TEST_EQUAL(pn.findNode("G")==pn.nodes.end(), true)
-  TEST_EQUAL(pn.findNode("H")==pn.nodes.end(), true)
+  TEST_EQUAL(pn.findNode("A") == pn.nodes.end(), true)
+  TEST_EQUAL(pn.findNode("B") != pn.nodes.end(), true)
+  TEST_EQUAL(pn.findNode("C") != pn.nodes.end(), true)
+  TEST_EQUAL(pn.findNode("D") == pn.nodes.end(), true)
+  TEST_EQUAL(pn.findNode("E") == pn.nodes.end(), true)
+  TEST_EQUAL(pn.findNode("F") == pn.nodes.end(), true)
+  TEST_EQUAL(pn.findNode("G") == pn.nodes.end(), true)
+  TEST_EQUAL(pn.findNode("H") == pn.nodes.end(), true)
 END_SECTION
 
 START_SECTION(([Param::ParamNode] ParamNode* findParentOf(const std::string &name)))
@@ -354,7 +354,7 @@ START_SECTION(([Param::ParamIterator] const Param::ParamEntry& operator*()))
   TEST_EQUAL((*it).name, "name")
   TEST_EQUAL((*it).value, "value");
   TEST_EQUAL((*it).description, "description")
-  TEST_EQUAL((*it).tags.count("advanced")==1, true)
+  TEST_EQUAL((*it).tags.count("advanced") == 1, true)
 END_SECTION
 
 START_SECTION(([Param::ParamIterator] const Param::ParamEntry* operator->()))
@@ -364,7 +364,7 @@ START_SECTION(([Param::ParamIterator] const Param::ParamEntry* operator->()))
   TEST_EQUAL(it->name, "name");
   TEST_EQUAL(it->value, "value");
   TEST_EQUAL(it->description, "description");
-  TEST_EQUAL(it->tags.count("advanced")==1, true);
+  TEST_EQUAL(it->tags.count("advanced") == 1, true);
 END_SECTION
 
 //complicated subtree
@@ -403,13 +403,13 @@ START_SECTION(([Param::ParamIterator] ParamIterator& operator++()))
   TEST_EQUAL(it->name, "name2");
   TEST_EQUAL(it->value, "value2");
   TEST_EQUAL(it->description, "description2");
-  TEST_EQUAL(it->tags.count("advanced")==1, false);
+  TEST_EQUAL(it->tags.count("advanced") == 1, false);
 
   ++it;
   TEST_EQUAL(it->name, "name3");
   TEST_EQUAL(it->value, "value3");
   TEST_EQUAL(it->description, "description3");
-  TEST_EQUAL(it->tags.count("advanced")==1, true);
+  TEST_EQUAL(it->tags.count("advanced") == 1, true);
 
   ++it;
 
@@ -425,37 +425,37 @@ START_SECTION(([Param::ParamIterator] ParamIterator& operator++()))
   TEST_EQUAL(it->name, "name");
   TEST_EQUAL(it->value, "value");
   TEST_EQUAL(it->description, "description");
-  TEST_EQUAL(it->tags.count("advanced")==1, true);
+  TEST_EQUAL(it->tags.count("advanced") == 1, true);
 
   ++it;
   TEST_EQUAL(it->name, "name2");
   TEST_EQUAL(it->value, "value2");
   TEST_EQUAL(it->description, "description2");
-  TEST_EQUAL(it->tags.count("advanced")==1, false);
+  TEST_EQUAL(it->tags.count("advanced") == 1, false);
 
   ++it;
   TEST_EQUAL(it->name, "name3");
   TEST_EQUAL(it->value, "value3");
   TEST_EQUAL(it->description, "description3");
-  TEST_EQUAL(it->tags.count("advanced")==1, true);
+  TEST_EQUAL(it->tags.count("advanced") == 1, true);
 
   ++it;
   TEST_EQUAL(it->name, "name4");
   TEST_EQUAL(it->value, "value");
   TEST_EQUAL(it->description, "description");
-  TEST_EQUAL(it->tags.count("advanced")==1, true);
+  TEST_EQUAL(it->tags.count("advanced") == 1, true);
 
   ++it;
   TEST_EQUAL(it->name, "name5");
   TEST_EQUAL(it->value, "value2");
   TEST_EQUAL(it->description, "description2");
-  TEST_EQUAL(it->tags.count("advanced")==1, false);
+  TEST_EQUAL(it->tags.count("advanced") == 1, false);
 
   ++it;
   TEST_EQUAL(it->name, "name6");
   TEST_EQUAL(it->value, "value3");
   TEST_EQUAL(it->description, "description3");
-  TEST_EQUAL(it->tags.count("advanced")==1, true);
+  TEST_EQUAL(it->tags.count("advanced") == 1, true);
 
   ++it;
 
@@ -492,11 +492,11 @@ START_SECTION(([Param::ParamIterator] ParamIterator operator++(int)))
   TEST_EQUAL(it->name, "name2");
   TEST_EQUAL(it->value, "value2");
   TEST_EQUAL(it->description, "description2");
-  TEST_EQUAL(it->tags.count("advanced")==1, false);
+  TEST_EQUAL(it->tags.count("advanced") == 1, false);
   TEST_EQUAL(it2->name, "name");
   TEST_EQUAL(it2->value, "value");
   TEST_EQUAL(it2->description, "description");
-  TEST_EQUAL(it2->tags.count("advanced")==1, true);
+  TEST_EQUAL(it2->tags.count("advanced") == 1, true);
 END_SECTION
 
 START_SECTION(([Param::ParamIterator] std::string getName() const))
@@ -518,60 +518,60 @@ END_SECTION
 
 START_SECTION(([Param::ParamIterator] bool operator==(const ParamIterator& rhs) const))
   Param::ParamIterator begin(root),  begin2(root),  end;
-  TEST_EQUAL(begin==end,  false)
-  TEST_EQUAL(begin==begin,  true)
-  TEST_EQUAL(begin==begin2,  true)
-  TEST_EQUAL(end==end,  true)
+  TEST_EQUAL(begin == end,  false)
+  TEST_EQUAL(begin == begin,  true)
+  TEST_EQUAL(begin == begin2,  true)
+  TEST_EQUAL(end == end,  true)
 
   ++begin;
-  TEST_EQUAL(begin==begin2,  false)
-  TEST_EQUAL(begin==end,  false)
-  TEST_EQUAL(begin2==end,  false)
+  TEST_EQUAL(begin == begin2,  false)
+  TEST_EQUAL(begin == end,  false)
+  TEST_EQUAL(begin2 == end,  false)
 
   ++begin2;
-  TEST_EQUAL(begin==begin2,  true)
-  TEST_EQUAL(begin==end,  false)
-  TEST_EQUAL(begin2==end,  false)
+  TEST_EQUAL(begin == begin2,  true)
+  TEST_EQUAL(begin == end,  false)
+  TEST_EQUAL(begin2 == end,  false)
 
   ++begin;
-  TEST_EQUAL(begin==begin2,  false)
-  TEST_EQUAL(begin==end,  false)
-  TEST_EQUAL(begin2==end,  false)
+  TEST_EQUAL(begin == begin2,  false)
+  TEST_EQUAL(begin == end,  false)
+  TEST_EQUAL(begin2 == end,  false)
 
   ++begin2;
-  TEST_EQUAL(begin==begin2,  true)
-  TEST_EQUAL(begin==end,  false)
-  TEST_EQUAL(begin2==end,  false)
+  TEST_EQUAL(begin == begin2,  true)
+  TEST_EQUAL(begin == end,  false)
+  TEST_EQUAL(begin2 == end,  false)
 
   ++begin;
-  TEST_EQUAL(begin==begin2,  false)
-  TEST_EQUAL(begin==end,  false)
-  TEST_EQUAL(begin2==end,  false)
+  TEST_EQUAL(begin == begin2,  false)
+  TEST_EQUAL(begin == end,  false)
+  TEST_EQUAL(begin2 == end,  false)
 
   ++begin2;
-  TEST_EQUAL(begin==begin2,  true)
-  TEST_EQUAL(begin==end,  false)
-  TEST_EQUAL(begin2==end,  false)
+  TEST_EQUAL(begin == begin2,  true)
+  TEST_EQUAL(begin == end,  false)
+  TEST_EQUAL(begin2 == end,  false)
 
   ++begin;
-  TEST_EQUAL(begin==begin2,  false)
-  TEST_EQUAL(begin==end,  true)
-  TEST_EQUAL(begin2==end,  false)
+  TEST_EQUAL(begin == begin2,  false)
+  TEST_EQUAL(begin == end,  true)
+  TEST_EQUAL(begin2 == end,  false)
 
   ++begin2;
-  TEST_EQUAL(begin==begin2,  true)
-  TEST_EQUAL(begin==end,  true)
-  TEST_EQUAL(begin2==end,  true)
+  TEST_EQUAL(begin == begin2,  true)
+  TEST_EQUAL(begin == end,  true)
+  TEST_EQUAL(begin2 == end,  true)
 END_SECTION
 
 START_SECTION(([Param::ParamIterator] bool operator!=(const ParamIterator& rhs) const))
   Param::ParamIterator begin(root),  begin2(root),  end;
-  TEST_EQUAL(begin==end,  false)
-  TEST_EQUAL(begin2==end,  false)
-  TEST_EQUAL(begin==begin2,  true)
-  TEST_EQUAL(begin==begin,  true)
-  TEST_EQUAL(begin2==begin2,  true)
-  TEST_EQUAL(end==end,  true)
+  TEST_EQUAL(begin == end,  false)
+  TEST_EQUAL(begin2 == end,  false)
+  TEST_EQUAL(begin == begin2,  true)
+  TEST_EQUAL(begin == begin,  true)
+  TEST_EQUAL(begin2 == begin2,  true)
+  TEST_EQUAL(end == end,  true)
 END_SECTION
 
 
@@ -929,7 +929,7 @@ START_SECTION((Param(const Param& rhs)))
   TEST_STRING_EQUAL(p2.getDescription("test2:int"),  "")
   TEST_EQUAL(p2.getSectionDescription("test"), "sectiondesc")
   TEST_EQUAL(p2.getTags("test:float").size(),  3)
-  TEST_EQUAL(p2.getTags("test:float") == ListUtils::create<std::string>("a, b, c"),  true)
+  TEST_EQUAL(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true)
 END_SECTION
 
 START_SECTION((Param& operator = (const Param& rhs)))
@@ -949,14 +949,14 @@ START_SECTION((Param& operator = (const Param& rhs)))
   TEST_STRING_EQUAL(p2.getDescription("test2:int"),  "")
   TEST_EQUAL(p2.getSectionDescription("test"), "sectiondesc")
   TEST_EQUAL(p2.getTags("test:float").size(),  3)
-  TEST_EQUAL(p2.getTags("test:float") == ListUtils::create<std::string>("a, b, c"),  true)
+  TEST_EQUAL(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true)
 END_SECTION
 
 START_SECTION((Param copy(const std::string &prefix,  bool remove_prefix=false) const))
   Param p2;
 
   p2 = p_src.copy("notthere:");
-  TEST_EQUAL((p2==Param()), true)
+  TEST_EQUAL((p2 == Param()), true)
 
   p2 = p_src.copy("test:");
 
@@ -1074,17 +1074,17 @@ START_SECTION((void removeAll(const std::string& prefix)))
 END_SECTION
 
 
-START_SECTION((bool operator == (const Param& rhs) const))
+START_SECTION((bool operator  ==  (const Param& rhs) const))
   Param p2(p_src);
-  TEST_EQUAL(p_src==p2,  true)
+  TEST_EQUAL(p_src == p2,  true)
   p2.setValue("test:float", 17.5f);
-  TEST_EQUAL(p_src==p2,  false)
+  TEST_EQUAL(p_src == p2,  false)
   p2 = p_src;
   p2.setValue("test:float3", 17.4f);
-  TEST_EQUAL(p_src==p2,  false)
+  TEST_EQUAL(p_src == p2,  false)
   p2 = p_src;
   p2.removeAll("test:float");
-  TEST_EQUAL(p_src==p2,  false)
+  TEST_EQUAL(p_src == p2,  false)
 
   //it should be independent of entry order
   Param p3, p4;
@@ -1092,7 +1092,7 @@ START_SECTION((bool operator == (const Param& rhs) const))
   p3.setValue("2", 2);
   p4.setValue("2", 2);
   p4.setValue("1", 1);
-  TEST_EQUAL(p3==p4,  true)
+  TEST_EQUAL(p3 == p4,  true)
 
   //it should be independent of node order
   Param p5, p6;
@@ -1100,7 +1100,7 @@ START_SECTION((bool operator == (const Param& rhs) const))
   p5.setValue("2:1", 1);
   p6.setValue("2:1", 1);
   p6.setValue("1:1", 1);
-  TEST_EQUAL(p5==p6,  true)
+  TEST_EQUAL(p5 == p6,  true)
 
 END_SECTION
 
@@ -1146,12 +1146,12 @@ START_SECTION((void setDefaults(const Param& defaults,  const std::string& prefi
   TEST_STRING_EQUAL(p2.getDescription("string2"), "string2");
   TEST_STRING_EQUAL(p2.getSectionDescription("PATH"), "PATHdesc");
 
-  TEST_EQUAL(p2.getValue("stringlist") == ListUtils::create<std::string>("r, o, c, k,s"),  true)
-  TEST_EQUAL(p2.getValue("intlist") == ListUtils::create<Int>("16, 9"),  true)
-  TEST_EQUAL(p2.getValue("doublelist") == ListUtils::create<double>("1.2, 5.55"),  true)
-  TEST_EQUAL(p2.getValue("stringlist2") == ListUtils::create<std::string>("d, e, f"),  true)
-  TEST_EQUAL(p2.getValue("intlist2") == ListUtils::create<Int>("11, 22, 33"),  true)
-  TEST_EQUAL(p2.getValue("doublelist2") == ListUtils::create<double>("11.22, 22.33"),  true)
+  TEST_EQUAL(p2.getValue("stringlist")  ==  ListUtils::create<std::string>("r, o, c, k,s"),  true)
+  TEST_EQUAL(p2.getValue("intlist")  ==  ListUtils::create<Int>("16, 9"),  true)
+  TEST_EQUAL(p2.getValue("doublelist")  ==  ListUtils::create<double>("1.2, 5.55"),  true)
+  TEST_EQUAL(p2.getValue("stringlist2")  ==  ListUtils::create<std::string>("d, e, f"),  true)
+  TEST_EQUAL(p2.getValue("intlist2")  ==  ListUtils::create<Int>("11, 22, 33"),  true)
+  TEST_EQUAL(p2.getValue("doublelist2")  ==  ListUtils::create<double>("11.22, 22.33"),  true)
 
 
 
@@ -1169,9 +1169,9 @@ START_SECTION((void setDefaults(const Param& defaults,  const std::string& prefi
   TEST_STRING_EQUAL(p2.getSectionDescription("PATH"), "PATHdesc");
   TEST_STRING_EQUAL(p2.getSectionDescription("PATH:PATH"), "PATHdesc");
 
-  TEST_EQUAL(p2.getValue("PATH:stringlist") == ListUtils::create<std::string>("d, a, v, i, d"),  true)
-  TEST_EQUAL(p2.getValue("PATH:intlist") == ListUtils::create<Int>("1, 2, 3"),  true)
-  TEST_EQUAL(p2.getValue("PATH:doublelist") == ListUtils::create<double>("1.2, 2.3"),  true)
+  TEST_EQUAL(p2.getValue("PATH:stringlist")  ==  ListUtils::create<std::string>("d, a, v, i, d"),  true)
+  TEST_EQUAL(p2.getValue("PATH:intlist")  ==  ListUtils::create<Int>("1, 2, 3"),  true)
+  TEST_EQUAL(p2.getValue("PATH:doublelist")  ==  ListUtils::create<double>("1.2, 2.3"),  true)
 
 END_SECTION
 
@@ -1232,14 +1232,14 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p3.setValue("test4:-b", "bv");
   p3.setValue("test4:-c", "cv");
   p3.setValue("test4:misc",std::vector<std::string>{"rv1", "rv2"});
-  TEST_EQUAL(p2==p3, true)
+  TEST_EQUAL(p2 == p3, true)
 
   Param p20, p30;
   p20.parseCommandLine(6, command_line2);
   p30.setValue("-a", "av");
   p30.setValue("-b", "");
   p30.setValue("-c", "cv");
-  TEST_EQUAL(p20==p30, true)
+  TEST_EQUAL(p20 == p30, true)
 
   Param p200, p300;
   p200.parseCommandLine(10, command_line4, "test4");
@@ -1247,7 +1247,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p300.setValue("test4:-b", "bv");
   p300.setValue("test4:-c", "cv");
   p300.setValue("test4:misc",std::vector<std::string>{"rv1", "rv2", "-1.0"});
-  TEST_EQUAL(p200==p300, true)
+  TEST_EQUAL(p200 == p300, true)
 
 END_SECTION
 
@@ -1290,7 +1290,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p3.setValue("b", "bv");
   p3.setValue("c", "cv");
   p3.setValue("misc_",std::vector<std::string>{"rv1", "rv2", "-1.0"});
-  TEST_EQUAL(p2==p3, true)
+  TEST_EQUAL(p2 == p3, true)
 
   Param p4, p5;
   p4.parseCommandLine(9, command_line, with_one, without, with_multiple, "misc_", "unknown_");
@@ -1298,7 +1298,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p5.setValue("b", "bv");
   p5.setValue("c", "cv");
   p5.setValue("misc_",std::vector<std::string>{"rv1", "rv2"});
-  TEST_EQUAL(p4==p5, true)
+  TEST_EQUAL(p4 == p5, true)
 
   with_one.clear();
   with_one["-a"]="a";
@@ -1310,7 +1310,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p50.setValue("b", "true");
   p50.setValue("misc__",std::vector<std::string>{"bv", "cv", "rv1", "rv2"});
   p50.setValue("unknown__",std::vector<std::string>{"-c"});
-  TEST_EQUAL(p40==p50, true)
+  TEST_EQUAL(p40 == p50, true)
   TEST_EQUAL(p40, p50)
   //"executable -a av -b -c cv"
   Param p400, p500;
@@ -1319,7 +1319,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p500.setValue("b", "true");
   p500.setValue("misc__",std::vector<std::string>{"cv"});
   p500.setValue("unknown__",std::vector<std::string>{"-c"});
-  TEST_EQUAL(p400==p500, true)
+  TEST_EQUAL(p400 == p500, true)
 
   //"executable -a -b -c cv rv1"
   Param p4000, p5000;
@@ -1328,7 +1328,7 @@ START_SECTION((void parseCommandLine(const int argc,  const char **argv,  const 
   p5000.setValue("b", "true");
   p5000.setValue("misc__",std::vector<std::string>{"cv", "rv1"});
   p5000.setValue("unknown__",std::vector<std::string>{"-c"});
-  TEST_EQUAL(p4000==p5000, true)
+  TEST_EQUAL(p4000 == p5000, true)
 
   // list options:
   Param p6, p7;
@@ -1465,7 +1465,7 @@ START_SECTION((ParamIterator findFirst(const std::string &leaf) const ))
 
   p.remove("b:a:leaf");
   pI = p.findFirst("leaf");
-  TEST_EQUAL(pI == p.end(),  true)
+  TEST_EQUAL(pI  ==  p.end(),  true)
 }
 END_SECTION
 
@@ -1487,7 +1487,7 @@ START_SECTION((ParamIterator findNext(const std::string &leaf,  const ParamItera
   TEST_EQUAL(pI.getName(),  "b:a:leaf")
 
   pI = p.findNext("leaf",  pI);
-  TEST_EQUAL(pI == p.end(),  true)
+  TEST_EQUAL(pI  ==  p.end(),  true)
 }
 END_SECTION
 
@@ -1523,7 +1523,7 @@ START_SECTION((ParamIterator end() const))
   TEST_EQUAL((UInt)it->value,  7)
 
   ++it;
-  TEST_EQUAL(it==p.end(), true)
+  TEST_EQUAL(it == p.end(), true)
 END_SECTION
 
 START_SECTION((void setValidStrings(const std::string &key,  const std::vector< std::string > &strings)))
@@ -1534,7 +1534,7 @@ START_SECTION((void setValidStrings(const std::string &key,  const std::vector< 
   d.setValue("dummy", 5);
 
   d.setValidStrings("ok",strings);
-  TEST_EQUAL(d.getEntry("ok").valid_strings==strings,  true);
+  TEST_EQUAL(d.getEntry("ok").valid_strings == strings,  true);
   TEST_EXCEPTION(Exception::ElementNotFound,  d.setValidStrings("dummy",strings))
   strings.push_back("sdf,sdfd");
   TEST_EXCEPTION(Exception::InvalidParameter,  d.setValidStrings("ok",strings))
@@ -1596,14 +1596,14 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     p.setValue("double", 47.11, "double");
 
     p.checkDefaults("Test", d, "");
-    TEST_EQUAL(os.str()=="", false)
+    TEST_EQUAL(os.str() == "", false)
 
     d.setValue("int", 5, "int");
     d.setValue("double", 47.11, "double");
     os.str("");
   os.clear();
     p.checkDefaults("Test", d, "");
-    TEST_EQUAL(os.str()=="", false)
+    TEST_EQUAL(os.str() == "", false)
 
     p.clear();
     p.setValue("pref:string",std::string("bla"), "pref:string");
@@ -1612,12 +1612,12 @@ START_SECTION((void checkDefaults(const std::string &name,  const Param &default
     os.str("");
   os.clear();
     p.checkDefaults("Test", d, "pref");
-    TEST_EQUAL(os.str()=="", false)
+    TEST_EQUAL(os.str() == "", false)
 
     os.str("");
   os.clear();
     p.checkDefaults("Test2", d, "pref:");
-    TEST_EQUAL(os.str()=="", false)
+    TEST_EQUAL(os.str() == "", false)
 
     //check string restrictions
     vector<std::string> s_rest = {"a", "b", "c"};
