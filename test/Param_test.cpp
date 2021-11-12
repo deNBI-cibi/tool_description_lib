@@ -905,7 +905,7 @@ TEST_F(ParamF1, Param) {
   EXPECT_EQ(p2.getDescription("test2:int"),  "");
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
   EXPECT_EQ(p2.getTags("test:float").size(),  3);
-//  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true);
+  EXPECT_EQ(p2.getTags("test:float"), (std::vector<std::string>{"a", "b", "c"}));
 }
 
 TEST_F(ParamF1, assignoperator) {
@@ -925,7 +925,7 @@ TEST_F(ParamF1, assignoperator) {
   EXPECT_EQ(p2.getDescription("test2:int"),  "");
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
   EXPECT_EQ(p2.getTags("test:float").size(),  3);
-//  EXPECT_EQ(p2.getTags("test:float")  ==  ListUtils::create<std::string>("a, b, c"),  true);
+  EXPECT_EQ(p2.getTags("test:float"), (std::vector<std::string>{"a", "b", "c"}));
 }
 
 TEST_F(ParamF1, copy) {
@@ -1090,10 +1090,10 @@ TEST_F(ParamF1, setDefaults) {
 
   defaults.setValue("stringlist",std::vector<std::string>{"a", "b", "c"}, "stringlist");
   defaults.setValue("stringlist2",std::vector<std::string>{"d", "e", "f"}, "stringlist2");
-//  defaults.setValue("intlist", ListUtils::create<int>("1, 2, 3"), "intlist");
-//  defaults.setValue("intlist2", ListUtils::create<int>("11, 22, 33"), "intlist2");
-//  defaults.setValue("doublelist", ListUtils::create<double>("1.2, 2.3"), "doublelist");
-//  defaults.setValue("doublelist2", ListUtils::create<double>("11.22, 22.33"), "doublelist2");
+  defaults.setValue("intlist", std::vector<int>{1, 2, 3}, "intlist");
+  defaults.setValue("intlist2", std::vector<int>{11, 22, 33}, "intlist2");
+  defaults.setValue("doublelist", std::vector<double>{1.2, 2.3}, "doublelist");
+  defaults.setValue("doublelist2", std::vector<double>{11.22, 22.33}, "doublelist2");
   defaults.setSectionDescription("PATH", "PATHdesc");
   tdl::Param p2;
   p2.setValue("PATH:float", -1.0f, "PATH:float");
@@ -1103,18 +1103,16 @@ TEST_F(ParamF1, setDefaults) {
 
   p2.setValue("PATH:stringlist",std::vector<std::string>{"d", "a", "v", "i", "d"}, "PATH:stringlist");
   p2.setValue("stringlist",std::vector<std::string>{"r", "o", "c", "k", "s"}, "stringlist");
-//  p2.setValue("PATH:intlist2", ListUtils::create<int>("14, 9"), "PATH:intlist2");
-//  p2.setValue("intlist",  ListUtils::create<int>("16, 9"), "intlist");
-//  p2.setValue("PATH:doublelist2", ListUtils::create<double>("6.66, 6.16"), "PATH:doublelist2");
-//  p2.setValue("doublelist", ListUtils::create<double>("1.2, 5.55"), "doublelist");
+  p2.setValue("PATH:intlist2", std::vector<int>{14, 9}, "PATH:intlist2");
+  p2.setValue("intlist",  std::vector<int>{16, 9}, "intlist");
+  p2.setValue("PATH:doublelist2", std::vector<double>{6.66, 6.16}, "PATH:doublelist2");
+  p2.setValue("doublelist", std::vector<double>{1.2, 5.55}, "doublelist");
 
-//  EXPECT_EQ(p2.size(), 10); Fails because ListUtils is missing
-EXPECT_EQ(p2.size(), 6);
+  EXPECT_EQ(p2.size(), 10);
 
 
   p2.setDefaults(defaults);
-//  EXPECT_EQ(p2.size(), 16);  Fails because ListUtils is missing
-EXPECT_EQ(p2.size(), 10);
+  EXPECT_EQ(p2.size(), 16);
   EXPECT_FLOAT_EQ(float(p2.getValue("float")), -2.0);
   EXPECT_EQ(p2.getDescription("float"), "float");
   EXPECT_FLOAT_EQ(float(p2.getValue("float2")), 2.0);
@@ -1125,19 +1123,18 @@ EXPECT_EQ(p2.size(), 10);
   EXPECT_EQ(p2.getDescription("string2"), "string2");
   EXPECT_EQ(p2.getSectionDescription("PATH"), "PATHdesc");
 
-//  EXPECT_EQ(p2.getValue("stringlist")  ==  ListUtils::create<std::string>("r, o, c, k,s"),  true);
-//  EXPECT_EQ(p2.getValue("intlist")  ==  ListUtils::create<int>("16, 9"),  true);
-//  EXPECT_EQ(p2.getValue("doublelist")  ==  ListUtils::create<double>("1.2, 5.55"),  true);
-//  EXPECT_EQ(p2.getValue("stringlist2")  ==  ListUtils::create<std::string>("d, e, f"),  true);
-//  EXPECT_EQ(p2.getValue("intlist2")  ==  ListUtils::create<int>("11, 22, 33"),  true);
-//  EXPECT_EQ(p2.getValue("doublelist2")  ==  ListUtils::create<double>("11.22, 22.33"),  true);
+  EXPECT_EQ(p2.getValue("stringlist"), (std::vector<std::string>{"r", "o", "c", "k", "s"}));
+  EXPECT_EQ(p2.getValue("intlist"),  (std::vector<int>{16, 9}));
+  EXPECT_EQ(p2.getValue("doublelist"), (std::vector<double>{1.2, 5.55}));
+  EXPECT_EQ(p2.getValue("stringlist2"), (std::vector<std::string>{"d", "e", "f"}));
+  EXPECT_EQ(p2.getValue("intlist2"), (std::vector<int>{11, 22, 33}));
+  EXPECT_EQ(p2.getValue("doublelist2"), (std::vector<double>{11.22, 22.33}));
 
 
 
   p2.setDefaults(defaults, "PATH");
 
-//  EXPECT_EQ(p2.size(), 22); Fails because ListUtils is missing
-    EXPECT_EQ(p2.size(), 14);
+  EXPECT_EQ(p2.size(), 22);
   EXPECT_FLOAT_EQ(float(p2.getValue("PATH:float")), -1.0);
   EXPECT_EQ(p2.getDescription("PATH:float"), "PATH:float");
   EXPECT_FLOAT_EQ(float(p2.getValue("PATH:float2")), 2.0);
@@ -1149,9 +1146,9 @@ EXPECT_EQ(p2.size(), 10);
   EXPECT_EQ(p2.getSectionDescription("PATH"), "PATHdesc");
   EXPECT_EQ(p2.getSectionDescription("PATH:PATH"), "PATHdesc");
 
-//  EXPECT_EQ(p2.getValue("PATH:stringlist")  ==  ListUtils::create<std::string>("d, a, v, i, d"),  true);
-//  EXPECT_EQ(p2.getValue("PATH:intlist")  ==  ListUtils::create<int>("1, 2, 3"),  true);
-//  EXPECT_EQ(p2.getValue("PATH:doublelist")  ==  ListUtils::create<double>("1.2, 2.3"),  true);
+  EXPECT_EQ(p2.getValue("PATH:stringlist"), (std::vector<std::string>{"d", "a", "v", "i", "d"}));
+  EXPECT_EQ(p2.getValue("PATH:intlist"), (std::vector<int>{1, 2, 3}));
+  EXPECT_EQ(p2.getValue("PATH:doublelist"), (std::vector<double>{1.2, 2.3}));
 
 }
 
@@ -1242,7 +1239,7 @@ TEST_F(ParamF2, parseCommandLine) {
   p3.setValue("test4:-a", "av");
   p3.setValue("test4:-b", "bv");
   p3.setValue("test4:-c", "cv");
-  p3.setValue("test4:misc",std::vector<std::string>{"rv1", "rv2"});
+  p3.setValue("test4:misc", std::vector<std::string>{"rv1", "rv2"});
   EXPECT_EQ(p2 == p3, true);
 
   tdl::Param p20, p30;
@@ -1257,7 +1254,7 @@ TEST_F(ParamF2, parseCommandLine) {
   p300.setValue("test4:-a", "-1.0");
   p300.setValue("test4:-b", "bv");
   p300.setValue("test4:-c", "cv");
-  p300.setValue("test4:misc",std::vector<std::string>{"rv1", "rv2", "-1.0"});
+  p300.setValue("test4:misc", std::vector<std::string>{"rv1", "rv2", "-1.0"});
   EXPECT_EQ(p200 == p300, true);
 
 }
@@ -1280,7 +1277,7 @@ TEST_F(ParamF2, parseCommandLineMulti) {
   p3.setValue("a", "-1.0");
   p3.setValue("b", "bv");
   p3.setValue("c", "cv");
-  p3.setValue("misc_",std::vector<std::string>{"rv1", "rv2", "-1.0"});
+  p3.setValue("misc_", std::vector<std::string>{"rv1", "rv2", "-1.0"});
   EXPECT_EQ(p2 == p3, true);
 
   tdl::Param p4, p5;
@@ -1288,7 +1285,7 @@ TEST_F(ParamF2, parseCommandLineMulti) {
   p5.setValue("a", "av");
   p5.setValue("b", "bv");
   p5.setValue("c", "cv");
-  p5.setValue("misc_",std::vector<std::string>{"rv1", "rv2"});
+  p5.setValue("misc_", std::vector<std::string>{"rv1", "rv2"});
   EXPECT_EQ(p4 == p5, true);
 
   with_one.clear();
@@ -1347,7 +1344,7 @@ TEST_F(ParamF2, update) {
 
   common.setValue("stringlist",std::vector<std::string>{"a", "b", "c"}, "stringlist");
   common.setValue("stringlist2",std::vector<std::string>{"d", "e", "f"}, "stringlist2");
-//  common.setValue("intlist", ListUtils::create<Int>("1, 2, 3"), "intlist");
+  common.setValue("intlist", std::vector<int>{1, 2, 3}, "intlist");
 
   // copy and alter
   tdl::Param old = common;
@@ -1357,7 +1354,7 @@ TEST_F(ParamF2, update) {
   old.setValue("some:1:type", "unlabeled", "type");
   old.setValue("some:type", "unlabeled", "type");
   old.setValue("stringlist2",std::vector<std::string>{"d", "e", "f", "altered"}, "stringlist2"); // change some values,  we expect them to show up after update()
-//  old.setValue("intlist", ListUtils::create<Int>("3"), "intlist");
+  old.setValue("intlist", std::vector<int>{3}, "intlist");
 
   tdl::Param defaults = common;
   defaults.setValue("old_type", 3, "old_type has evolved from string to int"); // as type has changed,  this value should be kept
@@ -1368,7 +1365,7 @@ TEST_F(ParamF2, update) {
 
   tdl::Param expected = defaults;
   expected.setValue("stringlist2",std::vector<std::string>{"d", "e", "f", "altered"}, "stringlist2"); // change some values,  we expect them to show up after update()
-//  expected.setValue("intlist", ListUtils::create<Int>("3"), "intlist");
+  expected.setValue("intlist", std::vector<int>{3}, "intlist");
   expected.setValue("some:type", "unlabeled", "type");
 
   // update()
@@ -1675,12 +1672,12 @@ TEST_F(ParamF3, checkDefaults) {
 
     //check list restrictions
     std::vector<std::string> s_rest1 = {"a", "b", "c"};
-    d.setValue("stringlist",std::vector<std::string>{"aaa", "abc", "cab"}, "desc");
+    d.setValue("stringlist", std::vector<std::string>{"aaa", "abc", "cab"}, "desc");
     d.setValidStrings("stringlist",  s_rest);
     p.clear();
-    p.setValue("stringlist",std::vector<std::string>{"a", "c"});
+    p.setValue("stringlist", std::vector<std::string>{"a", "c"});
     p.checkDefaults("Param_test", d, "");
-    p.setValue("stringlist",std::vector<std::string>{"aa", "dd", "cc"});
+    p.setValue("stringlist", std::vector<std::string>{"aa", "dd", "cc"});
     //EXPECT_THROW(p.checkDefaults("Param_test", d, ""), Exception::InvalidParameter);
 
 
