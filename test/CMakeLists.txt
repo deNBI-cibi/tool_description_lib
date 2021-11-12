@@ -19,3 +19,7 @@ include (add_tdl_test)
 add_tdl_test (ParamValue_test.cpp)
 add_tdl_test (Param_test.cpp)
 add_tdl_test (ParamCTDFile_test.cpp)
+
+add_executable (test_multiple_definition multiple_definition01_test.cpp multiple_definition02_test.cpp)
+target_link_libraries (test_multiple_definition tdl::tdl "gtest_main" "gtest")
+add_test (NAME test_multiple_definition COMMAND test_multiple_definition)
