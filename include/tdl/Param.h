@@ -559,7 +559,7 @@ namespace tdl
 
   //********************************* ParamEntry **************************************
 
-  Param::ParamEntry::ParamEntry(const std::string& n, const ParamValue& v, const std::string& d, const std::vector<std::string>& t) :
+  inline Param::ParamEntry::ParamEntry(const std::string& n, const ParamValue& v, const std::string& d, const std::vector<std::string>& t) :
     name(n),
     description(d),
     value(v),
@@ -582,8 +582,7 @@ namespace tdl
     }
   }
 
-
-  bool Param::ParamEntry::isValid(std::string& message) const
+  inline bool Param::ParamEntry::isValid(std::string& message) const
   {
     if (value.valueType() == ParamValue::STRING_VALUE)
     {
@@ -692,13 +691,13 @@ namespace tdl
     return true;
   }
 
-  bool Param::ParamEntry::operator==(const ParamEntry& rhs) const
+  inline bool Param::ParamEntry::operator==(const ParamEntry& rhs) const
   {
     return name == rhs.name && value == rhs.value;
   }
 
   //********************************* ParamNode **************************************
-  Param::ParamNode::ParamNode(const std::string& n, const std::string& d) :
+  inline Param::ParamNode::ParamNode(const std::string& n, const std::string& d) :
     name(n),
     description(d),
     entries(),
@@ -710,7 +709,7 @@ namespace tdl
       }
   }
 
-  bool Param::ParamNode::operator==(const ParamNode& rhs) const
+  inline bool Param::ParamNode::operator==(const ParamNode& rhs) const
   {
     if (name != rhs.name || entries.size() != rhs.entries.size() || nodes.size() != rhs.nodes.size())
     {
@@ -735,7 +734,7 @@ namespace tdl
     return true;
   }
 
-  Param::ParamNode::EntryIterator Param::ParamNode::findEntry(const std::string& local_name)
+  inline Param::ParamNode::EntryIterator Param::ParamNode::findEntry(const std::string& local_name)
   {
     for (EntryIterator it = entries.begin(); it != entries.end(); ++it)
     {
@@ -747,7 +746,7 @@ namespace tdl
     return entries.end();
   }
 
-  Param::ParamNode::NodeIterator Param::ParamNode::findNode(const std::string& local_name)
+  inline Param::ParamNode::NodeIterator Param::ParamNode::findNode(const std::string& local_name)
   {
     for (NodeIterator it = nodes.begin(); it != nodes.end(); ++it)
     {
@@ -759,7 +758,7 @@ namespace tdl
     return nodes.end();
   }
 
-  Param::ParamNode* Param::ParamNode::findParentOf(const std::string& local_name)
+  inline Param::ParamNode* Param::ParamNode::findParentOf(const std::string& local_name)
   {
     //cout << "findParentOf nodename: " << this->name << " - nodes: " << this->nodes.size() << " - find: "<< name << std::endl;
     if (local_name.find(':') != std::string::npos) //several subnodes to browse through
@@ -799,7 +798,7 @@ namespace tdl
     }
   }
 
-  Param::ParamEntry* Param::ParamNode::findEntryRecursive(const std::string& local_name)
+  inline Param::ParamEntry* Param::ParamNode::findEntryRecursive(const std::string& local_name)
   {
     ParamNode* parent = findParentOf(local_name);
     if (parent == nullptr)
@@ -816,7 +815,7 @@ namespace tdl
     return &(*it);
   }
 
-  void Param::ParamNode::insert(const ParamNode& node, const std::string& prefix)
+  inline void Param::ParamNode::insert(const ParamNode& node, const std::string& prefix)
   {
     //std::cerr << "INSERT NODE  " << node.name << " (" << prefix << ")" << std::endl;
     std::string prefix2 = prefix + node.name;
@@ -867,7 +866,7 @@ namespace tdl
     }
   }
 
-  void Param::ParamNode::insert(const ParamEntry& entry, const std::string& prefix)
+  inline void Param::ParamNode::insert(const ParamEntry& entry, const std::string& prefix)
   {
     //std::cerr << "INSERT ENTRY " << entry.name << " (" << prefix << ")" << std::endl;
     std::string prefix2 = prefix + entry.name;
@@ -916,7 +915,7 @@ namespace tdl
     }
   }
 
-  size_t Param::ParamNode::size() const
+  inline size_t Param::ParamNode::size() const
   {
     size_t subnode_size = 0;
     for (std::vector<ParamNode>::const_iterator it = nodes.begin(); it != nodes.end(); ++it)
@@ -926,7 +925,7 @@ namespace tdl
     return entries.size() + subnode_size;
   }
 
-  std::string Param::ParamNode::suffix(const std::string& key) const
+  inline std::string Param::ParamNode::suffix(const std::string& key) const
   {
     size_t pos = key.rfind(':');
     if (pos != std::string::npos)
@@ -938,24 +937,24 @@ namespace tdl
 
   //********************************* Param **************************************
 
-  Param::Param(const ParamNode& node) :
+  inline Param::Param(const ParamNode& node) :
     root_(node)
   {
     root_.name = "ROOT";
     root_.description = "";
   }
 
-  bool Param::operator==(const Param& rhs) const
+  inline bool Param::operator==(const Param& rhs) const
   {
     return root_ == rhs.root_;
   }
 
-  void Param::setValue(const std::string& key, const ParamValue& value, const std::string& description, const std::vector<std::string>& tags)
+  inline void Param::setValue(const std::string& key, const ParamValue& value, const std::string& description, const std::vector<std::string>& tags)
   {
     root_.insert(ParamEntry("", value, description, tags), key);
   }
 
-  void Param::setValidStrings(const std::string& key, const std::vector<std::string>& strings)
+  inline void Param::setValidStrings(const std::string& key, const std::vector<std::string>& strings)
   {
     ParamEntry& entry = getEntry_(key);
     //check if correct parameter type
@@ -982,7 +981,7 @@ namespace tdl
     entry.valid_strings = strings;
   }
 
-  void Param::setMinInt(const std::string& key, int min)
+  inline void Param::setMinInt(const std::string& key, int min)
   {
     ParamEntry& entry = getEntry_(key);
     if (entry.value.valueType() != ParamValue::INT_VALUE && entry.value.valueType() != ParamValue::INT_LIST)
@@ -996,7 +995,7 @@ namespace tdl
     entry.min_int = min;
   }
 
-  void Param::setMaxInt(const std::string& key, int max)
+  inline void Param::setMaxInt(const std::string& key, int max)
   {
     ParamEntry& entry = getEntry_(key);
     if (entry.value.valueType() != ParamValue::INT_VALUE && entry.value.valueType() != ParamValue::INT_LIST)
@@ -1010,7 +1009,7 @@ namespace tdl
     entry.max_int = max;
   }
 
-  void Param::setMinFloat(const std::string& key, double min)
+  inline void Param::setMinFloat(const std::string& key, double min)
   {
     ParamEntry& entry = getEntry_(key);
     if (entry.value.valueType() != ParamValue::DOUBLE_VALUE && entry.value.valueType() != ParamValue::DOUBLE_LIST)
@@ -1024,7 +1023,7 @@ namespace tdl
     entry.min_float = min;
   }
 
-  void Param::setMaxFloat(const std::string& key, double max)
+  inline void Param::setMaxFloat(const std::string& key, double max)
   {
     ParamEntry& entry = getEntry_(key);
     if (entry.value.valueType() != ParamValue::DOUBLE_VALUE && entry.value.valueType() != ParamValue::DOUBLE_LIST)
@@ -1038,12 +1037,12 @@ namespace tdl
     entry.max_float = max;
   }
 
-  const ParamValue& Param::getValue(const std::string& key) const
+  inline const ParamValue& Param::getValue(const std::string& key) const
   {
     return getEntry_(key).value;
   }
 
-  const std::string& Param::getSectionDescription(const std::string& key) const
+  inline const std::string& Param::getSectionDescription(const std::string& key) const
   {
     //This variable is used instead of String::EMPTY as the method is used in
     //static initialization and thus cannot rely on String::EMPTY been initialized.
@@ -1064,7 +1063,7 @@ namespace tdl
     return it->description;
   }
 
-  void Param::insert(const std::string& prefix, const Param& param)
+  inline void Param::insert(const std::string& prefix, const Param& param)
   {
     //std::cerr << "INSERT PARAM (" << prefix << ")" << std::endl;
     for (Param::ParamNode::NodeIterator it = param.root_.nodes.begin(); it != param.root_.nodes.end(); ++it)
@@ -1077,7 +1076,7 @@ namespace tdl
     }
   }
 
-  void Param::setDefaults(const Param& defaults, const std::string& prefix, bool showMessage)
+  inline void Param::setDefaults(const Param& defaults, const std::string& prefix, bool showMessage)
   {
     std::string prefix2 = prefix;
     if (prefix2 != "")
@@ -1147,7 +1146,7 @@ namespace tdl
     }
   }
 
-  void Param::remove(const std::string& key)
+  inline void Param::remove(const std::string& key)
   {
     std::string keyname = key;
     if (!key.empty() && key.back() == ':') // delete section
@@ -1190,7 +1189,7 @@ namespace tdl
     }
   }
 
-  void Param::removeAll(const std::string& prefix)
+  inline void Param::removeAll(const std::string& prefix)
   {
     if (!prefix.empty() && prefix.back() == ':')//we have to delete one node only (and its subnodes)
     {
@@ -1249,7 +1248,7 @@ namespace tdl
     }
   }
 
-  Param Param::copySubset(const Param& subset) const
+  inline Param Param::copySubset(const Param& subset) const
   {
     ParamNode out("ROOT", "");
 
@@ -1281,7 +1280,7 @@ namespace tdl
     return Param(out);
   }
 
-  Param Param::copy(const std::string& prefix, bool remove_prefix) const
+  inline Param Param::copy(const std::string& prefix, bool remove_prefix) const
   {
     ParamNode out("ROOT", "");
 
@@ -1342,7 +1341,7 @@ namespace tdl
     return Param(out);
   }
 
-  void Param::parseCommandLine(const int argc, const char** argv, const std::string& prefix)
+  inline void Param::parseCommandLine(const int argc, const char** argv, const std::string& prefix)
   {
     //determine prefix
     std::string prefix2 = prefix;
@@ -1413,7 +1412,7 @@ namespace tdl
     }
   }
 
-  void Param::parseCommandLine(const int argc, const char** argv, const std::map<std::string, std::string>& options_with_one_argument, const std::map<std::string, std::string>& options_without_argument, const std::map<std::string, std::string>& options_with_multiple_argument, const std::string& misc, const std::string& unknown)
+  inline void Param::parseCommandLine(const int argc, const char** argv, const std::map<std::string, std::string>& options_with_one_argument, const std::map<std::string, std::string>& options_without_argument, const std::map<std::string, std::string>& options_with_multiple_argument, const std::string& misc, const std::string& unknown)
   {
     //determine misc key
     std::string misc_key = misc;
@@ -1531,7 +1530,7 @@ namespace tdl
     }
   }
 
-  std::ostream& operator<<(std::ostream& os, const Param& param)
+  inline std::ostream& operator<<(std::ostream& os, const Param& param)
   {
     for (Param::ParamIterator it = param.begin(); it != param.end(); ++it)
     {
@@ -1550,22 +1549,22 @@ namespace tdl
     return os;
   }
 
-  size_t Param::size() const
+  inline size_t Param::size() const
   {
     return root_.size();
   }
 
-  bool Param::empty() const
+  inline bool Param::empty() const
   {
     return size() == 0;
   }
 
-  void Param::clear()
+  inline void Param::clear()
   {
     root_ = ParamNode("ROOT", "");
   }
 
-  void Param::checkDefaults(const std::string& name, const Param& defaults, const std::string& prefix) const
+  inline void Param::checkDefaults(const std::string& name, const Param& defaults, const std::string& prefix) const
   {
     //Extract right parameters
     std::string prefix2 = prefix;
@@ -1678,7 +1677,7 @@ namespace tdl
     }
   }
 
-  Param::ParamIterator Param::findFirst(const std::string& leaf) const
+  inline Param::ParamIterator Param::findFirst(const std::string& leaf) const
   {
     for (Param::ParamIterator it = this->begin(); it != this->end(); ++it)
     {
@@ -1692,7 +1691,7 @@ namespace tdl
     return this->end();
   }
 
-  Param::ParamIterator Param::findNext(const std::string& leaf, const ParamIterator& start_leaf) const
+  inline Param::ParamIterator Param::findNext(const std::string& leaf, const ParamIterator& start_leaf) const
   {
     // start at NEXT entry
     Param::ParamIterator it = start_leaf;
@@ -1710,12 +1709,12 @@ namespace tdl
     return this->end();
   }
 
-  bool Param::update(const Param& p_outdated, const bool add_unknown)
+  inline bool Param::update(const Param& p_outdated, const bool add_unknown)
   {
     return update(p_outdated, add_unknown, TDL_LOGSTREAM_WARN);
   }
 
-  bool Param::update(const Param& p_outdated, const bool add_unknown, TDL_LOGSTREAM_TYPE& stream)
+  inline bool Param::update(const Param& p_outdated, const bool add_unknown, TDL_LOGSTREAM_TYPE& stream)
   {
     bool fail_on_invalid_values = false;
     bool fail_on_unknown_parameters = false;
@@ -1723,7 +1722,7 @@ namespace tdl
   }
 
 
-  bool Param::update(const Param& p_outdated, bool verbose, const bool add_unknown, bool fail_on_invalid_values, bool fail_on_unknown_parameters, TDL_LOGSTREAM_TYPE& stream)
+  inline bool Param::update(const Param& p_outdated, bool verbose, const bool add_unknown, bool fail_on_invalid_values, bool fail_on_unknown_parameters, TDL_LOGSTREAM_TYPE& stream)
   {
     bool is_update_success(true);
     // augment
@@ -1909,7 +1908,7 @@ OPENMS_THREAD_CRITICAL(oms_log)
     return is_update_success;
   }
 
-  void Param::merge(const tdl::Param& toMerge)
+  inline void Param::merge(const tdl::Param& toMerge)
   {
     // keep track of the path inside the param tree
     std::string pathname;
@@ -1960,7 +1959,7 @@ OPENMS_THREAD_CRITICAL(oms_log)
     }
   }
 
-  void Param::setSectionDescription(const std::string& key, const std::string& description)
+  inline void Param::setSectionDescription(const std::string& key, const std::string& description)
   {
     ParamNode* node = root_.findParentOf(key);
     if (node == nullptr)
@@ -1984,22 +1983,22 @@ OPENMS_THREAD_CRITICAL(oms_log)
     it->description = description;
   }
 
-  void Param::addSection(const std::string& key, const std::string& description)
+  inline void Param::addSection(const std::string& key, const std::string& description)
   {
     root_.insert(ParamNode("",description),key);
   }
 
-  Param::ParamIterator Param::begin() const
+  inline Param::ParamIterator Param::begin() const
   {
     return ParamIterator(root_);
   }
 
-  Param::ParamIterator Param::end() const
+  inline Param::ParamIterator Param::end() const
   {
     return ParamIterator();
   }
 
-  Param::ParamIterator::ParamIterator(const Param::ParamNode& root) :
+  inline Param::ParamIterator::ParamIterator(const Param::ParamNode& root) :
     root_(&root),
     current_(-1),
     stack_(),
@@ -2017,24 +2016,24 @@ OPENMS_THREAD_CRITICAL(oms_log)
     operator++();
   }
 
-  const Param::ParamEntry& Param::ParamIterator::operator*()
+  inline const Param::ParamEntry& Param::ParamIterator::operator*()
   {
     return stack_.back()->entries[current_];
   }
 
-  const Param::ParamEntry* Param::ParamIterator::operator->()
+  inline const Param::ParamEntry* Param::ParamIterator::operator->()
   {
     return &(stack_.back()->entries[current_]);
   }
 
-  Param::ParamIterator Param::ParamIterator::operator++(int)
+  inline Param::ParamIterator Param::ParamIterator::operator++(int)
   {
     ParamIterator tmp(*this);
     ++(*this);
     return tmp;
   }
 
-  Param::ParamIterator& Param::ParamIterator::operator++()
+  inline Param::ParamIterator& Param::ParamIterator::operator++()
   {
     if (root_ == nullptr)
     {
@@ -2105,17 +2104,17 @@ OPENMS_THREAD_CRITICAL(oms_log)
     }
   }
 
-  bool Param::ParamIterator::operator==(const ParamIterator& rhs) const
+  inline bool Param::ParamIterator::operator==(const ParamIterator& rhs) const
   {
     return (root_ == nullptr && rhs.root_ == nullptr) || (stack_ == rhs.stack_ && current_ == rhs.current_);
   }
 
-  bool Param::ParamIterator::operator!=(const ParamIterator& rhs) const
+  inline bool Param::ParamIterator::operator!=(const ParamIterator& rhs) const
   {
     return !operator==(rhs);
   }
 
-  std::string Param::ParamIterator::getName() const
+  inline std::string Param::ParamIterator::getName() const
   {
     std::string tmp;
     for (std::vector<const Param::ParamNode*>::const_iterator it = stack_.begin() + 1; it != stack_.end(); ++it)
@@ -2125,27 +2124,27 @@ OPENMS_THREAD_CRITICAL(oms_log)
     return tmp + stack_.back()->entries[current_].name;
   }
 
-  const std::vector<Param::ParamIterator::TraceInfo>& Param::ParamIterator::getTrace() const
+  inline const std::vector<Param::ParamIterator::TraceInfo>& Param::ParamIterator::getTrace() const
   {
     return trace_;
   }
 
-  const Param::ParamEntry& Param::getEntry(const std::string& key) const
+  inline const Param::ParamEntry& Param::getEntry(const std::string& key) const
   {
     return getEntry_(key);
   }
 
-  ParamValue::ValueType Param::getValueType(const std::string& key) const
+  inline ParamValue::ValueType Param::getValueType(const std::string& key) const
   {
     return getEntry_(key).value.valueType();
   }
 
-  const std::string& Param::getDescription(const std::string& key) const
+  inline const std::string& Param::getDescription(const std::string& key) const
   {
     return getEntry_(key).description;
   }
 
-  void Param::addTag(const std::string& key, const std::string& tag)
+  inline void Param::addTag(const std::string& key, const std::string& tag)
   {
     if (tag.find(',') != std::string::npos)
     {
@@ -2158,7 +2157,7 @@ OPENMS_THREAD_CRITICAL(oms_log)
     getEntry_(key).tags.insert(tag);
   }
 
-  void Param::addTags(const std::string& key, const std::vector<std::string>& tags)
+  inline void Param::addTags(const std::string& key, const std::vector<std::string>& tags)
   {
     ParamEntry& entry = getEntry_(key);
     for (size_t i = 0; i != tags.size(); ++i)
@@ -2175,7 +2174,7 @@ OPENMS_THREAD_CRITICAL(oms_log)
     }
   }
 
-  std::vector<std::string> Param::getTags(const std::string& key) const
+  inline std::vector<std::string> Param::getTags(const std::string& key) const
   {
     ParamEntry& entry = getEntry_(key);
     std::vector<std::string> list;
@@ -2186,22 +2185,22 @@ OPENMS_THREAD_CRITICAL(oms_log)
     return list;
   }
 
-  void Param::clearTags(const std::string& key)
+  inline void Param::clearTags(const std::string& key)
   {
     getEntry_(key).tags.clear();
   }
 
-  bool Param::hasTag(const std::string& key, const std::string& tag) const
+  inline bool Param::hasTag(const std::string& key, const std::string& tag) const
   {
     return getEntry_(key).tags.count(tag);
   }
 
-  bool Param::exists(const std::string& key) const
+  inline bool Param::exists(const std::string& key) const
   {
     return root_.findEntryRecursive(key);
   }
 
-  bool Param::hasSection(const std::string &key) const
+  inline bool Param::hasSection(const std::string &key) const
   {
     if (key.back() == ':')
     {
@@ -2214,7 +2213,7 @@ OPENMS_THREAD_CRITICAL(oms_log)
     }
   }
 
-  Param::ParamEntry& Param::getEntry_(const std::string& key) const
+  inline Param::ParamEntry& Param::getEntry_(const std::string& key) const
   {
     ParamEntry* entry = root_.findEntryRecursive(key);
     if (entry == nullptr)

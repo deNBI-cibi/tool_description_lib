@@ -324,16 +324,16 @@ namespace tdl
 
   };
 
-  const ParamValue ParamValue::EMPTY;
+  inline const ParamValue ParamValue::EMPTY;
 
   // default ctor
-  ParamValue::ParamValue() :
+  inline ParamValue::ParamValue() :
     value_type_(EMPTY_VALUE)
   {
   }
 
   // destructor
-  ParamValue::~ParamValue()
+  inline ParamValue::~ParamValue()
   {
     clear_();
   }
@@ -341,97 +341,97 @@ namespace tdl
   //-------------------------------------------------------------------
   //    ctor for all supported types a ParamValue object can hold
   //--------------------------------------------------------------------
-  ParamValue::ParamValue(long double p) :
+  inline ParamValue::ParamValue(long double p) :
     value_type_(DOUBLE_VALUE)
   {
     data_.dou_ = p;
   }
 
-  ParamValue::ParamValue(double p) :
+  inline ParamValue::ParamValue(double p) :
     value_type_(DOUBLE_VALUE)
   {
     data_.dou_ = p;
   }
 
-  ParamValue::ParamValue(float p) :
+  inline ParamValue::ParamValue(float p) :
     value_type_(DOUBLE_VALUE)
   {
     data_.dou_ = p;
   }
 
-  ParamValue::ParamValue(short int p) :
+  inline ParamValue::ParamValue(short int p) :
     value_type_(INT_VALUE)
   {
     data_.ssize_ = p;
   }
 
-  ParamValue::ParamValue(unsigned short int p) :
+  inline ParamValue::ParamValue(unsigned short int p) :
     value_type_(INT_VALUE)
   {
     data_.ssize_ = p;
   }
 
-  ParamValue::ParamValue(int p) :
+  inline ParamValue::ParamValue(int p) :
     value_type_(INT_VALUE)
   {
     data_.ssize_ = p;
   }
 
-  ParamValue::ParamValue(unsigned int p) :
+  inline ParamValue::ParamValue(unsigned int p) :
     value_type_(INT_VALUE)
   {
     data_.ssize_ = p;
   }
 
-  ParamValue::ParamValue(long int p) :
+  inline ParamValue::ParamValue(long int p) :
     value_type_(INT_VALUE)
   {
     data_.ssize_ = p;
   }
 
-  ParamValue::ParamValue(unsigned long int p) :
+  inline ParamValue::ParamValue(unsigned long int p) :
     value_type_(INT_VALUE)
   {
     data_.ssize_ = p;
   }
 
-  ParamValue::ParamValue(long long p) :
+  inline ParamValue::ParamValue(long long p) :
     value_type_(INT_VALUE)
   {
     data_.ssize_ = p;
   }
 
-  ParamValue::ParamValue(unsigned long long p) :
+  inline ParamValue::ParamValue(unsigned long long p) :
     value_type_(INT_VALUE)
   {
     data_.ssize_ = p;
   }
 
-  ParamValue::ParamValue(const char* p) :
+  inline ParamValue::ParamValue(const char* p) :
     value_type_(STRING_VALUE)
   {
     data_.str_ = new std::string(p);
   }
 
-  ParamValue::ParamValue(const std::string& p) :
+  inline ParamValue::ParamValue(const std::string& p) :
     value_type_(STRING_VALUE)
   {
     data_.str_ = new std::string(p);
   }
 
-  ParamValue::ParamValue(const std::vector<std::string>& p) :
+  inline ParamValue::ParamValue(const std::vector<std::string>& p) :
     value_type_(STRING_LIST)
   {
     data_.str_list_ = new std::vector<std::string>(p);
   }
 
-  ParamValue::ParamValue(const std::vector<int>& p) :
+  inline ParamValue::ParamValue(const std::vector<int>& p) :
     value_type_(INT_LIST)
   {
     data_.int_list_ = new std::vector<int>(p);
   }
 
-  ParamValue::ParamValue(const std::vector<double>& p) :
+  inline ParamValue::ParamValue(const std::vector<double>& p) :
     value_type_(DOUBLE_LIST)
   {
     data_.dou_list_ = new std::vector<double>(p);
@@ -440,7 +440,7 @@ namespace tdl
   //--------------------------------------------------------------------
   //                   copy and move constructors
   //--------------------------------------------------------------------
-  ParamValue::ParamValue(const ParamValue& p) :
+  inline ParamValue::ParamValue(const ParamValue& p) :
     value_type_(p.value_type_)
   {
     switch (value_type_)
@@ -463,7 +463,7 @@ namespace tdl
     }
   }
 
-  ParamValue::ParamValue(ParamValue&& rhs) noexcept :
+  inline ParamValue::ParamValue(ParamValue&& rhs) noexcept :
     value_type_(std::move(rhs.value_type_)),
     data_(std::move(rhs.data_))
   {
@@ -472,7 +472,7 @@ namespace tdl
     rhs.value_type_ = EMPTY_VALUE;
   }
 
-  void ParamValue::clear_() noexcept
+  inline void ParamValue::clear_() noexcept
   {
     switch (value_type_)
     {
@@ -497,7 +497,7 @@ namespace tdl
   //--------------------------------------------------------------------
   //                    copy and move assignment operators
   //--------------------------------------------------------------------
-  ParamValue& ParamValue::operator=(const ParamValue& p)
+  inline ParamValue& ParamValue::operator=(const ParamValue& p)
   {
     // Check for self-assignment
     if (this == &p)
@@ -535,7 +535,7 @@ namespace tdl
   }
 
   //!\brief Move assignment operator
-  ParamValue& ParamValue::operator=(ParamValue&& rhs) noexcept
+  inline ParamValue& ParamValue::operator=(ParamValue&& rhs) noexcept
   {
     // Check for self-assignment
     if (this == &rhs)
@@ -559,7 +559,7 @@ namespace tdl
   //                assignment conversion operator
   //--------------------------------------------------------------------
 
-  ParamValue& ParamValue::operator=(const char* arg)
+  inline ParamValue& ParamValue::operator=(const char* arg)
   {
     clear_();
     data_.str_ = new std::string(arg);
@@ -567,7 +567,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const std::string& arg)
+  inline ParamValue& ParamValue::operator=(const std::string& arg)
   {
     clear_();
     data_.str_ = new std::string(arg);
@@ -575,7 +575,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const std::vector<std::string>& arg)
+  inline ParamValue& ParamValue::operator=(const std::vector<std::string>& arg)
   {
     clear_();
     data_.str_list_ = new std::vector<std::string>(arg);
@@ -583,7 +583,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const std::vector<int>& arg)
+  inline ParamValue& ParamValue::operator=(const std::vector<int>& arg)
   {
     clear_();
     data_.int_list_ = new std::vector<int>(arg);
@@ -591,7 +591,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const std::vector<double>& arg)
+  inline ParamValue& ParamValue::operator=(const std::vector<double>& arg)
   {
     clear_();
     data_.dou_list_ = new std::vector<double>(arg);
@@ -599,7 +599,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const long double arg)
+  inline ParamValue& ParamValue::operator=(const long double arg)
   {
     clear_();
     data_.dou_ = arg;
@@ -607,7 +607,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const double arg)
+  inline ParamValue& ParamValue::operator=(const double arg)
   {
     clear_();
     data_.dou_ = arg;
@@ -615,7 +615,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const float arg)
+  inline ParamValue& ParamValue::operator=(const float arg)
   {
     clear_();
     data_.dou_ = arg;
@@ -623,7 +623,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const short int arg)
+  inline ParamValue& ParamValue::operator=(const short int arg)
   {
     clear_();
     data_.ssize_ = arg;
@@ -631,7 +631,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const unsigned short int arg)
+  inline ParamValue& ParamValue::operator=(const unsigned short int arg)
   {
     clear_();
     data_.ssize_ = arg;
@@ -639,7 +639,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const int arg)
+  inline ParamValue& ParamValue::operator=(const int arg)
   {
     clear_();
     data_.ssize_ = arg;
@@ -647,7 +647,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const unsigned int arg)
+  inline ParamValue& ParamValue::operator=(const unsigned int arg)
   {
     clear_();
     data_.ssize_ = arg;
@@ -655,7 +655,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const long int arg)
+  inline ParamValue& ParamValue::operator=(const long int arg)
   {
     clear_();
     data_.ssize_ = arg;
@@ -663,7 +663,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const unsigned long int arg)
+  inline ParamValue& ParamValue::operator=(const unsigned long int arg)
   {
     clear_();
     data_.ssize_ = arg;
@@ -671,7 +671,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const long long arg)
+  inline ParamValue& ParamValue::operator=(const long long arg)
   {
     clear_();
     data_.ssize_ = arg;
@@ -679,7 +679,7 @@ namespace tdl
     return *this;
   }
 
-  ParamValue& ParamValue::operator=(const unsigned long long arg)
+  inline ParamValue& ParamValue::operator=(const unsigned long long arg)
   {
     clear_();
     data_.ssize_ = arg;
@@ -690,7 +690,7 @@ namespace tdl
   //---------------------------------------------------------------------------
   //                      Conversion operators
   //----------------------------------------------------------------------------
-  ParamValue::operator long double() const
+  inline ParamValue::operator long double() const
   {
     if (value_type_ == EMPTY_VALUE)
     {
@@ -707,7 +707,7 @@ namespace tdl
     return data_.dou_;
   }
 
-  ParamValue::operator double() const
+  inline ParamValue::operator double() const
   {
     if (value_type_ == EMPTY_VALUE)
     {
@@ -724,7 +724,7 @@ namespace tdl
     return data_.dou_;
   }
 
-  ParamValue::operator float() const
+  inline ParamValue::operator float() const
   {
     if (value_type_ == EMPTY_VALUE)
     {
@@ -741,7 +741,7 @@ namespace tdl
     return data_.dou_;
   }
 
-  ParamValue::operator short int() const
+  inline ParamValue::operator short int() const
   {
     if (value_type_ != INT_VALUE)
     {
@@ -754,7 +754,7 @@ namespace tdl
     return data_.ssize_;
   }
 
-  ParamValue::operator unsigned short int() const
+  inline ParamValue::operator unsigned short int() const
   {
     if (value_type_ != INT_VALUE)
     {
@@ -775,7 +775,7 @@ namespace tdl
     return data_.ssize_;
   }
 
-  ParamValue::operator int() const
+  inline ParamValue::operator int() const
   {
     if (value_type_ != INT_VALUE)
     {
@@ -788,7 +788,7 @@ namespace tdl
     return data_.ssize_;
   }
 
-  ParamValue::operator unsigned int() const
+  inline ParamValue::operator unsigned int() const
   {
     if (value_type_ != INT_VALUE)
     {
@@ -809,7 +809,7 @@ namespace tdl
     return data_.ssize_;
   }
 
-  ParamValue::operator long int() const
+  inline ParamValue::operator long int() const
   {
     if (value_type_ != INT_VALUE)
     {
@@ -822,7 +822,7 @@ namespace tdl
     return data_.ssize_;
   }
 
-  ParamValue::operator unsigned long int() const
+  inline ParamValue::operator unsigned long int() const
   {
     if (value_type_ != INT_VALUE)
     {
@@ -843,7 +843,7 @@ namespace tdl
     return data_.ssize_;
   }
 
-  ParamValue::operator long long() const
+  inline ParamValue::operator long long() const
   {
     if (value_type_ != INT_VALUE)
     {
@@ -856,7 +856,7 @@ namespace tdl
     return data_.ssize_;
   }
 
-  ParamValue::operator unsigned long long() const
+  inline ParamValue::operator unsigned long long() const
   {
     if (value_type_ != INT_VALUE)
     {
@@ -877,7 +877,7 @@ namespace tdl
     return data_.ssize_;
   }
 
-  ParamValue::operator std::string() const
+  inline ParamValue::operator std::string() const
   {
     if (value_type_ != STRING_VALUE)
     {
@@ -891,24 +891,24 @@ namespace tdl
   }
 
   //!\cond
-  ParamValue::operator std::vector<std::string>() const
+  inline ParamValue::operator std::vector<std::string>() const
   {
     return this->toStringVector();
   }
   //!\endcond
 
-  ParamValue::operator std::vector<int>() const
+  inline ParamValue::operator std::vector<int>() const
   {
     return this->toIntVector();
   }
 
-  ParamValue::operator std::vector<double>() const
+  inline ParamValue::operator std::vector<double>() const
   {
     return this->toDoubleVector();
   }
 
   // Convert ParamValues to char*
-  const char* ParamValue::toChar() const
+  inline const char* ParamValue::toChar() const
   {
     switch (value_type_)
     {
@@ -928,7 +928,7 @@ namespace tdl
     }
   }
 
-  std::string ParamValue::toString(bool full_precision) const
+  inline std::string ParamValue::toString(bool full_precision) const
   {
     std::string str;
     switch (value_type_)
@@ -994,7 +994,7 @@ namespace tdl
     return str;
   }
 
-  std::vector<std::string> ParamValue::toStringVector() const
+  inline std::vector<std::string> ParamValue::toStringVector() const
   {
     if (value_type_ != STRING_LIST)
     {
@@ -1007,7 +1007,7 @@ namespace tdl
     return *(data_.str_list_);
   }
 
-  std::vector<int> ParamValue::toIntVector() const
+  inline std::vector<int> ParamValue::toIntVector() const
   {
     if (value_type_ != INT_LIST)
     {
@@ -1020,7 +1020,7 @@ namespace tdl
     return *(data_.int_list_);
   }
 
-  std::vector<double> ParamValue::toDoubleVector() const {
+  inline std::vector<double> ParamValue::toDoubleVector() const {
     if (value_type_ != DOUBLE_LIST)
     {
 #ifdef OPENMS_EXCEPTIONS_AVAILABLE
@@ -1032,7 +1032,7 @@ namespace tdl
     return *(data_.dou_list_);
   }
 
-  bool ParamValue::toBool() const
+  inline bool ParamValue::toBool() const
   {
     if (value_type_ != STRING_VALUE)
     {
@@ -1057,7 +1057,7 @@ namespace tdl
   // ----------------- Comparator ----------------------
 
   //!\brief Equality comparator.
-  bool operator==(const ParamValue& a, const  ParamValue& b)
+  inline bool operator==(const ParamValue& a, const  ParamValue& b)
   {
     if (a.value_type_ == b.value_type_)
     {
@@ -1091,7 +1091,7 @@ namespace tdl
   }
 
   //!\brief Smaller than comparator.
-  bool operator<(const ParamValue& a, const  ParamValue& b)
+  inline bool operator<(const ParamValue& a, const  ParamValue& b)
   {
     if (a.value_type_ == b.value_type_)
     {
@@ -1124,7 +1124,7 @@ namespace tdl
   }
 
   //!\brief Greater than comparator.
-  bool operator>(const ParamValue& a, const  ParamValue& b)
+  inline bool operator>(const ParamValue& a, const  ParamValue& b)
   {
     if (a.value_type_ == b.value_type_)
     {
@@ -1157,7 +1157,7 @@ namespace tdl
   }
 
   //!\brief Inequality comparator.
-  bool operator!=(const ParamValue& a, const ParamValue& b)
+  inline bool operator!=(const ParamValue& a, const ParamValue& b)
   {
     return !(a == b);
   }
@@ -1169,7 +1169,7 @@ namespace tdl
    * For doubles or lists of doubles, you get full precision.
    * Use ParamValue::toString(false) if you only need low precision.
    */
-  std::ostream& operator<<(std::ostream& os, const ParamValue& p)
+  inline std::ostream& operator<<(std::ostream& os, const ParamValue& p)
   {
     switch (p.value_type_)
     {
@@ -1224,7 +1224,7 @@ namespace tdl
     return os;
   }
 
-  std::string ParamValue::doubleToString(double value, bool full_precision)
+  inline std::string ParamValue::doubleToString(double value, bool full_precision)
   {
     std::ostringstream os;
     std::string s;
