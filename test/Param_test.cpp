@@ -1578,6 +1578,9 @@ protected:
 
   void SetUp() override
   {
+    std::cout.rdbuf(os.rdbuf());
+    std::cerr.rdbuf(os.rdbuf());
+
     // checkDefaults sends its warnings to OPENMS_LOG_WARN so we register our own
     // listener here to check the output
     //OpenMS_Log_warn.remove(std::cout);
