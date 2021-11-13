@@ -10,27 +10,12 @@
  */
 
 // ============================================================================
-//  C++ standard and features
-// ============================================================================
-
-// C++ standard [required]
-#ifdef __cplusplus
-static_assert(__cplusplus >= 201709, "TDL requires C++20, make sure that you have set -std=c++20.");
-#else
-#    error "This is not a C++ compiler."
-#endif
-
-#if __has_include(<version>)
-#    include <version>
-#endif
-
-// ============================================================================
 //  Dependencies
 // ============================================================================
 
 // TDL [required]
-#if __has_include(<tdl/version.hpp>)
-#    include <tdl/version.hpp>
+#if __has_include(<tdl/version.h>)
+#    include <tdl/version.h>
 #else
 #    error TDL include directory not set correctly. Forgot to add -I ${INSTALLDIR}/include to your CXXFLAGS?
 #endif
@@ -60,10 +45,22 @@ static_assert(__cplusplus >= 201709, "TDL requires C++20, make sure that you hav
 // todo: if OpenMS available set OPENMS_EXCEPTIONS_AVAILABLE
 
 // log stream
-#include <iostream> // todo: if OpenMS is availabe, #include <OpenMS/CONCEPT/LogStream.h>
-#define TDL_LOGSTREAM_TYPE std::ostream // todo if OpenMS is availabe, set this Logger::LogStream
-#define TDL_LOGSTREAM_WARN std::cerr // todo: if OpenMS is availabe, set this to OPENMS_LOG_WARN
-#define TDL_LOGSTREAM_DEBUG std::cerr // todo: if OpenMS is availabe, set this to OPENMS_LOG_DEBUG
+// This allows OpenMS to set their own LogStream "#include <OpenMS/Concept/LogStream.h> must be included before
+// including this header file and all three macros should be defined
+#ifndef TDL_LOGSTREAM_TYPE
+#   include <iostream>
+#   define TDL_LOGSTREAM_TYPE std::ostream
+#endif
+
+#ifndef TDL_LOGSTREAM_WARN
+#   include <iostream>
+#   define TDL_LOGSTREAM_WARN std::cerr
+#endif
+
+#ifndef TDL_LOGSTREAM_DEBUG
+#   include <iostream>
+#   define TDL_LOGSTREAM_DEBUG std::cerr
+#endif
 
 // thread critical
 // todo: if OpenMS is available include OPENMS_THREAD_CRITICAL macro

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <tdl/platform.hpp>
+#include <tdl/platform.h>
 
 #include <cstddef> // for ptrdiff_t
 #include <string>

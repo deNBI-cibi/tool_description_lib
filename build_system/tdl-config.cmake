@@ -2,7 +2,7 @@
 # Copyright (c) 2006-2021, Knut Reinert & Freie Universität Berlin
 # Copyright (c) 2016-2021, Knut Reinert & MPI für molekulare Genetik
 # This file may be used, modified and/or redistributed under the terms of the 3-clause BSD-License
-# shipped with this file and also available at: https://github.com/seqan/tdl/blob/master/LICENSE.md
+# shipped with this file and also available at: https://github.com/deNBI-cibi/tool_description_lib/blob/master/LICENSE.md
 # -----------------------------------------------------------------------------------------------------
 #
 # This CMake module will try to find tdl and its dependencies.  You can use
@@ -121,16 +121,6 @@ if (TDL_CLONE_DIR)
     tdl_config_print ("Detected as running from a repository checkout…")
 endif ()
 
-#if (TDL_SUBMODULES_DIR)
-#    file (GLOB submodules ${TDL_SUBMODULES_DIR}/submodules/*/include)
-#    foreach (submodule ${submodules})
-#        if (IS_DIRECTORY ${submodule})
-#            tdl_config_print ("  …adding submodule include:  ${submodule}")
-#            set (TDL_DEPENDENCY_INCLUDE_DIRS ${submodule} ${TDL_DEPENDENCY_INCLUDE_DIRS})
-#        endif ()
-#    endforeach ()
-#endif ()
-
 # ----------------------------------------------------------------------------
 # Options for CheckCXXSourceCompiles
 # ----------------------------------------------------------------------------
@@ -140,112 +130,6 @@ set (CMAKE_REQUIRED_QUIET       1)
 # use global variables in Check* calls
 set (CMAKE_REQUIRED_INCLUDES    ${CMAKE_INCLUDE_PATH} ${TDL_INCLUDE_DIR} ${TDL_DEPENDENCY_INCLUDE_DIRS})
 set (CMAKE_REQUIRED_FLAGS       ${CMAKE_CXX_FLAGS})
-
-# ----------------------------------------------------------------------------
-# Force-deactivate optional dependencies
-# ----------------------------------------------------------------------------
-
-# These two are "opt-in", because detected by CMake
-# If you want to force-require these, just do find_package (zlib REQUIRED) before find_package (tdl)
-#option (TDL_NO_ZLIB  "Don't use ZLIB, even if present." OFF)
-#option (TDL_NO_BZIP2 "Don't use BZip2, even if present." OFF)
-
-# ----------------------------------------------------------------------------
-# Require C++20
-# ----------------------------------------------------------------------------
-
-set (CMAKE_REQUIRED_FLAGS_SAVE ${CMAKE_REQUIRED_FLAGS})
-
-set (CXXSTD_TEST_SOURCE
-    "#if !defined (__cplusplus) || (__cplusplus < 201709L)
-    #error NOCXX20
-    #endif
-    int main() {}")
-
-check_cxx_source_compiles ("${CXXSTD_TEST_SOURCE}" CXX20_BUILTIN)
-
-if (CXX20_BUILTIN)
-    tdl_config_print ("C++ Standard-20 support:    builtin")
-else ()
-    set (CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS_SAVE} -std=c++20")
-
-    check_cxx_source_compiles ("${CXXSTD_TEST_SOURCE}" CXX20_FLAG)
-
-    if (CXX20_FLAG)
-        tdl_config_print ("C++ Standard-20 support:    via -std=c++20")
-    else ()
-        tdl_config_error ("tdl requires C++20, but your compiler does not support it.")
-    endif ()
-
-    set (TDL_CXX_FLAGS "${TDL_CXX_FLAGS} -std=c++20")
-endif ()
-
-# ----------------------------------------------------------------------------
-# Require C++ Concepts
-# ----------------------------------------------------------------------------
-
-#set (CMAKE_REQUIRED_FLAGS_SAVE ${CMAKE_REQUIRED_FLAGS})
-
-#set (CXXSTD_TEST_SOURCE
-    #"static_assert (__cpp_concepts >= 201507);
-    #int main() {}")
-
-#set (CMAKE_REQUIRED_FLAGS "${CMAKE_REQUIRED_FLAGS_SAVE} ${TDL_CXX_FLAGS}")
-#check_cxx_source_compiles ("${CXXSTD_TEST_SOURCE}" TDL_CONCEPTS)
-
-#if (TDL_CONCEPTS_FLAG)
-    #tdl_config_print ("C++ Concepts support:       builtin")
-#else ()
-    #tdl_config_error ("tdl requires C++ Concepts, but your compiler does not support them.")
-#endif ()
-
-# ----------------------------------------------------------------------------
-# thread support (pthread, windows threads)
-# ----------------------------------------------------------------------------
-
-#set (THREADS_PREFER_PTHREAD_FLAG TRUE)
-#find_package (Threads QUIET)
-
-#if (Threads_FOUND)
-#    set (TDL_LIBRARIES ${TDL_LIBRARIES} Threads::Threads)
-#    if ("${CMAKE_THREAD_LIBS_INIT}" STREQUAL "")
-#        tdl_config_print ("Thread support:             builtin.")
-#    else ()
-#        tdl_config_print ("Thread support:             via ${CMAKE_THREAD_LIBS_INIT}")
-#    endif ()
-#else ()
-#    tdl_config_print ("Thread support:             not found.")
-#endif ()
-
-# ----------------------------------------------------------------------------
-# Require SeqAn3
-# ----------------------------------------------------------------------------
-
-#find_package (SeqAn3 REQUIRED QUIET
-#              HINTS ${CMAKE_CURRENT_LIST_DIR}/../submodules/seqan3/build_system)
-
-#if (SEQAN3_FOUND)
-#    tdl_config_print ("Required dependency:        SeqAn3 found.")
-#else ()
-#    tdl_config_print ("The SeqAn3 library is required, but wasn't found. Get it from https://github.com/seqan/seqan3")
-#endif ()
-
-# ----------------------------------------------------------------------------
-# ZLIB dependency
-# ----------------------------------------------------------------------------
-
-#if (NOT TDL_NO_ZLIB)
-#    find_package (ZLIB QUIET)
-#endif ()
-
-#if (ZLIB_FOUND)
-#    set (TDL_LIBRARIES         ${TDL_LIBRARIES}         ${ZLIB_LIBRARIES})
-#    set (TDL_DEPENDENCY_INCLUDE_DIRS      ${TDL_DEPENDENCY_INCLUDE_DIRS}      ${ZLIB_INCLUDE_DIRS})
-#    set (TDL_DEFINITIONS       ${TDL_DEFINITIONS}       "-DTDL_HAS_ZLIB=1")
-#    tdl_config_print ("Optional dependency:        ZLIB-${ZLIB_VERSION_STRING} found.")
-#else ()
-#    tdl_config_print ("Optional dependency:        ZLIB not found.")
-#endif ()
 
 # ----------------------------------------------------------------------------
 # System dependencies
@@ -259,9 +143,9 @@ if ((${CMAKE_SYSTEM_NAME} STREQUAL "Linux") OR
 endif ()
 
 # libexecinfo -- implicit
-check_include_file_cxx (execinfo.h _TDL_HAVE_EXECINFO)
-mark_as_advanced (_TDL_HAVE_EXECINFO)
-if (_TDL_HAVE_EXECINFO)
+check_include_file_cxx (execinfo.h _TDL_HAS_EXECINFO)
+mark_as_advanced (_TDL_HAS_EXECINFO)
+if (_TDL_HAS_EXECINFO)
     tdl_config_print ("Optional dependency:        libexecinfo found.")
     if ((${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD") OR (${CMAKE_SYSTEM_NAME} STREQUAL "OpenBSD"))
         set (TDL_LIBRARIES ${TDL_LIBRARIES} execinfo elf)
@@ -271,11 +155,11 @@ else ()
 endif ()
 
 # ----------------------------------------------------------------------------
-# Perform compilability test of platform.hpp (tests some requirements)
+# Perform compilability test of platform.h (tests some requirements)
 # ----------------------------------------------------------------------------
 
 set (CXXSTD_TEST_SOURCE
-     "#include <tdl/platform.hpp>
+     "#include <tdl/platform.h>
      int main() {}")
 
 # using try_compile instead of check_cxx_source_compiles to capture output in case of failure
@@ -291,9 +175,9 @@ try_compile (TDL_PLATFORM_TEST
              OUTPUT_VARIABLE     TDL_PLATFORM_TEST_OUTPUT)
 
 if (TDL_PLATFORM_TEST)
-    tdl_config_print ("tdl platform.hpp build:  passed.")
+    tdl_config_print ("tdl platform.h build:  passed.")
 else ()
-    tdl_config_error ("tdl platform.hpp build:  failed!\n\
+    tdl_config_error ("tdl platform.h build:  failed!\n\
                         ${TDL_PLATFORM_TEST_OUTPUT}")
 endif ()
 
