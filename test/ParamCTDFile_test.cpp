@@ -35,7 +35,7 @@ TEST_F(ParamCTDFileF, store) {
   //exception
   tdl::Param p300;
   tdl::ToolInfo info = {"a", "a", "a", "a", "a", std::vector<std::string>()};
-  //TEST_EXCEPTION(std::ios::failure, paramFile.store("/does/not/exist/FileDoesNotExist.ctd",p300,info)) //!TODO
+  EXPECT_THROW(paramFile.store("/does/not/exist/FileDoesNotExist.ctd", p300, info), std::ios::failure);
 
 
   {
