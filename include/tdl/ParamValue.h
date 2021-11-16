@@ -11,15 +11,12 @@
 
 #pragma once
 
-#include <cstddef> // for ptrdiff_t
+#include <tdl/platform.h>
+#include <tdl/exception.h>
+
+#include <cstddef>
 #include <string>
 #include <vector>
-
-#include <tdl/platform.h>
-
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-#include <OpenMS/Exceptions.h>
-#endif
 
 namespace tdl
 {
@@ -694,11 +691,7 @@ namespace tdl
   {
     if (value_type_ == EMPTY_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert ParamValue::EMPTY to long double");
-#else
-        throw std::invalid_argument{"Could not convert ParamValue::EMPTY to long double"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert ParamValue::EMPTY to long double");
     }
     else if (value_type_ == INT_VALUE)
     {
@@ -711,11 +704,7 @@ namespace tdl
   {
     if (value_type_ == EMPTY_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert ParamValue::EMPTY to double");
-#else
-        throw std::invalid_argument{"Could not convert ParamValue::EMPTY to double"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert ParamValue::EMPTY to double");
     }
     else if (value_type_ == INT_VALUE)
     {
@@ -728,11 +717,7 @@ namespace tdl
   {
     if (value_type_ == EMPTY_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert ParamValue::EMPTY to float");
-#else
-        throw std::invalid_argument{"Could not convert ParamValue::EMPTY to float"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert ParamValue::EMPTY to float");
     }
     else if (value_type_ == INT_VALUE)
     {
@@ -745,11 +730,7 @@ namespace tdl
   {
     if (value_type_ != INT_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to short int");
-#else
-        throw std::invalid_argument{"Could not convert non-integer ParamValue to short int"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-integer ParamValue to short int");
     }
     return data_.ssize_;
   }
@@ -758,19 +739,11 @@ namespace tdl
   {
     if (value_type_ != INT_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to UInt");
-#else
-        throw std::invalid_argument{"Could not convert non-integer ParamValue to UInt"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-integer ParamValue to UInt");
     }
     if (data_.ssize_ < 0.0)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert negative integer ParamValue to unsigned short int");
-#else
-        throw std::invalid_argument{"Could not convert negative integer ParamValue to unsigned short int"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert negative integer ParamValue to unsigned short int");
     }
     return data_.ssize_;
   }
@@ -779,11 +752,7 @@ namespace tdl
   {
     if (value_type_ != INT_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to int");
-#else
-        throw std::invalid_argument{"Could not convert non-integer ParamValue to int"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-integer ParamValue to int");
     }
     return data_.ssize_;
   }
@@ -792,19 +761,11 @@ namespace tdl
   {
     if (value_type_ != INT_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to unsigned int");
-#else
-        throw std::invalid_argument{"Could not convert non-integer ParamValue to unsigned int"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-integer ParamValue to unsigned int");
     }
     if (data_.ssize_ < 0.0)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert negative integer ParamValue to unsigned int");
-#else
-        throw std::invalid_argument{"Could not convert negative integer ParamValue to unsigned int"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert negative integer ParamValue to unsigned int");
     }
     return data_.ssize_;
   }
@@ -813,11 +774,7 @@ namespace tdl
   {
     if (value_type_ != INT_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to long int");
-#else
-        throw std::invalid_argument{"Could not convert non-integer ParamValue to long int"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-integer ParamValue to long int");
     }
     return data_.ssize_;
   }
@@ -826,19 +783,11 @@ namespace tdl
   {
     if (value_type_ != INT_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to unsigned long int");
-#else
-        throw std::invalid_argument{"Could not convert non-integer ParamValue to unsigned long int"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-integer ParamValue to unsigned long int");
     }
     if (data_.ssize_ < 0.0)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert negative integer ParamValue to unsigned long int");
-#else
-        throw std::invalid_argument{"Could not convert negative integer ParamValue to unsigned long int"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert negative integer ParamValue to unsigned long int");
     }
     return data_.ssize_;
   }
@@ -847,11 +796,7 @@ namespace tdl
   {
     if (value_type_ != INT_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to Int");
-#else
-        throw std::invalid_argument{"Could not convert non-integer ParamValue to Int"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-integer ParamValue to Int");
     }
     return data_.ssize_;
   }
@@ -860,19 +805,11 @@ namespace tdl
   {
     if (value_type_ != INT_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-integer ParamValue to UInt");
-#else
-        throw std::invalid_argument{"Could not convert non-integer ParamValue to UInt"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-integer ParamValue to UInt");
     }
     if (data_.ssize_ < 0.0)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert negative integer ParamValue to UInt");
-#else
-        throw std::invalid_argument{"Could not convert negative integer ParamValue to UInt"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert negative integer ParamValue to UInt");
     }
     return data_.ssize_;
   }
@@ -881,11 +818,7 @@ namespace tdl
   {
     if (value_type_ != STRING_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-string ParamValue to string");
-#else
-        throw std::invalid_argument{"Could not convert non-string ParamValue to string"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-string ParamValue to string");
     }
     return *(data_.str_);
   }
@@ -919,11 +852,7 @@ namespace tdl
         return nullptr;
     break;
     default:
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-        throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-string ParamValue to char*");
-#else
-        throw std::invalid_argument{"Could not convert non-string ParamValue to char*"};
-#endif
+        throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-string ParamValue to char*");
     break;
     }
   }
@@ -984,11 +913,7 @@ namespace tdl
         str +=  "]";
     break;
     default:
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-        throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert ParamValue to String");
-#else
-        throw std::invalid_argument{"Could not convert ParamValue to String"};
-#endif
+        throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert ParamValue to String");
     break;
     }
     return str;
@@ -998,11 +923,7 @@ namespace tdl
   {
     if (value_type_ != STRING_LIST)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-std::vector<std::string> ParamValue to std::vector<std::string>");
-#else
-        throw std::invalid_argument{"Could not convert non-std::vector<std::string> ParamValue to std::vector<std::string>"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-std::vector<std::string> ParamValue to std::vector<std::string>");
     }
     return *(data_.str_list_);
   }
@@ -1011,11 +932,7 @@ namespace tdl
   {
     if (value_type_ != INT_LIST)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-std::vector<int> ParamValue to std::vector<int>");
-#else
-        throw std::invalid_argument{"Could not convert non-std::vector<int> ParamValue to std::vector<int>"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-std::vector<int> ParamValue to std::vector<int>");
     }
     return *(data_.int_list_);
   }
@@ -1023,11 +940,7 @@ namespace tdl
   inline std::vector<double> ParamValue::toDoubleVector() const {
     if (value_type_ != DOUBLE_LIST)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-std::vector<double> ParamValue to std::vector<double>");
-#else
-        throw std::invalid_argument{"Could not convert non-std::vector<double> ParamValue to std::vector<double>"};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-std::vector<double> ParamValue to std::vector<double>");
     }
     return *(data_.dou_list_);
   }
@@ -1036,19 +949,11 @@ namespace tdl
   {
     if (value_type_ != STRING_VALUE)
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert non-string ParamValue to bool.");
-#else
-        throw std::invalid_argument{"Could not convert non-string ParamValue to bool."};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert non-string ParamValue to bool.");
     }
     else if (!(*(data_.str_) == "true" || *(data_.str_) == "false"))
     {
-#ifdef OPENMS_EXCEPTIONS_AVAILABLE
-      throw Exception::ConversionError(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, "Could not convert '" + *(data_.str_) + "' to bool. Valid stings are 'true' and 'false'.");
-#else
-        throw std::invalid_argument{"Could not convert '" + *(data_.str_) + "' to bool. Valid stings are 'true' and 'false'."};
-#endif
+      throw ConversionError(Source{__FILE__, __LINE__, TDL_PRETTY_FUNCTION}, "Could not convert '" + *(data_.str_) + "' to bool. Valid stings are 'true' and 'false'.");
     }
 
     return *(data_.str_) == "true";

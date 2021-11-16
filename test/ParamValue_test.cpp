@@ -324,16 +324,16 @@ TEST(ParamValue, conversion_vector_int_operator) {
   std::vector<int> il = {1, 2};
   tdl::ParamValue d(il);
   std::vector<int> il_op = d;
-  EXPECT_TRUE(il_op == il);
-  //TEST_EXCEPTION(Exception::ConversionError, std::vector<string> sl = ParamValue("abc,ab");)
+  EXPECT_EQ(il_op == il, true);
+  EXPECT_THROW(std::vector<std::string> sl = tdl::ParamValue("abc, ab"), tdl::ConversionError);
 }
 
 TEST(ParamValue, toIntVector) {
   std::vector<int> il = {1, 2};
   tdl::ParamValue d(il);
   std::vector<int> il_op = d.toIntVector();
-  EXPECT_TRUE(il_op == il);
-  //TEST_EXCEPTION(Exception::ConversionError, std::vector<string> sl = ParamValue("abc,ab").toStringVector();)
+  EXPECT_EQ(il_op == il, true);
+  EXPECT_THROW(std::vector<std::string> sl = tdl::ParamValue("abc,ab").toStringVector(), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_vector_double_operator) {
@@ -373,7 +373,7 @@ TEST(ParamValue, conversion_int_operator) {
   int k = d;
   EXPECT_EQ(k,-55);
 
-  //TEST_EXCEPTION(Exception::ConversionError, (int)ParamValue(55.4))
+  EXPECT_THROW((int)tdl::ParamValue(55.4), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_unsigned_int_operator) {
@@ -381,8 +381,8 @@ TEST(ParamValue, conversion_unsigned_int_operator) {
   unsigned int k = d;
   EXPECT_EQ(k,55);
 
-  //TEST_EXCEPTION(Exception::ConversionError, (unsigned int)ParamValue(-55))
-  //TEST_EXCEPTION(Exception::ConversionError, (unsigned int)ParamValue(55.4))
+  EXPECT_THROW((unsigned int)tdl::ParamValue(-55), tdl::ConversionError);
+  EXPECT_THROW((unsigned int)tdl::ParamValue(55.4), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_short_int) {
@@ -390,7 +390,7 @@ TEST(ParamValue, conversion_short_int) {
   short int k = d;
   EXPECT_EQ(k,-55);
 
-  //TEST_EXCEPTION(Exception::ConversionError, (short int)ParamValue(55.4))
+  EXPECT_THROW((short int)tdl::ParamValue(55.4), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_unsigned_short_int) {
@@ -398,8 +398,8 @@ TEST(ParamValue, conversion_unsigned_short_int) {
   unsigned short int k = d;
   EXPECT_EQ(k,55);
 
-  //TEST_EXCEPTION(Exception::ConversionError, (unsigned short int)ParamValue(-55))
-  //TEST_EXCEPTION(Exception::ConversionError, (unsigned short int)ParamValue(55.4))
+  EXPECT_THROW((unsigned short int)tdl::ParamValue(-55), tdl::ConversionError);
+  EXPECT_THROW((unsigned short int)tdl::ParamValue(55.4), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_long_int) {
@@ -407,7 +407,7 @@ TEST(ParamValue, conversion_long_int) {
   long int k = d;
   EXPECT_EQ(k,-55);
 
-  //TEST_EXCEPTION(Exception::ConversionError, (long int)ParamValue(55.4))
+  EXPECT_THROW((long int)tdl::ParamValue(55.4), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_unsigned_long_int) {
@@ -415,8 +415,8 @@ TEST(ParamValue, conversion_unsigned_long_int) {
   unsigned long int k = d;
   EXPECT_EQ(k,55);
 
-  //TEST_EXCEPTION(Exception::ConversionError, (unsigned long int)ParamValue(-55))
-  //TEST_EXCEPTION(Exception::ConversionError, (unsigned long int)ParamValue(55.4))
+  EXPECT_THROW((unsigned long int)tdl::ParamValue(-55), tdl::ConversionError);
+  EXPECT_THROW((unsigned long int)tdl::ParamValue(55.4), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_long_long) {
@@ -436,7 +436,7 @@ TEST(ParamValue, conversion_long_long) {
       EXPECT_EQ(k,-55);
   }
 
-  //TEST_EXCEPTION(Exception::ConversionError, (long int)ParamValue(55.4))
+  EXPECT_THROW((long int)tdl::ParamValue(55.4), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_unsigned_long_long) {
@@ -451,8 +451,8 @@ TEST(ParamValue, conversion_unsigned_long_long) {
       EXPECT_EQ(k,55);
   }
 
-  //TEST_EXCEPTION(Exception::ConversionError, (unsigned long int)ParamValue(-55))
-  //TEST_EXCEPTION(Exception::ConversionError, (unsigned long int)ParamValue(55.4))
+  EXPECT_THROW((unsigned long int)tdl::ParamValue(-55), tdl::ConversionError);
+  EXPECT_THROW((unsigned long int)tdl::ParamValue(55.4), tdl::ConversionError);
 }
 
 TEST(ParamValue, compare_operator) {
@@ -499,7 +499,7 @@ TEST(ParamValue, toChar) {
   a = tdl::ParamValue("hello");
   EXPECT_EQ(a.toChar(),std::string{"hello"});
   a = tdl::ParamValue(5);
-  //TEST_EXCEPTION(Exception::ConversionError, a.toChar() )
+  EXPECT_THROW(a.toChar() , tdl::ConversionError);
 }
 
 TEST(ParamValue, toString) {
@@ -532,13 +532,13 @@ TEST(ParamValue, toBool) {
 
   //invalid cases
   a = tdl::ParamValue();
-  //TEST_EXCEPTION(Exception::ConversionError, a.toBool() )
+  EXPECT_THROW(a.toBool() , tdl::ConversionError);
   a = tdl::ParamValue("bla");
-  //TEST_EXCEPTION(Exception::ConversionError, a.toBool() )
+  EXPECT_THROW(a.toBool() , tdl::ConversionError);
   a = tdl::ParamValue(12);
-  //TEST_EXCEPTION(Exception::ConversionError, a.toBool() )
+  EXPECT_THROW(a.toBool() , tdl::ConversionError);
   a = tdl::ParamValue(34.45);
-  //TEST_EXCEPTION(Exception::ConversionError, a.toBool() )
+  EXPECT_THROW(a.toBool() , tdl::ConversionError);
 }
 
 TEST(ParamValue, stream_operator) {
