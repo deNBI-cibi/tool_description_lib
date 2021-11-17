@@ -24,7 +24,7 @@ namespace tdl
   class TDL_DLLAPI ParamValue
   {
 
-public:
+  public:
 
     /// Empty data value for comparisons
     static const ParamValue EMPTY;
@@ -337,7 +337,7 @@ public:
     /// Equality comparator
     friend TDL_DLLAPI bool operator!=(const ParamValue&, const ParamValue&);
 
-protected:
+  protected:
 
     /// Type of the currently stored value
     ValueType value_type_;
@@ -353,7 +353,7 @@ protected:
       std::vector<double>* dou_list_;
     } data_;
 
-private:
+  private:
 
     /// Clears the current state of the ParamValue and release every used memory.
     void clear_() noexcept;

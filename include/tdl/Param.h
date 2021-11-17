@@ -35,7 +35,7 @@ namespace tdl
   */
   class TDL_DLLAPI Param
   {
-public:
+  public:
 
     /// Parameter entry used to store the actual information inside of a Param entry
     struct TDL_DLLAPI ParamEntry
@@ -154,12 +154,12 @@ public:
       std::vector<ParamNode> nodes;
     };
 
-public:
+  public:
 
     /// Forward const iterator for the Param class
     class TDL_DLLAPI ParamIterator
     {
-public:
+  public:
       /// Struct that captures information on entered / left nodes for ParamIterator
       struct TDL_DLLAPI TraceInfo
       {
@@ -202,7 +202,7 @@ public:
       /// Returns the traceback of the opened and closed sections
       const std::vector<TraceInfo>& getTrace() const;
 
-protected:
+  protected:
       /// Pointer to the root node
       const Param::ParamNode* root_;
       /// Index of the current ParamEntry (-1 means invalid)
@@ -515,7 +515,7 @@ protected:
       - If a parameter is present for which no default value is specified, a warning is issued to @p os.
       - If the type of a parameter and its default do not match, an exception is thrown.
       - If a string parameter contains an invalid string, an exception is thrown.
-      -	If parameter entry is a string list, an exception is thrown, if one or more list members are invalid strings
+      - If parameter entry is a string list, an exception is thrown, if one or more list members are invalid strings
       - If a numeric parameter is out of the valid range, an exception is thrown.
       - If entry is a numeric list an exception is thrown, if one or more list members are out of the valid range
 
@@ -618,7 +618,7 @@ protected:
 
     //@}
 
-protected:
+  protected:
 
     /**
       @brief Returns a mutable reference to a parameter entry.
