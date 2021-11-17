@@ -90,31 +90,31 @@ TEST(ParamValue, ctor_unsigned_long_long) {
   EXPECT_EQ(static_cast<unsigned long long>(d), 3000);
 }
 
-TEST(ParamValue, ctor_const_char_ptr) {
+TEST(ParamValue, ctor_char_ptr) {
   const char* s = "test char";
   tdl::ParamValue d(s);
   EXPECT_EQ(static_cast<std::string>(d), std::string{"test char"});
 }
 
-TEST(ParamValue, ctor_const_std_string) {
+TEST(ParamValue, ctor_std_string) {
   std::string s = "test string";
   tdl::ParamValue d(s);
-  EXPECT_EQ(d, "test string");
+  EXPECT_EQ(d, std::string{"test string"});
 }
 
-TEST(ParamValue, ctor_const_vector_string) {
+TEST(ParamValue, ctor_vector_string) {
   std::vector<std::string> sl = {"test string", "test string 2"};
   tdl::ParamValue d(sl);
   EXPECT_TRUE(d == sl);
 }
 
-TEST(ParamValue, ctor_const_vector_int) {
+TEST(ParamValue, ctor_vector_int) {
   std::vector<int> il = {1, 2};
   tdl::ParamValue d(il);
   EXPECT_TRUE(d == il);
 }
 
-TEST(ParamValue, ctor_const_vector_double) {
+TEST(ParamValue, ctor_vector_double) {
   std::vector<double> dl = {1.2, 22.3333};
   tdl::ParamValue d(dl);
   EXPECT_TRUE(d == dl);
@@ -621,77 +621,77 @@ TEST(ParamValue, assign_operator_vector_double) {
   EXPECT_EQ(adl[1], -3.45);
 }
 
-TEST(ParamValue, assign_operator_const_long_double) {
+TEST(ParamValue, assign_operator_long_double) {
   const long double v = 2.44;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<long double>(a), 2.44);
 }
 
-TEST(ParamValue, assign_operator_const_double) {
+TEST(ParamValue, assign_operator_double) {
   const double v = 2.44;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<double>(a), 2.44);
 }
 
-TEST(ParamValue, assign_operator_const_float) {
+TEST(ParamValue, assign_operator_float) {
   const float v = 2.44f;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<float>(a), 2.44f);
 }
 
-TEST(ParamValue, assign_operator_const_short_int) {
+TEST(ParamValue, assign_operator_short_int) {
   const short int v = 2;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<short int>(a), 2);
 }
 
-TEST(ParamValue, assign_operator_const_unsigned_short_int) {
+TEST(ParamValue, assign_operator_unsigned_short_int) {
   const unsigned short int v = 2;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<unsigned short int>(a), 2);
 }
 
-TEST(ParamValue, assign_operator_const_int) {
+TEST(ParamValue, assign_operator_int) {
   const int v = 2;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<int>(a), 2);
 }
 
-TEST(ParamValue, assign_operator_const_unsigned) {
+TEST(ParamValue, assign_operator_unsigned) {
   const unsigned v = 2;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<unsigned>(a), 2);
 }
 
-TEST(ParamValue, assign_operator_const_long_int) {
+TEST(ParamValue, assign_operator_long_int) {
   const long int v = 2;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<long int>(a), 2);
 }
 
-TEST(ParamValue, assign_operator_const_unsigned_long) {
+TEST(ParamValue, assign_operator_unsigned_long) {
   const unsigned long v = 2;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<unsigned long>(a), 2);
 }
 
-TEST(ParamValue, assign_operator_const_long_long) {
+TEST(ParamValue, assign_operator_long_long) {
   const long long v = 2;
   tdl::ParamValue a("v");
   a = v;
   EXPECT_EQ(static_cast<long long>(a), 2);
 }
 
-TEST(ParamValue, assign_operator_const_unsigned_long_long) {
+TEST(ParamValue, assign_operator_unsigned_long_long) {
   const unsigned long long v = 2;
   tdl::ParamValue a("v");
   a = v;
