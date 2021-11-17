@@ -20,58 +20,58 @@ TEST(ParamEntry_listOfStrings,  ctor_and_copy_operator) {
   EXPECT_EQ(pe.name, "n");
   EXPECT_EQ(pe.description, "d");
   EXPECT_EQ(pe.value, "v");
-  EXPECT_EQ(pe.tags.count("advanced")  ==  1, true);
+  EXPECT_TRUE(pe.tags.count("advanced")  ==  1);
 
   pe = tdl::Param::ParamEntry("n1", "v1", "d1");
   EXPECT_EQ(pe.name, "n1");
   EXPECT_EQ(pe.description, "d1");
   EXPECT_EQ(pe.value, "v1");
-  EXPECT_EQ(pe.tags.count("advanced")  ==  1, false);
+  EXPECT_FALSE(pe.tags.count("advanced")  ==  1);
 }
 
 TEST(ParamEntry, isValid) {
   tdl::Param p;
   std::string m;
   p.setValue("int", 5);
-  EXPECT_EQ(p.getEntry("int").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("int").isValid(m));
   p.setMinInt("int", 5);
-  EXPECT_EQ(p.getEntry("int").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("int").isValid(m));
   p.setMaxInt("int", 8);
-  EXPECT_EQ(p.getEntry("int").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("int").isValid(m));
   p.setValue("int", 10);
-  EXPECT_EQ(p.getEntry("int").isValid(m), false);
+  EXPECT_FALSE(p.getEntry("int").isValid(m));
 
   p.setValue("float", 5.1);
-  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("float").isValid(m));
   p.setMinFloat("float", 5.1);
-  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("float").isValid(m));
   p.setMaxFloat("float", 8.1);
-  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("float").isValid(m));
   p.setValue("float", 10.1);
-  EXPECT_EQ(p.getEntry("float").isValid(m), false);
+  EXPECT_FALSE(p.getEntry("float").isValid(m));
 
   p.setValue("float", 5.1);
-  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("float").isValid(m));
   p.setMinFloat("float", 5.1);
-  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("float").isValid(m));
   p.setMaxFloat("float", 8.1);
-  EXPECT_EQ(p.getEntry("float").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("float").isValid(m));
   p.setValue("float", 10.1);
-  EXPECT_EQ(p.getEntry("float").isValid(m), false);
+  EXPECT_FALSE(p.getEntry("float").isValid(m));
 
 
   std::vector<std::string> strings;
   strings.push_back("bla");
   strings.push_back("bluff");
   p.setValue("string", "bli");
-  EXPECT_EQ(p.getEntry("string").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("string").isValid(m));
   p.setValidStrings("string",strings);
-  EXPECT_EQ(p.getEntry("string").isValid(m), false);
+  EXPECT_FALSE(p.getEntry("string").isValid(m));
 
   p.setValue("string_2", "bla");
-  EXPECT_EQ(p.getEntry("string_2").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("string_2").isValid(m));
   p.setValidStrings("string_2",strings);
-  EXPECT_EQ(p.getEntry("string_2").isValid(m), true);
+  EXPECT_TRUE(p.getEntry("string_2").isValid(m));
 }
 
 TEST(ParamEntry, compare_operator) {
@@ -119,35 +119,35 @@ TEST(ParamParamNode, compareOperator) {
   tdl::Param::ParamNode n1("n", "d");
   tdl::Param::ParamNode n2("n", "d");
 
-  EXPECT_EQ(n1  ==  n2, true);
+  EXPECT_TRUE(n1  ==  n2);
 
   n2.name = "name";
-  EXPECT_EQ(n1  ==  n2, false);
+  EXPECT_FALSE(n1  ==  n2);
   n2 = n1;
 
   n2.description = "bla";
-  EXPECT_EQ(n1  ==  n2, true);
+  EXPECT_TRUE(n1  ==  n2);
   n2 = n1;
 
   n2.nodes.resize(5);
-  EXPECT_EQ(n1  ==  n2, false);
+  EXPECT_FALSE(n1  ==  n2);
   n2 = n1;
 
   n2.entries.resize(5);
-  EXPECT_EQ(n1  ==  n2, false);
+  EXPECT_FALSE(n1  ==  n2);
   n2 = n1;
 
   n2.entries.push_back(tdl::Param::ParamEntry("a", "x", ""));
   n2.entries.push_back(tdl::Param::ParamEntry("b", "y", ""));
   n1.entries.push_back(tdl::Param::ParamEntry("b", "y", ""));
   n1.entries.push_back(tdl::Param::ParamEntry("a", "x", ""));
-  EXPECT_EQ(n1  ==  n2, true);
+  EXPECT_TRUE(n1  ==  n2);
 
   n2.nodes.push_back(tdl::Param::ParamNode("a", "x"));
   n2.nodes.push_back(tdl::Param::ParamNode("b", "y"));
   n1.nodes.push_back(tdl::Param::ParamNode("b", "y"));
   n1.nodes.push_back(tdl::Param::ParamNode("a", "x"));
-  EXPECT_EQ(n1  ==  n2, true);
+  EXPECT_TRUE(n1  ==  n2);
 }
 
 TEST(ParamParamNode, suffix) {
@@ -195,25 +195,25 @@ TEST_F(ParamParamNodeF, size) {
 }
 
 TEST_F(ParamParamNodeF, findEntry) {
-  EXPECT_EQ(pn.findEntry("A") == pn.entries.end(), true);
-  EXPECT_EQ(pn.findEntry("B") != pn.entries.end(), true);
-  EXPECT_EQ(pn.findEntry("C") == pn.entries.end(), true);
-  EXPECT_EQ(pn.findEntry("D") == pn.entries.end(), true);
-  EXPECT_EQ(pn.findEntry("E") == pn.entries.end(), true);
-  EXPECT_EQ(pn.findEntry("F") == pn.entries.end(), true);
-  EXPECT_EQ(pn.findEntry("G") == pn.entries.end(), true);
-  EXPECT_EQ(pn.findEntry("H") == pn.entries.end(), true);
+  EXPECT_TRUE(pn.findEntry("A") == pn.entries.end());
+  EXPECT_TRUE(pn.findEntry("B") != pn.entries.end());
+  EXPECT_TRUE(pn.findEntry("C") == pn.entries.end());
+  EXPECT_TRUE(pn.findEntry("D") == pn.entries.end());
+  EXPECT_TRUE(pn.findEntry("E") == pn.entries.end());
+  EXPECT_TRUE(pn.findEntry("F") == pn.entries.end());
+  EXPECT_TRUE(pn.findEntry("G") == pn.entries.end());
+  EXPECT_TRUE(pn.findEntry("H") == pn.entries.end());
 }
 
 TEST_F(ParamParamNodeF, findNode) {
-  EXPECT_EQ(pn.findNode("A") == pn.nodes.end(), true);
-  EXPECT_EQ(pn.findNode("B") != pn.nodes.end(), true);
-  EXPECT_EQ(pn.findNode("C") != pn.nodes.end(), true);
-  EXPECT_EQ(pn.findNode("D") == pn.nodes.end(), true);
-  EXPECT_EQ(pn.findNode("E") == pn.nodes.end(), true);
-  EXPECT_EQ(pn.findNode("F") == pn.nodes.end(), true);
-  EXPECT_EQ(pn.findNode("G") == pn.nodes.end(), true);
-  EXPECT_EQ(pn.findNode("H") == pn.nodes.end(), true);
+  EXPECT_TRUE(pn.findNode("A") == pn.nodes.end());
+  EXPECT_TRUE(pn.findNode("B") != pn.nodes.end());
+  EXPECT_TRUE(pn.findNode("C") != pn.nodes.end());
+  EXPECT_TRUE(pn.findNode("D") == pn.nodes.end());
+  EXPECT_TRUE(pn.findNode("E") == pn.nodes.end());
+  EXPECT_TRUE(pn.findNode("F") == pn.nodes.end());
+  EXPECT_TRUE(pn.findNode("G") == pn.nodes.end());
+  EXPECT_TRUE(pn.findNode("H") == pn.nodes.end());
 }
 
 TEST_F(ParamParamNodeF, findParentOf) {
@@ -318,7 +318,7 @@ TEST(ParamParamIterator, dereferenceOperator) {
   EXPECT_EQ((*it).name, "name");
   EXPECT_EQ((*it).value, "value");
   EXPECT_EQ((*it).description, "description");
-  EXPECT_EQ((*it).tags.count("advanced") == 1, true);
+  EXPECT_TRUE((*it).tags.count("advanced") == 1);
 }
 
 TEST(ParamParamIterator, arrowOperator) {
@@ -328,7 +328,7 @@ TEST(ParamParamIterator, arrowOperator) {
   EXPECT_EQ(it->name, "name");
   EXPECT_EQ(it->value, "value");
   EXPECT_EQ(it->description, "description");
-  EXPECT_EQ(it->tags.count("advanced") == 1, true);
+  EXPECT_TRUE(it->tags.count("advanced") == 1);
 }
 
 
@@ -377,13 +377,13 @@ TEST_F(ParamParamIteratorF, prefixIncrement) {
   EXPECT_EQ(it->name, "name2");
   EXPECT_EQ(it->value, "value2");
   EXPECT_EQ(it->description, "description2");
-  EXPECT_EQ(it->tags.count("advanced") == 1, false);
+  EXPECT_FALSE(it->tags.count("advanced") == 1);
 
   ++it;
   EXPECT_EQ(it->name, "name3");
   EXPECT_EQ(it->value, "value3");
   EXPECT_EQ(it->description, "description3");
-  EXPECT_EQ(it->tags.count("advanced") == 1, true);
+  EXPECT_TRUE(it->tags.count("advanced") == 1);
 
   ++it;
 
@@ -399,37 +399,37 @@ TEST_F(ParamParamIteratorF, prefixIncrement) {
   EXPECT_EQ(it->name, "name");
   EXPECT_EQ(it->value, "value");
   EXPECT_EQ(it->description, "description");
-  EXPECT_EQ(it->tags.count("advanced") == 1, true);
+  EXPECT_TRUE(it->tags.count("advanced") == 1);
 
   ++it;
   EXPECT_EQ(it->name, "name2");
   EXPECT_EQ(it->value, "value2");
   EXPECT_EQ(it->description, "description2");
-  EXPECT_EQ(it->tags.count("advanced") == 1, false);
+  EXPECT_FALSE(it->tags.count("advanced") == 1);
 
   ++it;
   EXPECT_EQ(it->name, "name3");
   EXPECT_EQ(it->value, "value3");
   EXPECT_EQ(it->description, "description3");
-  EXPECT_EQ(it->tags.count("advanced") == 1, true);
+  EXPECT_TRUE(it->tags.count("advanced") == 1);
 
   ++it;
   EXPECT_EQ(it->name, "name4");
   EXPECT_EQ(it->value, "value");
   EXPECT_EQ(it->description, "description");
-  EXPECT_EQ(it->tags.count("advanced") == 1, true);
+  EXPECT_TRUE(it->tags.count("advanced") == 1);
 
   ++it;
   EXPECT_EQ(it->name, "name5");
   EXPECT_EQ(it->value, "value2");
   EXPECT_EQ(it->description, "description2");
-  EXPECT_EQ(it->tags.count("advanced") == 1, false);
+  EXPECT_FALSE(it->tags.count("advanced") == 1);
 
   ++it;
   EXPECT_EQ(it->name, "name6");
   EXPECT_EQ(it->value, "value3");
   EXPECT_EQ(it->description, "description3");
-  EXPECT_EQ(it->tags.count("advanced") == 1, true);
+  EXPECT_TRUE(it->tags.count("advanced") == 1);
 
   ++it;
 
@@ -466,11 +466,11 @@ TEST_F(ParamParamIteratorF, PostfixIncrement) {
   EXPECT_EQ(it->name, "name2");
   EXPECT_EQ(it->value, "value2");
   EXPECT_EQ(it->description, "description2");
-  EXPECT_EQ(it->tags.count("advanced") == 1, false);
+  EXPECT_FALSE(it->tags.count("advanced") == 1);
   EXPECT_EQ(it2->name, "name");
   EXPECT_EQ(it2->value, "value");
   EXPECT_EQ(it2->description, "description");
-  EXPECT_EQ(it2->tags.count("advanced") == 1, true);
+  EXPECT_TRUE(it2->tags.count("advanced") == 1);
 }
 
 TEST_F(ParamParamIteratorF, getName) {
@@ -559,9 +559,9 @@ TEST_F(ParamParamIteratorF, getTrace) {
   //r:s:B
   EXPECT_EQ(it.getTrace().size(), 2);
   EXPECT_EQ(it.getTrace()[0].name, "r");
-  EXPECT_EQ(it.getTrace()[0].opened, true);
+  EXPECT_TRUE(it.getTrace()[0].opened);
   EXPECT_EQ(it.getTrace()[1].name, "s");
-  EXPECT_EQ(it.getTrace()[1].opened, true);
+  EXPECT_TRUE(it.getTrace()[1].opened);
   EXPECT_EQ(it.getTrace()[1].description, "s_desc");
   ++it;
 
@@ -572,17 +572,17 @@ TEST_F(ParamParamIteratorF, getTrace) {
   //t:D
   EXPECT_EQ(it.getTrace().size(), 3);
   EXPECT_EQ(it.getTrace()[0].name, "s");
-  EXPECT_EQ(it.getTrace()[0].opened, false);
+  EXPECT_FALSE(it.getTrace()[0].opened);
   EXPECT_EQ(it.getTrace()[1].name, "r");
-  EXPECT_EQ(it.getTrace()[1].opened, false);
+  EXPECT_FALSE(it.getTrace()[1].opened);
   EXPECT_EQ(it.getTrace()[2].name, "t");
-  EXPECT_EQ(it.getTrace()[2].opened, true);
+  EXPECT_TRUE(it.getTrace()[2].opened);
   ++it;
 
   //end()
   EXPECT_EQ(it.getTrace().size(), 1);
   EXPECT_EQ(it.getTrace()[0].name, "t");
-  EXPECT_EQ(it.getTrace()[0].opened, false);
+  EXPECT_FALSE(it.getTrace()[0].opened);
 }
 
 ///////////////////////// Param ///////////////////////////////
@@ -698,14 +698,14 @@ TEST(Param, hasTag) {
   //EXPECT_THROW(p.hasTag("key", "bla"), Exception::ElementNotFound);
 
   p.setValue("key", "value");
-  EXPECT_EQ(p.hasTag("key", "advanced"), false);
-  EXPECT_EQ(p.hasTag("key", "advanced2"), false);
+  EXPECT_FALSE(p.hasTag("key", "advanced"));
+  EXPECT_FALSE(p.hasTag("key", "advanced2"));
   p.addTag("key", "advanced");
-  EXPECT_EQ(p.hasTag("key", "advanced"), true);
-  EXPECT_EQ(p.hasTag("key", "advanced2"), false);
+  EXPECT_TRUE(p.hasTag("key", "advanced"));
+  EXPECT_FALSE(p.hasTag("key", "advanced2"));
   p.addTag("key", "advanced2");
-  EXPECT_EQ(p.hasTag("key", "advanced"), true);
-  EXPECT_EQ(p.hasTag("key", "advanced2"), true);
+  EXPECT_TRUE(p.hasTag("key", "advanced"));
+  EXPECT_TRUE(p.hasTag("key", "advanced2"));
 }
 
 TEST(Param, addTags) {
@@ -716,11 +716,11 @@ TEST(Param, addTags) {
   //EXPECT_THROW(p.addTags("key", error_list), Exception::ElementNotFound);
 
   p.setValue("key", "value");
-  EXPECT_EQ(p.hasTag("key", "advanced"), false);
-  EXPECT_EQ(p.hasTag("key", "advanced2"), false);
+  EXPECT_FALSE(p.hasTag("key", "advanced"));
+  EXPECT_FALSE(p.hasTag("key", "advanced2"));
   p.addTags("key", {"advanced", "advanced2"});
-  EXPECT_EQ(p.hasTag("key", "advanced"), true);
-  EXPECT_EQ(p.hasTag("key", "advanced2"), true);
+  EXPECT_TRUE(p.hasTag("key", "advanced"));
+  EXPECT_TRUE(p.hasTag("key", "advanced2"));
 }
 
 TEST(Param, clearTags) {
@@ -932,7 +932,7 @@ TEST_F(ParamF1, copy) {
   tdl::Param p2;
 
   p2 = p_src.copy("notthere:");
-  EXPECT_EQ((p2 == tdl::Param()), true);
+  EXPECT_TRUE((p2 == tdl::Param()));
 
   p2 = p_src.copy("test:");
 
@@ -1044,7 +1044,7 @@ TEST_F(ParamF1, removeAll) {
   EXPECT_EQ(int(p2.getValue("test2:int")),  18);
 
   p2.removeAll("test");
-  EXPECT_EQ(p2.empty(), true);
+  EXPECT_TRUE(p2.empty());
 
   std::cout << p2;
 }
@@ -1240,14 +1240,14 @@ TEST_F(ParamF2, parseCommandLine) {
   p3.setValue("test4:-b", "bv");
   p3.setValue("test4:-c", "cv");
   p3.setValue("test4:misc", std::vector<std::string>{"rv1", "rv2"});
-  EXPECT_EQ(p2 == p3, true);
+  EXPECT_TRUE(p2 == p3);
 
   tdl::Param p20, p30;
   p20.parseCommandLine(6, command_line2);
   p30.setValue("-a", "av");
   p30.setValue("-b", "");
   p30.setValue("-c", "cv");
-  EXPECT_EQ(p20 == p30, true);
+  EXPECT_TRUE(p20 == p30);
 
   tdl::Param p200, p300;
   p200.parseCommandLine(10, command_line4, "test4");
@@ -1255,7 +1255,7 @@ TEST_F(ParamF2, parseCommandLine) {
   p300.setValue("test4:-b", "bv");
   p300.setValue("test4:-c", "cv");
   p300.setValue("test4:misc", std::vector<std::string>{"rv1", "rv2", "-1.0"});
-  EXPECT_EQ(p200 == p300, true);
+  EXPECT_TRUE(p200 == p300);
 
 }
 
@@ -1278,7 +1278,7 @@ TEST_F(ParamF2, parseCommandLineMulti) {
   p3.setValue("b", "bv");
   p3.setValue("c", "cv");
   p3.setValue("misc_", std::vector<std::string>{"rv1", "rv2", "-1.0"});
-  EXPECT_EQ(p2 == p3, true);
+  EXPECT_TRUE(p2 == p3);
 
   tdl::Param p4, p5;
   p4.parseCommandLine(9, command_line, with_one, without, with_multiple, "misc_", "unknown_");
@@ -1286,7 +1286,7 @@ TEST_F(ParamF2, parseCommandLineMulti) {
   p5.setValue("b", "bv");
   p5.setValue("c", "cv");
   p5.setValue("misc_", std::vector<std::string>{"rv1", "rv2"});
-  EXPECT_EQ(p4 == p5, true);
+  EXPECT_TRUE(p4 == p5);
 
   with_one.clear();
   with_one["-a"]="a";
@@ -1298,7 +1298,7 @@ TEST_F(ParamF2, parseCommandLineMulti) {
   p50.setValue("b", "true");
   p50.setValue("misc__",std::vector<std::string>{"bv", "cv", "rv1", "rv2"});
   p50.setValue("unknown__",std::vector<std::string>{"-c"});
-  EXPECT_EQ(p40 == p50, true);
+  EXPECT_TRUE(p40 == p50);
   EXPECT_EQ(p40, p50);
   //"executable -a av -b -c cv"
   tdl::Param p400, p500;
@@ -1307,7 +1307,7 @@ TEST_F(ParamF2, parseCommandLineMulti) {
   p500.setValue("b", "true");
   p500.setValue("misc__",std::vector<std::string>{"cv"});
   p500.setValue("unknown__",std::vector<std::string>{"-c"});
-  EXPECT_EQ(p400 == p500, true);
+  EXPECT_TRUE(p400 == p500);
 
   //"executable -a -b -c cv rv1"
   tdl::Param p4000, p5000;
@@ -1316,7 +1316,7 @@ TEST_F(ParamF2, parseCommandLineMulti) {
   p5000.setValue("b", "true");
   p5000.setValue("misc__",std::vector<std::string>{"cv", "rv1"});
   p5000.setValue("unknown__",std::vector<std::string>{"-c"});
-  EXPECT_EQ(p4000 == p5000, true);
+  EXPECT_TRUE(p4000 == p5000);
 
   // list options:
   tdl::Param p6, p7;
@@ -1511,7 +1511,7 @@ TEST_F(ParamF2, end) {
   EXPECT_EQ((uint32_t)it->value,  7);
 
   ++it;
-  EXPECT_EQ(it == p.end(), true);
+  EXPECT_TRUE(it == p.end());
 }
 
 TEST_F(ParamF2, setValidStrings) {
@@ -1596,14 +1596,14 @@ TEST_F(ParamF3, checkDefaults) {
     p.setValue("double", 47.11, "double");
 
     p.checkDefaults("Test", d, "");
-    EXPECT_EQ(os.str() == "", false);
+    EXPECT_FALSE(os.str() == "");
 
     d.setValue("int", 5, "int");
     d.setValue("double", 47.11, "double");
     os.str("");
   os.clear();
     p.checkDefaults("Test", d, "");
-    EXPECT_EQ(os.str() == "", false);
+    EXPECT_FALSE(os.str() == "");
 
     p.clear();
     p.setValue("pref:string",std::string("bla"), "pref:string");
@@ -1612,12 +1612,12 @@ TEST_F(ParamF3, checkDefaults) {
     os.str("");
   os.clear();
     p.checkDefaults("Test", d, "pref");
-    EXPECT_EQ(os.str() == "", false);
+    EXPECT_FALSE(os.str() == "");
 
     os.str("");
   os.clear();
     p.checkDefaults("Test2", d, "pref:");
-    EXPECT_EQ(os.str() == "", false);
+    EXPECT_FALSE(os.str() == "");
 
     //check string restrictions
     std::vector<std::string> s_rest = {"a", "b", "c"};

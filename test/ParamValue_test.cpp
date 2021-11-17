@@ -105,19 +105,19 @@ TEST(ParamValue, ctor_const_std_string) {
 TEST(ParamValue, ctor_const_vector_string) {
   std::vector<std::string> sl = {"test string", "test string 2"};
   tdl::ParamValue d(sl);
-  EXPECT_EQ(d == sl, true);
+  EXPECT_TRUE(d == sl);
 }
 
 TEST(ParamValue, ctor_const_vector_int) {
   std::vector<int> il = {1, 2};
   tdl::ParamValue d(il);
-  EXPECT_EQ(d == il, true);
+  EXPECT_TRUE(d == il);
 }
 
 TEST(ParamValue, ctor_const_vector_double) {
   std::vector<double> dl = {1.2, 22.3333};
   tdl::ParamValue d(dl);
-  EXPECT_EQ(d == dl, true);
+  EXPECT_TRUE(d == dl);
 }
 TEST(ParamValue, ctor_copy) {
   tdl::ParamValue p1((double) 1.23);
@@ -146,16 +146,16 @@ TEST(ParamValue, ctor_copy) {
   EXPECT_EQ( (unsigned int) copy_of_p5, 123);
   EXPECT_EQ( (std::string) copy_of_p6, "test char");
   EXPECT_EQ( (std::string) copy_of_p7, "test string");
-  EXPECT_EQ( copy_of_p8 == (std::vector<std::string>{"test string", "string2", "last string"}), true);
-  EXPECT_EQ( (copy_of_p9.isEmpty()), true);
-  EXPECT_EQ( copy_of_p10 == (std::vector<int>{1, 2, 3, 4, 5}), true);
-  EXPECT_EQ( copy_of_p11 == (std::vector<double>{1.2,2.3,3.4}), true);
+  EXPECT_TRUE( copy_of_p8 == (std::vector<std::string>{"test string", "string2", "last string"}));
+  EXPECT_TRUE( (copy_of_p9.isEmpty()));
+  EXPECT_TRUE( copy_of_p10 == (std::vector<int>{1, 2, 3, 4, 5}));
+  EXPECT_TRUE( copy_of_p11 == (std::vector<double>{1.2,2.3,3.4}));
 }
 
 TEST(ParamValue, ctor_move) {
   // Ensure that ParamValue has a no-except move constructor (otherwise
   // std::vector is inefficient and will copy instead of move).
-  EXPECT_EQ(noexcept(tdl::ParamValue(std::declval<tdl::ParamValue&&>())), true);
+  EXPECT_TRUE(noexcept(tdl::ParamValue(std::declval<tdl::ParamValue&&>())));
 
   tdl::ParamValue empty;
   tdl::ParamValue p1((double) 1.23);
@@ -184,21 +184,21 @@ TEST(ParamValue, ctor_move) {
   EXPECT_EQ( (unsigned int) copy_of_p5, 123);
   EXPECT_EQ( (std::string) copy_of_p6, "test char");
   EXPECT_EQ( (std::string) copy_of_p7, "test string");
-  EXPECT_EQ( copy_of_p8 == (std::vector<std::string>{"test string", "string2", "last string"}), true);
-  EXPECT_EQ( (copy_of_p9.isEmpty()), true);
-  EXPECT_EQ( copy_of_p10 == (std::vector<int>{1, 2, 3, 4, 5}), true);
-  EXPECT_EQ( copy_of_p11 == (std::vector<double>{1.2, 2.3, 3.4}), true);
+  EXPECT_TRUE( copy_of_p8 == (std::vector<std::string>{"test string", "string2", "last string"}));
+  EXPECT_TRUE( (copy_of_p9.isEmpty()));
+  EXPECT_TRUE( copy_of_p10 == (std::vector<int>{1, 2, 3, 4, 5}));
+  EXPECT_TRUE( copy_of_p11 == (std::vector<double>{1.2, 2.3, 3.4}));
 
-  EXPECT_EQ(p1 == empty, true);
-  EXPECT_EQ(p3 == empty, true);
-  EXPECT_EQ(p4 == empty, true);
-  EXPECT_EQ(p5 == empty, true);
-  EXPECT_EQ(p6 == empty, true);
-  EXPECT_EQ(p7 == empty, true);
-  EXPECT_EQ(p8 == empty, true);
-  EXPECT_EQ(p9 == empty, true);
-  EXPECT_EQ(p10 == empty, true);
-  EXPECT_EQ(p11 == empty, true);
+  EXPECT_TRUE(p1 == empty);
+  EXPECT_TRUE(p3 == empty);
+  EXPECT_TRUE(p4 == empty);
+  EXPECT_TRUE(p5 == empty);
+  EXPECT_TRUE(p6 == empty);
+  EXPECT_TRUE(p7 == empty);
+  EXPECT_TRUE(p8 == empty);
+  EXPECT_TRUE(p9 == empty);
+  EXPECT_TRUE(p10 == empty);
+  EXPECT_TRUE(p11 == empty);
 }
 
 TEST(ParamValue, assignment_operator) {
@@ -226,18 +226,18 @@ TEST(ParamValue, assignment_operator) {
   copy_of_p = p7;
   EXPECT_EQ( (std::string) copy_of_p, "test string");
   copy_of_p = p8;
-  EXPECT_EQ( copy_of_p == (std::vector<std::string>{"test string", "string2", "last string"}), true);
+  EXPECT_TRUE( copy_of_p == (std::vector<std::string>{"test string", "string2", "last string"}));
   copy_of_p = p9;
-  EXPECT_EQ( (copy_of_p.isEmpty()), true);
+  EXPECT_TRUE( (copy_of_p.isEmpty()));
   copy_of_p = p10;
-  EXPECT_EQ(copy_of_p == (std::vector<int>{1,2,3,4,5}), true);
+  EXPECT_TRUE(copy_of_p == (std::vector<int>{1,2,3,4,5}));
   copy_of_p = p11;
-  EXPECT_EQ(copy_of_p == (std::vector<double>{1.2,2.3,3.4}), true);
+  EXPECT_TRUE(copy_of_p == (std::vector<double>{1.2,2.3,3.4}));
 }
 
 TEST(ParamValue, move_operator) {
   // Ensure that ParamValue has a no-except move assignment operator.
-  EXPECT_EQ(noexcept(std::declval<tdl::ParamValue&>() = std::declval<tdl::ParamValue &&>()), true);
+  EXPECT_TRUE(noexcept(std::declval<tdl::ParamValue&>() = std::declval<tdl::ParamValue &&>()));
 
   tdl::ParamValue empty;
   tdl::ParamValue p1((double) 1.23);
@@ -264,39 +264,39 @@ TEST(ParamValue, move_operator) {
   copy_of_p = std::move(p7);
   EXPECT_EQ( (std::string) copy_of_p, "test string");
   copy_of_p = std::move(p8);
-  EXPECT_EQ( copy_of_p == (std::vector<std::string>{"test string","string2","last string"}), true);
+  EXPECT_TRUE( copy_of_p == (std::vector<std::string>{"test string","string2","last string"}));
   copy_of_p = std::move(p9);
-  EXPECT_EQ( (copy_of_p.isEmpty()), true);
+  EXPECT_TRUE( (copy_of_p.isEmpty()));
   copy_of_p = std::move(p10);
-  EXPECT_EQ(copy_of_p == (std::vector<int>{1,2,3,4,5}), true);
+  EXPECT_TRUE(copy_of_p == (std::vector<int>{1,2,3,4,5}));
   copy_of_p = std::move(p11);
-  EXPECT_EQ(copy_of_p == (std::vector<double>{1.2,2.3,3.4}), true);
+  EXPECT_TRUE(copy_of_p == (std::vector<double>{1.2,2.3,3.4}));
 
-  EXPECT_EQ(p1 == empty, true);
-  EXPECT_EQ(p3 == empty, true);
-  EXPECT_EQ(p4 == empty, true);
-  EXPECT_EQ(p5 == empty, true);
-  EXPECT_EQ(p6 == empty, true);
-  EXPECT_EQ(p7 == empty, true);
-  EXPECT_EQ(p8 == empty, true);
-  EXPECT_EQ(p9 == empty, true);
-  EXPECT_EQ(p10 == empty, true);
-  EXPECT_EQ(p11 == empty, true);
+  EXPECT_TRUE(p1 == empty);
+  EXPECT_TRUE(p3 == empty);
+  EXPECT_TRUE(p4 == empty);
+  EXPECT_TRUE(p5 == empty);
+  EXPECT_TRUE(p6 == empty);
+  EXPECT_TRUE(p7 == empty);
+  EXPECT_TRUE(p8 == empty);
+  EXPECT_TRUE(p9 == empty);
+  EXPECT_TRUE(p10 == empty);
+  EXPECT_TRUE(p11 == empty);
 }
 
 TEST(ParamValue, isEmpty) {
   tdl::ParamValue p1;
-  EXPECT_EQ(p1.isEmpty(), true);
+  EXPECT_TRUE(p1.isEmpty());
 
   tdl::ParamValue p2((float)1.2);
-  EXPECT_EQ(p2.isEmpty(), false);
+  EXPECT_FALSE(p2.isEmpty());
   EXPECT_FLOAT_EQ((float) p2, 1.2);
 
   tdl::ParamValue p3("");
-  EXPECT_EQ(p3.isEmpty(), false); // empty std::string does not count as empty!
+  EXPECT_FALSE(p3.isEmpty()); // empty std::string does not count as empty!
 
   tdl::ParamValue p4("2");
-  EXPECT_EQ(p4.isEmpty(), false);
+  EXPECT_FALSE(p4.isEmpty());
   EXPECT_EQ((std::string) p4, "2");
 }
 
@@ -310,21 +310,21 @@ TEST(ParamValue, conversion_vector_string_operator) {
   std::vector<std::string> sl = {"test string list"};
   tdl::ParamValue d(sl);
   std::vector<std::string> sl_op = d;
-  EXPECT_EQ(sl_op == d, true);
+  EXPECT_TRUE(sl_op == d);
 }
 
 TEST(ParamValue, toStringVector) {
   std::vector<std::string> sl = {"test string list"};
   tdl::ParamValue d(sl);
   std::vector<std::string> sl_op = d.toStringVector();
-  EXPECT_EQ(sl_op == d, true);
+  EXPECT_TRUE(sl_op == d);
 }
 
 TEST(ParamValue, conversion_vector_int_operator) {
   std::vector<int> il = {1, 2};
   tdl::ParamValue d(il);
   std::vector<int> il_op = d;
-  EXPECT_EQ(il_op == il, true);
+  EXPECT_TRUE(il_op == il);
   //TEST_EXCEPTION(Exception::ConversionError, std::vector<string> sl = ParamValue("abc,ab");)
 }
 
@@ -332,7 +332,7 @@ TEST(ParamValue, toIntVector) {
   std::vector<int> il = {1, 2};
   tdl::ParamValue d(il);
   std::vector<int> il_op = d.toIntVector();
-  EXPECT_EQ(il_op == il, true);
+  EXPECT_TRUE(il_op == il);
   //TEST_EXCEPTION(Exception::ConversionError, std::vector<string> sl = ParamValue("abc,ab").toStringVector();)
 }
 
@@ -340,14 +340,14 @@ TEST(ParamValue, conversion_vector_double_operator) {
   std::vector<double> dl = {1.2, 22.34455};
   tdl::ParamValue d(dl);
   std::vector<double> dl_op = d;
-  EXPECT_EQ(dl_op == d, true);
+  EXPECT_TRUE(dl_op == d);
 }
 
 TEST(ParamValue, toDoubleVector) {
   std::vector<double> dl = {1.2, 22.34455};
   tdl::ParamValue d(dl);
   std::vector<double> dl_op = d.toDoubleVector();
-  EXPECT_EQ(dl_op == d, true);
+  EXPECT_TRUE(dl_op == d);
 }
 
 TEST(ParamValue, conversion_long_double_operator) {
@@ -458,44 +458,44 @@ TEST(ParamValue, conversion_unsigned_long_long) {
 TEST(ParamValue, compare_operator) {
   tdl::ParamValue a(5.0);
   tdl::ParamValue b(5.0);
-  EXPECT_EQ(a==b,true);
+  EXPECT_TRUE(a==b);
   a = tdl::ParamValue((double)15.13);
   b = tdl::ParamValue((double)15.13);
-  EXPECT_EQ(a==b,true);
+  EXPECT_TRUE(a==b);
   a = tdl::ParamValue((float)15.13);
   b = tdl::ParamValue((float)(17-1.87));
-  EXPECT_EQ(a==b,true);
+  EXPECT_TRUE(a==b);
   a = tdl::ParamValue((int)5);
   b = tdl::ParamValue((int)5);
-  EXPECT_EQ(a==b,true);
+  EXPECT_TRUE(a==b);
   a = tdl::ParamValue((unsigned int)5000);
   b = tdl::ParamValue((unsigned int)5000);
-  EXPECT_EQ(a==b,true);
+  EXPECT_TRUE(a==b);
   a = tdl::ParamValue("hello");
   b = tdl::ParamValue(std::string("hello"));
-  EXPECT_EQ(a==b,true);
+  EXPECT_TRUE(a==b);
   a = tdl::ParamValue((float)15.13);
   b = tdl::ParamValue((float)(15.13001));
-  EXPECT_EQ(a==b,false);
+  EXPECT_FALSE(a==b);
 
 }
 
 TEST(ParamValue, unequal_operator) {
   tdl::ParamValue a(5.0);
   tdl::ParamValue b(5.1);
-  EXPECT_EQ(a!=b,true);
+  EXPECT_TRUE(a!=b);
   a = tdl::ParamValue((double)15.13001);
   b = tdl::ParamValue((double)15.13);
-  EXPECT_EQ(a!=b,true);
+  EXPECT_TRUE(a!=b);
 
   a = tdl::ParamValue("hello");
   b = tdl::ParamValue(std::string("hello"));
-  EXPECT_EQ(a!=b,false);
+  EXPECT_FALSE(a!=b);
 }
 
 TEST(ParamValue, toChar) {
   tdl::ParamValue a;
-  EXPECT_EQ(a.toChar() == nullptr, true);
+  EXPECT_TRUE(a.toChar() == nullptr);
   a = tdl::ParamValue("hello");
   EXPECT_EQ(a.toChar(),std::string{"hello"});
   a = tdl::ParamValue(5);
@@ -526,9 +526,9 @@ TEST(ParamValue, toString) {
 TEST(ParamValue, toBool) {
   //valid cases
   tdl::ParamValue a("true");
-  EXPECT_EQ(a.toBool(),true);
+  EXPECT_TRUE(a.toBool());
   a = tdl::ParamValue("false");
-  EXPECT_EQ(a.toBool(),false);
+  EXPECT_FALSE(a.toBool());
 
   //invalid cases
   a = tdl::ParamValue();
