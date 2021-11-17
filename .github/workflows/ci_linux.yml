@@ -95,7 +95,7 @@ jobs:
         run: |
           mkdir tdl-build
           cd tdl-build
-          cmake ../tdl/test/${{ matrix.build }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}" -DBIO_VERBOSE_TESTS=OFF -DBIO_BENCHMARK_MIN_TIME=0.01
+          cmake ../tdl/test -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}" -DBIO_VERBOSE_TESTS=OFF -DBIO_BENCHMARK_MIN_TIME=0.01
           make gtest_build
 
       - name: Build tests
