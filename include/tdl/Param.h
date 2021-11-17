@@ -2,9 +2,11 @@
 
 #include <tdl/ParamValue.h>
 
+#include <algorithm>
+#include <limits>
+#include <map>
 #include <set>
 #include <string>
-#include <map>
 
 namespace tdl
 {
