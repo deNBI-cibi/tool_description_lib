@@ -822,37 +822,37 @@ TEST(Param, insert) {
 
   p2.insert("prefix", p);
   EXPECT_EQ(p2.size(), 4);
-  EXPECT_EQ(int(p2.getValue("prefixa")),  17);
+  EXPECT_EQ(static_cast<int>(p2.getValue("prefixa")),  17);
   EXPECT_EQ(p2.getDescription("prefixa"),  "intdesc");
-  EXPECT_FLOAT_EQ(float(p2.getValue("prefixn1:b")),  17.4);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("prefixn1:b")),  17.4);
   EXPECT_EQ(p2.getDescription("prefixn1:b"),  "floatdesc");
   EXPECT_EQ(p2.getValue("prefixn1:c"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("prefixn1:c"),  "stringdesc");
-  EXPECT_FLOAT_EQ(float(p2.getValue("prefixn2:d")),  17.5);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("prefixn2:d")),  17.5);
   EXPECT_EQ(p2.getDescription("prefixn2:d"),  "");
   EXPECT_EQ(p2.getSectionDescription("prefixn1"), "sectiondesc");
 
   p2.insert("", p);
   EXPECT_EQ(p2.size(), 8);
-  EXPECT_EQ(int(p2.getValue("a")),  17);
+  EXPECT_EQ(static_cast<int>(p2.getValue("a")),  17);
   EXPECT_EQ(p2.getDescription("a"),  "intdesc");
-  EXPECT_FLOAT_EQ(float(p2.getValue("n1:b")),  17.4);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("n1:b")),  17.4);
   EXPECT_EQ(p2.getDescription("n1:b"),  "floatdesc");
   EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("n1:c"),  "stringdesc");
-  EXPECT_FLOAT_EQ(float(p2.getValue("n2:d")),  17.5);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("n2:d")),  17.5);
   EXPECT_EQ(p2.getDescription("n2:d"),  "");
   EXPECT_EQ(p2.getSectionDescription("n1"), "sectiondesc");
 
   p2.insert("n3:", p);
   EXPECT_EQ(p2.size(), 12);
-  EXPECT_EQ(int(p2.getValue("n3:a")),  17);
+  EXPECT_EQ(static_cast<int>(p2.getValue("n3:a")),  17);
   EXPECT_EQ(p2.getDescription("n3:a"),  "intdesc");
-  EXPECT_FLOAT_EQ(float(p2.getValue("n3:n1:b")),  17.4);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("n3:n1:b")),  17.4);
   EXPECT_EQ(p2.getDescription("n3:n1:b"),  "floatdesc");
   EXPECT_EQ(p2.getValue("n3:n1:c"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("n3:n1:c"),  "stringdesc");
-  EXPECT_FLOAT_EQ(float(p2.getValue("n3:n2:d")),  17.5);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("n3:n2:d")),  17.5);
   EXPECT_EQ(p2.getDescription("n3:n2:d"),  "");
   EXPECT_EQ(p2.getSectionDescription("n3:n1"), "sectiondesc");
 
@@ -864,10 +864,10 @@ TEST(Param, insert) {
 
   p2.insert("", p);
   EXPECT_EQ(p2.size(), 12);
-  EXPECT_EQ(int(p2.getValue("a")),  18);
-  EXPECT_FLOAT_EQ(float(p2.getValue("n1:b")),  17.7);
+  EXPECT_EQ(static_cast<int>(p2.getValue("a")),  18);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("n1:b")),  17.7);
   EXPECT_EQ(p2.getValue("n1:c"),  "test, test, test, test");
-  EXPECT_FLOAT_EQ(float(p2.getValue("n2:d")),  17.8);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("n2:d")),  17.8);
 }
 
 
@@ -891,17 +891,17 @@ protected:
 
 TEST_F(ParamF1, Param) {
   tdl::Param p2(p_src);
-  EXPECT_FLOAT_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("test:float")),  17.4);
   EXPECT_EQ(p_src.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   EXPECT_EQ(p_src.getDescription("test:string"),  "stringdesc");
-  EXPECT_EQ(int(p2.getValue("test:int")),  17);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test:int")),  17);
   EXPECT_EQ(p_src.getDescription("test:int"),  "intdesc");
-  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getDescription("test2:float"),  "");
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   EXPECT_EQ(p2.getDescription("test2:string"),  "");
-  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test2:int")),  18);
   EXPECT_EQ(p2.getDescription("test2:int"),  "");
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
   EXPECT_EQ(p2.getTags("test:float").size(),  3);
@@ -911,17 +911,17 @@ TEST_F(ParamF1, Param) {
 TEST_F(ParamF1, assignoperator) {
   tdl::Param p2;
   p2=p_src;
-  EXPECT_FLOAT_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("test:float")),  17.4);
   EXPECT_EQ(p_src.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   EXPECT_EQ(p_src.getDescription("test:string"),  "stringdesc");
-  EXPECT_EQ(int(p2.getValue("test:int")),  17);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test:int")),  17);
   EXPECT_EQ(p2.getDescription("test:int"),  "intdesc");
-  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getDescription("test2:float"),  "");
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   EXPECT_EQ(p2.getDescription("test2:string"),  "");
-  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test2:int")),  18);
   EXPECT_EQ(p2.getDescription("test2:int"),  "");
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
   EXPECT_EQ(p2.getTags("test:float").size(),  3);
@@ -936,32 +936,32 @@ TEST_F(ParamF1, copy) {
 
   p2 = p_src.copy("test:");
 
-  EXPECT_FLOAT_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("test:float")),  17.4);
   EXPECT_EQ(p2.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("test:int"),  "intdesc");
-  EXPECT_EQ(int(p2.getValue("test:int")),  17);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test:int")),  17);
   EXPECT_EQ(p2.getDescription("test:string"),  "stringdesc");
   //EXPECT_THROW(p2.getValue("test2:float"), Exception::ElementNotFound);
 
   p2 = p_src.copy("test:", true);
-  EXPECT_FLOAT_EQ(float(p2.getValue("float")),  17.4);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("float")),  17.4);
   EXPECT_EQ(p2.getDescription("float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("string"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("string"),  "stringdesc");
 
   p2 = p_src.copy("test");
-  EXPECT_FLOAT_EQ(float(p2.getValue("test:float")),  17.4);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("test:float")),  17.4);
   EXPECT_EQ(p2.getDescription("test:float"),  "floatdesc");
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
   EXPECT_EQ(p2.getDescription("test:string"),  "stringdesc");
-  EXPECT_EQ(int(p2.getValue("test:int")),  17);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test:int")),  17);
   EXPECT_EQ(p2.getDescription("test:int"),  "intdesc");
-  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getDescription("test2:float"),  "");
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
   EXPECT_EQ(p2.getDescription("test2:string"),  "");
-  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test2:int")),  18);
   EXPECT_EQ(p2.getDescription("test2:int"),  "");
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
 }
@@ -1030,18 +1030,18 @@ TEST_F(ParamF1, removeAll) {
   p2.removeAll("test:float");
   //EXPECT_THROW(p2.getValue("test:float"), Exception::ElementNotFound);
   EXPECT_EQ(p2.getValue("test:string"),  "test, test, test");
-  EXPECT_EQ(int(p2.getValue("test:int")),  17);
-  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test:int")),  17);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
-  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test2:int")),  18);
   EXPECT_EQ(p2.getSectionDescription("test"), "sectiondesc");
 
   p2.removeAll("test:");
   //EXPECT_THROW(p2.getValue("test:string"), Exception::ElementNotFound);
   //EXPECT_THROW(p2.getValue("test:int"), Exception::ElementNotFound);
-  EXPECT_FLOAT_EQ(float(p2.getValue("test2:float")),  17.5);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("test2:float")),  17.5);
   EXPECT_EQ(p2.getValue("test2:string"),  "test2");
-  EXPECT_EQ(int(p2.getValue("test2:int")),  18);
+  EXPECT_EQ(static_cast<int>(p2.getValue("test2:int")),  18);
 
   p2.removeAll("test");
   EXPECT_TRUE(p2.empty());
@@ -1113,9 +1113,9 @@ TEST_F(ParamF1, setDefaults) {
 
   p2.setDefaults(defaults);
   EXPECT_EQ(p2.size(), 16);
-  EXPECT_FLOAT_EQ(float(p2.getValue("float")), -2.0);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("float")), -2.0);
   EXPECT_EQ(p2.getDescription("float"), "float");
-  EXPECT_FLOAT_EQ(float(p2.getValue("float2")), 2.0);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("float2")), 2.0);
   EXPECT_EQ(p2.getDescription("float2"), "float2");
   EXPECT_EQ(std::string(p2.getValue("string")), "other string");
   EXPECT_EQ(p2.getDescription("string"), "string");
@@ -1135,9 +1135,9 @@ TEST_F(ParamF1, setDefaults) {
   p2.setDefaults(defaults, "PATH");
 
   EXPECT_EQ(p2.size(), 22);
-  EXPECT_FLOAT_EQ(float(p2.getValue("PATH:float")), -1.0);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("PATH:float")), -1.0);
   EXPECT_EQ(p2.getDescription("PATH:float"), "PATH:float");
-  EXPECT_FLOAT_EQ(float(p2.getValue("PATH:float2")), 2.0);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2.getValue("PATH:float2")), 2.0);
   EXPECT_EQ(p2.getDescription("PATH:float2"), "float2");
   EXPECT_EQ(std::string(p2.getValue("PATH:string")), "some string");
   EXPECT_EQ(p2.getDescription("PATH:string"), "PATH:string");
@@ -1493,22 +1493,22 @@ TEST_F(ParamF2, end) {
   tdl::Param::ParamIterator it = p.begin();
   EXPECT_EQ(it->name,  "a");
   EXPECT_EQ(it.getName(),  "a");
-  EXPECT_EQ((uint32_t)it->value,  5);
+  EXPECT_EQ(static_cast<uint32_t>(it->value),  5);
 
   ++it;
   EXPECT_EQ(it->name,  "c");
   EXPECT_EQ(it.getName(),  "c");
-  EXPECT_EQ((uint32_t)it->value,  8);
+  EXPECT_EQ(static_cast<uint32_t>(it->value),  8);
 
   ++it;
   EXPECT_EQ(it->name,  "a");
   EXPECT_EQ(it.getName(),  "b:a");
-  EXPECT_EQ((uint32_t)it->value,  6);
+  EXPECT_EQ(static_cast<uint32_t>(it->value),  6);
 
   ++it;
   EXPECT_EQ(it->name,  "b");
   EXPECT_EQ(it.getName(),  "b:b");
-  EXPECT_EQ((uint32_t)it->value,  7);
+  EXPECT_EQ(static_cast<uint32_t>(it->value),  7);
 
   ++it;
   EXPECT_TRUE(it == p.end());

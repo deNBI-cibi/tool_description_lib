@@ -25,75 +25,75 @@ TEST(ParamValue, ctor_long_double) {
   long double x = -3.4L;
   tdl::ParamValue d(x);
   // Note: The implementation uses typedef double (as opposed to float, double, long double.)
-  EXPECT_FLOAT_EQ((double)d, -3.4L);
+  EXPECT_FLOAT_EQ(static_cast<double>(d), -3.4L);
 }
 
 TEST(ParamValue, ctor_double) {
   double x = -3.0;
   tdl::ParamValue d(x);
   // Note: The implementation uses typedef double (as opposed to float, double, long double.)
-  EXPECT_FLOAT_EQ((double)d, -3.0);
+  EXPECT_FLOAT_EQ(static_cast<double>(d), -3.0);
 }
 
 TEST(ParamValue, ctor_float) {
   float x = 3.0f;
   tdl::ParamValue d(x);
   // Note: The implementation uses typedef double (as opposed to float, double, long double.)
-  EXPECT_FLOAT_EQ((double)d, 3.0);
+  EXPECT_FLOAT_EQ(static_cast<double>(d), 3.0);
 }
 
 TEST(ParamValue, ctor_short_int) {
   short int n = -3000;
   tdl::ParamValue d(n);
-  EXPECT_EQ((short int)d, -3000);
+  EXPECT_EQ(static_cast<short int>(d), -3000);
 }
 
 TEST(ParamValue, ctor_unsigend_short_int) {
   unsigned short int n = 3000u;
   tdl::ParamValue d(n);
-  EXPECT_EQ((unsigned short)d, 3000u);
+  EXPECT_EQ(static_cast<unsigned short>(d), 3000u);
 }
 
 TEST(ParamValue, ctor_int) {
   int n = -3000;
   tdl::ParamValue d(n);
-  EXPECT_EQ((int)d, -3000);
+  EXPECT_EQ(static_cast<int>(d), -3000);
 }
 
 TEST(ParamValue, ctor_unsigned) {
   unsigned int n = 3000u;
   tdl::ParamValue d(n);
-  EXPECT_EQ((unsigned int)d, 3000u);
+  EXPECT_EQ(static_cast<unsigned int>(d), 3000u);
 }
 
 TEST(ParamValue, ctor_long_int) {
   long int n = -3000;
   tdl::ParamValue d(n);
-  EXPECT_EQ((long int)d, -3000);
+  EXPECT_EQ(static_cast<long int>(d), -3000);
 }
 
 TEST(ParamValue, ctor_unsigned_long) {
   unsigned long int n = 3000u;
   tdl::ParamValue d(n);
-  EXPECT_EQ((unsigned long int)d, 3000u);
+  EXPECT_EQ(static_cast<unsigned long int>(d), 3000u);
 }
 
 TEST(ParamValue, ctor_long_long) {
   long long n = -3000;
   tdl::ParamValue d(n);
-  EXPECT_EQ((long long) d, -3000);
+  EXPECT_EQ(static_cast<long long>(d), -3000);
 }
 
 TEST(ParamValue, ctor_unsigned_long_long) {
   unsigned long long n = 3000;
   tdl::ParamValue d(n);
-  EXPECT_EQ((unsigned long long) d, 3000);
+  EXPECT_EQ(static_cast<unsigned long long>(d), 3000);
 }
 
 TEST(ParamValue, ctor_const_char_ptr) {
   const char* s = "test char";
   tdl::ParamValue d(s);
-  EXPECT_EQ((std::string)d, "test char");
+  EXPECT_EQ(static_cast<std::string>(d), std::string{"test char"});
 }
 
 TEST(ParamValue, ctor_const_std_string) {
@@ -120,10 +120,10 @@ TEST(ParamValue, ctor_const_vector_double) {
   EXPECT_TRUE(d == dl);
 }
 TEST(ParamValue, ctor_copy) {
-  tdl::ParamValue p1((double) 1.23);
-  tdl::ParamValue p3((float) 1.23);
-  tdl::ParamValue p4((int) -3);
-  tdl::ParamValue p5((unsigned int) 123);
+  tdl::ParamValue p1(1.23);
+  tdl::ParamValue p3(1.23f);
+  tdl::ParamValue p4(static_cast<int>(-3));
+  tdl::ParamValue p5(static_cast<unsigned int>(123));
   tdl::ParamValue p6("test char");
   tdl::ParamValue p7(std::string("test string"));
   tdl::ParamValue p8({"test string","string2","last string"});
@@ -140,12 +140,12 @@ TEST(ParamValue, ctor_copy) {
   tdl::ParamValue copy_of_p9(p9);
   tdl::ParamValue copy_of_p10(p10);
   tdl::ParamValue copy_of_p11(p11);
-  EXPECT_FLOAT_EQ( (double) copy_of_p1, 1.23);
-  EXPECT_FLOAT_EQ( (float) copy_of_p3, 1.23);
-  EXPECT_EQ( (int) copy_of_p4, -3);
-  EXPECT_EQ( (unsigned int) copy_of_p5, 123);
-  EXPECT_EQ( (std::string) copy_of_p6, "test char");
-  EXPECT_EQ( (std::string) copy_of_p7, "test string");
+  EXPECT_FLOAT_EQ(static_cast<double>(copy_of_p1), 1.23);
+  EXPECT_FLOAT_EQ(static_cast<float>(copy_of_p3), 1.23f);
+  EXPECT_EQ(static_cast<int>(copy_of_p4), -3);
+  EXPECT_EQ(static_cast<unsigned int>(copy_of_p5), 123);
+  EXPECT_EQ(static_cast<std::string>(copy_of_p6), std::string{"test char"});
+  EXPECT_EQ(static_cast<std::string>(copy_of_p7), std::string{"test string"});
   EXPECT_TRUE( copy_of_p8 == (std::vector<std::string>{"test string", "string2", "last string"}));
   EXPECT_TRUE( (copy_of_p9.isEmpty()));
   EXPECT_TRUE( copy_of_p10 == (std::vector<int>{1, 2, 3, 4, 5}));
@@ -158,10 +158,10 @@ TEST(ParamValue, ctor_move) {
   EXPECT_TRUE(noexcept(tdl::ParamValue(std::declval<tdl::ParamValue&&>())));
 
   tdl::ParamValue empty;
-  tdl::ParamValue p1((double) 1.23);
-  tdl::ParamValue p3((float) 1.23);
-  tdl::ParamValue p4((int) -3);
-  tdl::ParamValue p5((unsigned int) 123);
+  tdl::ParamValue p1(1.23);
+  tdl::ParamValue p3(1.23f);
+  tdl::ParamValue p4(static_cast<int>(-3));
+  tdl::ParamValue p5(static_cast<unsigned int>(123));
   tdl::ParamValue p6("test char");
   tdl::ParamValue p7(std::string("test string"));
   tdl::ParamValue p8({"test string","string2","last string"});
@@ -178,12 +178,12 @@ TEST(ParamValue, ctor_move) {
   tdl::ParamValue copy_of_p9(std::move(p9));
   tdl::ParamValue copy_of_p10(std::move(p10));
   tdl::ParamValue copy_of_p11(std::move(p11));
-  EXPECT_FLOAT_EQ( (double) copy_of_p1, 1.23);
-  EXPECT_FLOAT_EQ( (float) copy_of_p3, 1.23);
-  EXPECT_EQ( (int) copy_of_p4, -3);
-  EXPECT_EQ( (unsigned int) copy_of_p5, 123);
-  EXPECT_EQ( (std::string) copy_of_p6, "test char");
-  EXPECT_EQ( (std::string) copy_of_p7, "test string");
+  EXPECT_FLOAT_EQ(static_cast<double>(copy_of_p1), 1.23);
+  EXPECT_FLOAT_EQ(static_cast<float>(copy_of_p3), 1.23f);
+  EXPECT_EQ(static_cast<int>(copy_of_p4), -3);
+  EXPECT_EQ(static_cast<unsigned int>(copy_of_p5), 123);
+  EXPECT_EQ(static_cast<std::string>(copy_of_p6), "test char");
+  EXPECT_EQ(static_cast<std::string>(copy_of_p7), "test string");
   EXPECT_TRUE( copy_of_p8 == (std::vector<std::string>{"test string", "string2", "last string"}));
   EXPECT_TRUE( (copy_of_p9.isEmpty()));
   EXPECT_TRUE( copy_of_p10 == (std::vector<int>{1, 2, 3, 4, 5}));
@@ -202,10 +202,10 @@ TEST(ParamValue, ctor_move) {
 }
 
 TEST(ParamValue, assignment_operator) {
-  tdl::ParamValue p1((double) 1.23);
-  tdl::ParamValue p3((float) 1.23);
-  tdl::ParamValue p4((int) -3);
-  tdl::ParamValue p5((unsigned int) 123);
+  tdl::ParamValue p1(1.23);
+  tdl::ParamValue p3(1.23f);
+  tdl::ParamValue p4(static_cast<int>(-3));
+  tdl::ParamValue p5(static_cast<unsigned int>(123));
   tdl::ParamValue p6("test char");
   tdl::ParamValue p7(std::string("test string"));
   tdl::ParamValue p8({"test string","string2","last string"});
@@ -214,17 +214,17 @@ TEST(ParamValue, assignment_operator) {
   tdl::ParamValue p11(std::vector<double>{1.2,2.3,3.4});
   tdl::ParamValue copy_of_p;
   copy_of_p = p1;
-  EXPECT_FLOAT_EQ( (double) copy_of_p, 1.23);
+  EXPECT_FLOAT_EQ(static_cast<double>(copy_of_p), 1.23);
   copy_of_p = p3;
-  EXPECT_FLOAT_EQ( (float) copy_of_p, 1.23);
+  EXPECT_FLOAT_EQ(static_cast<float>(copy_of_p), 1.23);
   copy_of_p = p4;
-  EXPECT_EQ( (int) copy_of_p, -3);
+  EXPECT_EQ(static_cast<int>(copy_of_p), -3);
   copy_of_p = p5;
-  EXPECT_EQ( (unsigned int) copy_of_p, 123);
+  EXPECT_EQ(static_cast<unsigned int>(copy_of_p), 123);
   copy_of_p = p6;
-  EXPECT_EQ( (std::string) copy_of_p, "test char");
+  EXPECT_EQ(static_cast<std::string>(copy_of_p), "test char");
   copy_of_p = p7;
-  EXPECT_EQ( (std::string) copy_of_p, "test string");
+  EXPECT_EQ(static_cast<std::string>(copy_of_p), "test string");
   copy_of_p = p8;
   EXPECT_TRUE( copy_of_p == (std::vector<std::string>{"test string", "string2", "last string"}));
   copy_of_p = p9;
@@ -240,10 +240,10 @@ TEST(ParamValue, move_operator) {
   EXPECT_TRUE(noexcept(std::declval<tdl::ParamValue&>() = std::declval<tdl::ParamValue &&>()));
 
   tdl::ParamValue empty;
-  tdl::ParamValue p1((double) 1.23);
-  tdl::ParamValue p3((float) 1.23);
-  tdl::ParamValue p4((int) -3);
-  tdl::ParamValue p5((unsigned int) 123);
+  tdl::ParamValue p1(1.23);
+  tdl::ParamValue p3(1.23f);
+  tdl::ParamValue p4(static_cast<int>(-3));
+  tdl::ParamValue p5(static_cast<unsigned int>(123));
   tdl::ParamValue p6("test char");
   tdl::ParamValue p7(std::string("test string"));
   tdl::ParamValue p8({"test string","string2","last string"});
@@ -252,17 +252,17 @@ TEST(ParamValue, move_operator) {
   tdl::ParamValue p11(std::vector<double>{1.2,2.3,3.4});
   tdl::ParamValue copy_of_p;
   copy_of_p = std::move(p1);
-  EXPECT_FLOAT_EQ( (double) copy_of_p, 1.23);
+  EXPECT_FLOAT_EQ(static_cast<double>(copy_of_p), 1.23);
   copy_of_p = std::move(p3);
-  EXPECT_FLOAT_EQ( (float) copy_of_p, 1.23);
+  EXPECT_FLOAT_EQ(static_cast<float>(copy_of_p), 1.23);
   copy_of_p = std::move(p4);
-  EXPECT_EQ( (int) copy_of_p, -3);
+  EXPECT_EQ(static_cast<int>(copy_of_p), -3);
   copy_of_p = std::move(p5);
-  EXPECT_EQ( (unsigned int) copy_of_p, 123);
+  EXPECT_EQ(static_cast<unsigned int>(copy_of_p), 123);
   copy_of_p = std::move(p6);
-  EXPECT_EQ( (std::string) copy_of_p, "test char");
+  EXPECT_EQ(static_cast<std::string>(copy_of_p), "test char");
   copy_of_p = std::move(p7);
-  EXPECT_EQ( (std::string) copy_of_p, "test string");
+  EXPECT_EQ(static_cast<std::string>(copy_of_p), "test string");
   copy_of_p = std::move(p8);
   EXPECT_TRUE( copy_of_p == (std::vector<std::string>{"test string","string2","last string"}));
   copy_of_p = std::move(p9);
@@ -288,20 +288,20 @@ TEST(ParamValue, isEmpty) {
   tdl::ParamValue p1;
   EXPECT_TRUE(p1.isEmpty());
 
-  tdl::ParamValue p2((float)1.2);
+  tdl::ParamValue p2(1.2f);
   EXPECT_FALSE(p2.isEmpty());
-  EXPECT_FLOAT_EQ((float) p2, 1.2);
+  EXPECT_FLOAT_EQ(static_cast<float>(p2), 1.2);
 
   tdl::ParamValue p3("");
   EXPECT_FALSE(p3.isEmpty()); // empty std::string does not count as empty!
 
   tdl::ParamValue p4("2");
   EXPECT_FALSE(p4.isEmpty());
-  EXPECT_EQ((std::string) p4, "2");
+  EXPECT_EQ(static_cast<std::string>(p4), "2");
 }
 
 TEST(ParamValue, conversion_string_operator) {
-  tdl::ParamValue d((std::string) "test string");
+  tdl::ParamValue d(std::string{"test string"});
   std::string k = d;
   EXPECT_EQ(k,"test string");
 }
@@ -369,7 +369,7 @@ TEST(ParamValue, conversion_float_operator) {
 }
 
 TEST(ParamValue, conversion_int_operator) {
-  tdl::ParamValue d((int) -55);
+  tdl::ParamValue d(static_cast<int>(-55));
   int k = d;
   EXPECT_EQ(k,-55);
 
@@ -377,7 +377,7 @@ TEST(ParamValue, conversion_int_operator) {
 }
 
 TEST(ParamValue, conversion_unsigned_int_operator) {
-  tdl::ParamValue d((int) 55);
+  tdl::ParamValue d(static_cast<int>(55));
   unsigned int k = d;
   EXPECT_EQ(k,55);
 
@@ -386,7 +386,7 @@ TEST(ParamValue, conversion_unsigned_int_operator) {
 }
 
 TEST(ParamValue, conversion_short_int) {
-  tdl::ParamValue d((short int) -55);
+  tdl::ParamValue d(static_cast<short int>(-55));
   short int k = d;
   EXPECT_EQ(k,-55);
 
@@ -394,7 +394,7 @@ TEST(ParamValue, conversion_short_int) {
 }
 
 TEST(ParamValue, conversion_unsigned_short_int) {
-  tdl::ParamValue d((short int) 55);
+  tdl::ParamValue d(static_cast<short int>(55));
   unsigned short int k = d;
   EXPECT_EQ(k,55);
 
@@ -403,7 +403,7 @@ TEST(ParamValue, conversion_unsigned_short_int) {
 }
 
 TEST(ParamValue, conversion_long_int) {
-  tdl::ParamValue d((long int) -55);
+  tdl::ParamValue d(static_cast<long int>(-55));
   long int k = d;
   EXPECT_EQ(k,-55);
 
@@ -411,7 +411,7 @@ TEST(ParamValue, conversion_long_int) {
 }
 
 TEST(ParamValue, conversion_unsigned_long_int) {
-  tdl::ParamValue d((long int) 55);
+  tdl::ParamValue d(static_cast<long int>(55));
   unsigned long int k = d;
   EXPECT_EQ(k,55);
 
@@ -421,17 +421,17 @@ TEST(ParamValue, conversion_unsigned_long_int) {
 
 TEST(ParamValue, conversion_long_long) {
   {
-      tdl::ParamValue d((long long) 55);
+      tdl::ParamValue d(static_cast<long long>(55));
       long long k = d;
       EXPECT_EQ(k,55);
   }
   {
-      tdl::ParamValue d((long long) -1);
+      tdl::ParamValue d(static_cast<long long>(-1));
       long long k = d;
       EXPECT_EQ(k,-1);
   }
   {
-      tdl::ParamValue d((ssize_t) -55);
+      tdl::ParamValue d(static_cast<ssize_t>(-55));
       ssize_t k = d;
       EXPECT_EQ(k,-55);
   }
@@ -441,12 +441,12 @@ TEST(ParamValue, conversion_long_long) {
 
 TEST(ParamValue, conversion_unsigned_long_long) {
   {
-      tdl::ParamValue d((unsigned long long) 55);
+      tdl::ParamValue d(static_cast<unsigned long long>(55));
       unsigned long long k = d;
       EXPECT_EQ(k,55);
   }
   {
-      tdl::ParamValue d((size_t) 55);
+      tdl::ParamValue d(static_cast<size_t>(55));
       size_t k = d;
       EXPECT_EQ(k,55);
   }
@@ -459,23 +459,23 @@ TEST(ParamValue, compare_operator) {
   tdl::ParamValue a(5.0);
   tdl::ParamValue b(5.0);
   EXPECT_TRUE(a==b);
-  a = tdl::ParamValue((double)15.13);
-  b = tdl::ParamValue((double)15.13);
+  a = tdl::ParamValue(static_cast<double>(15.13));
+  b = tdl::ParamValue(static_cast<double>(15.13));
   EXPECT_TRUE(a==b);
-  a = tdl::ParamValue((float)15.13);
-  b = tdl::ParamValue((float)(17-1.87));
+  a = tdl::ParamValue(static_cast<float>(15.13));
+  b = tdl::ParamValue(static_cast<float>(17-1.87));
   EXPECT_TRUE(a==b);
-  a = tdl::ParamValue((int)5);
-  b = tdl::ParamValue((int)5);
+  a = tdl::ParamValue(static_cast<int>(5));
+  b = tdl::ParamValue(static_cast<int>(5));
   EXPECT_TRUE(a==b);
-  a = tdl::ParamValue((unsigned int)5000);
-  b = tdl::ParamValue((unsigned int)5000);
+  a = tdl::ParamValue(static_cast<unsigned int>(5000));
+  b = tdl::ParamValue(static_cast<unsigned int>(5000));
   EXPECT_TRUE(a==b);
   a = tdl::ParamValue("hello");
   b = tdl::ParamValue(std::string("hello"));
   EXPECT_TRUE(a==b);
-  a = tdl::ParamValue((float)15.13);
-  b = tdl::ParamValue((float)(15.13001));
+  a = tdl::ParamValue(static_cast<float>(15.13));
+  b = tdl::ParamValue(static_cast<float>(15.13001));
   EXPECT_FALSE(a==b);
 
 }
@@ -483,10 +483,10 @@ TEST(ParamValue, compare_operator) {
 TEST(ParamValue, unequal_operator) {
   tdl::ParamValue a(5.0);
   tdl::ParamValue b(5.1);
-  EXPECT_TRUE(a!=b);
-  a = tdl::ParamValue((double)15.13001);
-  b = tdl::ParamValue((double)15.13);
-  EXPECT_TRUE(a!=b);
+  EXPECT_EQ(a!=b,true);
+  a = tdl::ParamValue(static_cast<double>(15.13001));
+  b = tdl::ParamValue(static_cast<double>(15.13));
+  EXPECT_EQ(a!=b,true);
 
   a = tdl::ParamValue("hello");
   b = tdl::ParamValue(std::string("hello"));
@@ -542,7 +542,7 @@ TEST(ParamValue, toBool) {
 }
 
 TEST(ParamValue, stream_operator) {
-  tdl::ParamValue a((int)5), b((unsigned int)100), c((double)1.111), d((double)1.1), e("hello "), f(std::string("world")), g;
+  tdl::ParamValue a(static_cast<int>(5)), b(static_cast<unsigned int>(100)), c(1.111), d(1.1), e("hello "), f(std::string("world")), g;
   std::ostringstream os;
   os << a << b << c << d << e << f << g;
   EXPECT_EQ(os.str(),"51001.1111.1hello world");
@@ -567,7 +567,7 @@ TEST(ParamValue, valueType) {
   tdl::ParamValue a5(std::vector<std::string>{"test string","string2","last string"});
   EXPECT_EQ(a5.valueType(), tdl::ParamValue::STRING_LIST);
 
-  tdl::ParamValue a6((unsigned int)(2));
+  tdl::ParamValue a6(static_cast<unsigned int>(2));
   EXPECT_EQ(a6.valueType(), tdl::ParamValue::INT_VALUE);
 
   tdl::ParamValue a7(std::vector<int>{1,2,3});
@@ -625,75 +625,75 @@ TEST(ParamValue, assign_operator_const_long_double) {
   const long double v = 2.44;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((long double)a, 2.44);
+  EXPECT_EQ(static_cast<long double>(a), 2.44);
 }
 
 TEST(ParamValue, assign_operator_const_double) {
   const double v = 2.44;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((double)a, 2.44);
+  EXPECT_EQ(static_cast<double>(a), 2.44);
 }
 
 TEST(ParamValue, assign_operator_const_float) {
   const float v = 2.44f;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((float)a, 2.44f);
+  EXPECT_EQ(static_cast<float>(a), 2.44f);
 }
 
 TEST(ParamValue, assign_operator_const_short_int) {
   const short int v = 2;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((short int)a, 2);
+  EXPECT_EQ(static_cast<short int>(a), 2);
 }
 
 TEST(ParamValue, assign_operator_const_unsigned_short_int) {
   const unsigned short int v = 2;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((unsigned short int)a, 2);
+  EXPECT_EQ(static_cast<unsigned short int>(a), 2);
 }
 
 TEST(ParamValue, assign_operator_const_int) {
   const int v = 2;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((int)a, 2);
+  EXPECT_EQ(static_cast<int>(a), 2);
 }
 
 TEST(ParamValue, assign_operator_const_unsigned) {
   const unsigned v = 2;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((unsigned)a, 2);
+  EXPECT_EQ(static_cast<unsigned>(a), 2);
 }
 
 TEST(ParamValue, assign_operator_const_long_int) {
   const long int v = 2;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((long int)a, 2);
+  EXPECT_EQ(static_cast<long int>(a), 2);
 }
 
 TEST(ParamValue, assign_operator_const_unsigned_long) {
   const unsigned long v = 2;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((unsigned long)a, 2);
+  EXPECT_EQ(static_cast<unsigned long>(a), 2);
 }
 
 TEST(ParamValue, assign_operator_const_long_long) {
   const long long v = 2;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((long long)a, 2);
+  EXPECT_EQ(static_cast<long long>(a), 2);
 }
 
 TEST(ParamValue, assign_operator_const_unsigned_long_long) {
   const unsigned long long v = 2;
   tdl::ParamValue a("v");
   a = v;
-  EXPECT_EQ((unsigned long long)a, 2);
+  EXPECT_EQ(static_cast<unsigned long long>(a), 2);
 }
