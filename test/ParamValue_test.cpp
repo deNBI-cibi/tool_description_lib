@@ -25,21 +25,21 @@ TEST(ParamValue, ctor_long_double) {
   long double x = -3.4L;
   tdl::ParamValue d(x);
   // Note: The implementation uses typedef double (as opposed to float, double, long double.)
-  EXPECT_FLOAT_EQ(static_cast<double>(d), -3.4L);
+  EXPECT_DOUBLE_EQ(static_cast<double>(d), -3.4L);
 }
 
 TEST(ParamValue, ctor_double) {
   double x = -3.0;
   tdl::ParamValue d(x);
   // Note: The implementation uses typedef double (as opposed to float, double, long double.)
-  EXPECT_FLOAT_EQ(static_cast<double>(d), -3.0);
+  EXPECT_DOUBLE_EQ(static_cast<double>(d), -3.0);
 }
 
 TEST(ParamValue, ctor_float) {
   float x = 3.0f;
   tdl::ParamValue d(x);
   // Note: The implementation uses typedef double (as opposed to float, double, long double.)
-  EXPECT_FLOAT_EQ(static_cast<double>(d), 3.0);
+  EXPECT_DOUBLE_EQ(static_cast<double>(d), 3.0);
 }
 
 TEST(ParamValue, ctor_short_int) {
@@ -140,7 +140,7 @@ TEST(ParamValue, ctor_copy) {
   tdl::ParamValue copy_of_p9(p9);
   tdl::ParamValue copy_of_p10(p10);
   tdl::ParamValue copy_of_p11(p11);
-  EXPECT_FLOAT_EQ(static_cast<double>(copy_of_p1), 1.23);
+  EXPECT_DOUBLE_EQ(static_cast<double>(copy_of_p1), 1.23);
   EXPECT_FLOAT_EQ(static_cast<float>(copy_of_p3), 1.23f);
   EXPECT_EQ(static_cast<int>(copy_of_p4), -3);
   EXPECT_EQ(static_cast<unsigned int>(copy_of_p5), 123);
@@ -178,7 +178,7 @@ TEST(ParamValue, ctor_move) {
   tdl::ParamValue copy_of_p9(std::move(p9));
   tdl::ParamValue copy_of_p10(std::move(p10));
   tdl::ParamValue copy_of_p11(std::move(p11));
-  EXPECT_FLOAT_EQ(static_cast<double>(copy_of_p1), 1.23);
+  EXPECT_DOUBLE_EQ(static_cast<double>(copy_of_p1), 1.23);
   EXPECT_FLOAT_EQ(static_cast<float>(copy_of_p3), 1.23f);
   EXPECT_EQ(static_cast<int>(copy_of_p4), -3);
   EXPECT_EQ(static_cast<unsigned int>(copy_of_p5), 123);
@@ -214,7 +214,7 @@ TEST(ParamValue, assignment_operator) {
   tdl::ParamValue p11(std::vector<double>{1.2,2.3,3.4});
   tdl::ParamValue copy_of_p;
   copy_of_p = p1;
-  EXPECT_FLOAT_EQ(static_cast<double>(copy_of_p), 1.23);
+  EXPECT_DOUBLE_EQ(static_cast<double>(copy_of_p), 1.23);
   copy_of_p = p3;
   EXPECT_FLOAT_EQ(static_cast<float>(copy_of_p), 1.23);
   copy_of_p = p4;
@@ -252,7 +252,7 @@ TEST(ParamValue, move_operator) {
   tdl::ParamValue p11(std::vector<double>{1.2,2.3,3.4});
   tdl::ParamValue copy_of_p;
   copy_of_p = std::move(p1);
-  EXPECT_FLOAT_EQ(static_cast<double>(copy_of_p), 1.23);
+  EXPECT_DOUBLE_EQ(static_cast<double>(copy_of_p), 1.23);
   copy_of_p = std::move(p3);
   EXPECT_FLOAT_EQ(static_cast<float>(copy_of_p), 1.23);
   copy_of_p = std::move(p4);
@@ -353,13 +353,13 @@ TEST(ParamValue, toDoubleVector) {
 TEST(ParamValue, conversion_long_double_operator) {
   tdl::ParamValue d(5.4L);
   long double k = d;
-  EXPECT_FLOAT_EQ(k,5.4L);
+  EXPECT_DOUBLE_EQ(k,5.4L);
 }
 
 TEST(ParamValue, conversion_double_operator) {
   tdl::ParamValue d(5.4);
   double k = d;
-  EXPECT_FLOAT_EQ(k,5.4);
+  EXPECT_DOUBLE_EQ(k,5.4);
 }
 
 TEST(ParamValue, conversion_float_operator) {
