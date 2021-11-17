@@ -153,6 +153,17 @@ else ()
 endif ()
 
 # ----------------------------------------------------------------------------
+# Set C++ Standard
+# ----------------------------------------------------------------------------
+
+if (NOT DEFINED CMAKE_CXX_STANDARD)
+    tdl_config_print("No C++ standard set via CMAKE_CXX_STANDARD: setting it to C++17")
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
+
+# ----------------------------------------------------------------------------
 # Perform compilability test of platform.h (tests some requirements)
 # ----------------------------------------------------------------------------
 
