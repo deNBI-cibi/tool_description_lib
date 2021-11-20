@@ -1,13 +1,21 @@
+// -----------------------------------------------------------------------------------------------------
+// Copyright (c) 2006-2021, Knut Reinert & Freie Universität Berlin
+// Copyright (c) 2016-2021, Knut Reinert & MPI für molekulare Genetik
+// This file may be used, modified and/or redistributed under the terms of the 3-clause BSD-License
+// shipped with this file and also available at: https://github.com/deNBI-cibi/tool_description_lib/blob/master/LICENSE.md
+// -----------------------------------------------------------------------------------------------------
+
+/*!\file
+ * \brief Provides platform and dependency checks.
+ * \author Svenja Mehringer <svenja.mehringer AT fu-berlin.de>
+ * \cond
+ */
+
 #pragma once
 
 #include <cinttypes>
 #include <ciso646> // makes _LIBCPP_VERSION available
 #include <cstddef> // makes __GLIBCXX__ available
-
-/*!\file
- * \brief Provides platform and dependency checks.
- * \author Svenja Mehringer <svenja.mehringer AT fu-berlin.de>
- */
 
 // ============================================================================
 //  Dependencies
@@ -64,3 +72,4 @@
 
 // thread critical
 // todo: if OpenMS is available include OPENMS_THREAD_CRITICAL macro
+//!\endcond

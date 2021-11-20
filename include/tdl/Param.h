@@ -1,6 +1,15 @@
-#pragma once
+// -----------------------------------------------------------------------------------------------------
+// Copyright (c) 2006-2021, Knut Reinert & Freie Universität Berlin
+// Copyright (c) 2016-2021, Knut Reinert & MPI für molekulare Genetik
+// This file may be used, modified and/or redistributed under the terms of the 3-clause BSD-License
+// shipped with this file and also available at: https://github.com/deNBI-cibi/tool_description_lib/blob/master/LICENSE.md
+// -----------------------------------------------------------------------------------------------------
 
-#include <tdl/ParamValue.h>
+/*!\file
+ * \brief Provides TDL Param.
+ */
+
+#pragma once
 
 #include <algorithm>
 #include <limits>
@@ -8,162 +17,152 @@
 #include <set>
 #include <string>
 
+#include <tdl/ParamValue.h>
+
 namespace tdl
 {
 
+  /*!\namespace Logger
+   * \brief The Logger namespace.
+   */
   namespace Logger
   {
     class LogStream;
   }
 
-  /**
-    @brief Management and storage of parameters / INI files.
-
-    This class provides a means to associate string names to int/double/string/StringList values.
-    It allows for parameter hierarchies and to save/load the data as XML.
-    Hierarchy levels are separated from each other by colons. @n
-    Example: 'common:file_options:default_file_open_path = /share/'
-
-    Each parameter and section has a description. Newline characters in the description are possible.
-
-    Each parameter can be annotated with an arbitrary number of tags. Tags must not contain comma characters!
-    @n E.g. the <i>advanced</i> tag indicates if this parameter is shown to all users or in advanced mode only.
-
-    @see DefaultParamHandler
-
-    @ingroup Datastructures
-  */
+  /*!\brief Management and storage of parameters / INI files.
+   * \ingroup Datastructures
+   * \details
+   * This class provides a means to associate string names to int/double/string/StringList values.
+   * It allows for parameter hierarchies and to save/load the data as XML.
+   *
+   * * Hierarchy levels are separated from each other by colons.
+   * * Each parameter and section has a description. Newline characters in the description are possible.
+   * * Each parameter can be annotated with an arbitrary number of tags. Tags must not contain comma characters!
+   *   For example, the <i>advanced</i> tag indicates if this parameter is shown to all users or in advanced mode only.
+   *
+   * Example: 'common:file_options:default_file_open_path = /share/'
+   *
+   * \see DefaultParamHandler
+   */
   class TDL_DLLAPI Param
   {
   public:
 
-    /// Parameter entry used to store the actual information inside of a Param entry
+    //!\brief Representation of a single character
     struct TDL_DLLAPI ParamEntry
     {
-      /// Default constructor
-      ParamEntry();
-      /// Constructor with name, description, value and advanced flag
+      ParamEntry() = default; //!< Defaulted.
+      ParamEntry(ParamEntry const &) = default; //!< Defaulted.
+      ParamEntry(ParamEntry &&) = default; //!< Defaulted.
+      ParamEntry & operator=(ParamEntry const &) = default; //!< Defaulted.
+      ParamEntry & operator=(ParamEntry &&) = default; //!< Defaulted.
+      ~ParamEntry() = default; //!< Defaulted.
+
+      //!\brief Constructs an entry from name, description, value, and advanced flag.
       ParamEntry(const std::string& n, const ParamValue& v, const std::string& d, const std::vector<std::string>& t = std::vector<std::string>());
-      /// Copy constructor
-      ParamEntry(const ParamEntry&) = default;
-      /// Move constructor
-      ParamEntry(ParamEntry&&) = default;
-      /// Destructor
-      ~ParamEntry();
 
-      /// Assignment operator
-      ParamEntry& operator=(const ParamEntry&) = default;
-      /// Move assignment operator
-      ParamEntry& operator=(ParamEntry&&) & = default;
-
-      /// Check if 'value' fulfills restrictions
+      //!\brief Checks if 'value' fulfills restrictions.
       bool isValid(std::string& message) const;
-      /// Equality operator (only name and value are compared)
+      //!\brief Equality operator (only name and value are compared).
       bool operator==(const ParamEntry& rhs) const;
 
-      /// Name of the entry
-      std::string name;
-      /// Description of the entry
-      std::string description;
-      /// Value associated with the entry
-      ParamValue value;
-      /// Tags list, used e.g. for advanced parameter tag
-      std::set<std::string> tags;
-      ///@name Restrictions to accepted values (used in checkDefaults)
-      //@{
-      double min_float; ///< Default: - std::numeric_limits<double>::max()
-      double max_float; ///< Default: std::numeric_limits<double>::max()
-      int min_int; ///< Default: - std::numeric_limits<Int>::max()
-      int max_int; ///< Default: std::numeric_limits<Int>::max()
-      std::vector<std::string> valid_strings; ///< Default: empty
-      //@}
+      std::string name{}; //!< Name of the entry.
+      std::string description{}; //!< Description of the entry.
+      ParamValue value{}; //!< Value associated with the entry.
+      std::set<std::string> tags{}; //!< Tags list, for example, advanced parameter tag.
+
+      /*!\name Restrictions to accepted values (used in checkDefaults).
+       * \{
+       */
+      double min_float{-std::numeric_limits<double>::max()}; //!< Default: - std::numeric_limits<double>::max()
+      double max_float{std::numeric_limits<double>::max()}; //!< Default: std::numeric_limits<double>::max()
+      int min_int{-std::numeric_limits<int>::max()}; //!< Default: - std::numeric_limits<int>::max()
+      int max_int{std::numeric_limits<int>::max()}; //!< Default: std::numeric_limits<int>::max()
+      std::vector<std::string> valid_strings{}; //!< Default: empty
+      //!\}
     };
 
-    ///Node inside a Param object which is used to build the internal tree
+    //!\brief Node inside a Param object which is used to build the internal tree.
     struct TDL_DLLAPI ParamNode
     {
-      ///Iterator for child nodes
+      //!\brief Iterator for child nodes.
       typedef std::vector<ParamNode>::iterator NodeIterator;
-      ///Iterator for entries
+      //!\brief Iterator for entries.
       typedef std::vector<ParamEntry>::iterator EntryIterator;
-      ///Iterator for child nodes
+      //!\brief Iterator for child nodes.
       typedef std::vector<ParamNode>::const_iterator ConstNodeIterator;
-      ///Iterator for entries
+      //!\brief Iterator for entries.
       typedef std::vector<ParamEntry>::const_iterator ConstEntryIterator;
 
-      /// Default constructor
-      ParamNode();
-      /// Constructor with name and description
+      ParamNode() = default; //!< Defaulted.
+      ParamNode(ParamNode const &) = default; //!< Defaulted.
+      ParamNode(ParamNode &&) = default; //!< Defaulted.
+      ParamNode & operator=(ParamNode const &) = default; //!< Defaulted.
+      ParamNode & operator=(ParamNode &&) = default; //!< Defaulted.
+      ~ParamNode() = default; //!< Defaulted.
+
+      //!\brief Construct from name and description.
       ParamNode(const std::string& n, const std::string& d);
-      /// Copy constructor
-      ParamNode(const ParamNode&) = default;
-      /// Move constructor
-      ParamNode(ParamNode&&) = default;
-      /// Destructor
-      ~ParamNode();
 
-      /// Assignment operator
-      ParamNode& operator=(const ParamNode&) = default;
-      /// Move assignment operator
-      ParamNode& operator=(ParamNode&&) & = default;
-
-      /// Equality operator (name, entries and subnodes are compared)
+      //!\brief Equality operator (name, entries and subnodes are compared).
       bool operator==(const ParamNode& rhs) const;
 
-      /**
-        @brief Look up entry of this node (local search)
-
-        Returns the end iterator if no entry is found
-      */
+      /*!\brief Looks up entry of this node (local search).
+       * \returns Iterator to the entry, or the end iterator if no entry is found.
+       */
       EntryIterator findEntry(const std::string& name);
-      /**
-        @brief Look up subnode of this node (local search)
 
-        Returns the end iterator if no entry is found
-      */
+      /*!\brief Looks up subnode of this node (local search).
+       * \returns Iterator to the subnode, or the end iterator if no subnode is found.
+       */
       NodeIterator findNode(const std::string& name);
-      /**
-        @brief Look up the parent node of the entry or node corresponding to @p name (tree search)
 
-        Returns 0 if no entry is found
-      */
+      /*!\brief Look up the parent node of the entry or node corresponding to `name` (tree search).
+       * \returns Pointer to the parent node, or `nullptr` if no parent node is found.
+       */
       ParamNode* findParentOf(const std::string& name);
-      /**
-        @brief Look up the entry corresponding to @p name (tree search)
 
-        Returns 0 if no entry is found
-      */
+      /*!\brief Look up entry by name (tree search).
+       * \returns Pointer to the entry, or `nullptr` if no entry is found.
+       */
       ParamEntry* findEntryRecursive(const std::string& name);
 
-      ///Inserts a @p node with the given @p prefix
+      //!\brief Inserts a node with the given prefix.
       void insert(const ParamNode& node, const std::string& prefix = "");
-      ///Inserts an @p entry with the given @p prefix
+
+      //!\brief Inserts an entry with the given prefix.
       void insert(const ParamEntry& entry, const std::string& prefix = "");
-      ///Returns the number of entries in the whole subtree
+
+      //!\brief Returns the number of entries in the whole subtree.
       size_t size() const;
-      ///Returns the name suffix of a @p key (the part behind the last ':' character)
+
+      //!\brief Returns the name suffix of a key (the part behind the last ':' character).
       std::string suffix(const std::string& key) const;
 
-      /// Name of the node
-      std::string name;
-      /// Description of the node
-      std::string description;
-      /// Entries (leafs) in the node
-      std::vector<ParamEntry> entries;
-      /// Subnodes
-      std::vector<ParamNode> nodes;
+      std::string name{}; //!< Name of the node.
+      std::string description{}; //!< Description of the node.
+      std::vector<ParamEntry> entries{}; //!< Entries (leafs) in the node.
+      std::vector<ParamNode> nodes{}; //!< Subnodes.
     };
 
   public:
 
-    /// Forward const iterator for the Param class
+    //!\brief The ParamIterator.
     class TDL_DLLAPI ParamIterator
     {
-  public:
-      /// Struct that captures information on entered / left nodes for ParamIterator
+    public:
+      //!\brief Stores information about left/entered nodes.
       struct TDL_DLLAPI TraceInfo
       {
-        /// Constructor with name, description, and open flag
+        TraceInfo() = default; //!< Defaulted.
+        TraceInfo(TraceInfo const &) = default; //!< Defaulted.
+        TraceInfo(TraceInfo &&) = default; //!< Defaulted.
+        TraceInfo & operator=(TraceInfo const &) = default; //!< Defaulted.
+        TraceInfo & operator=(TraceInfo &&) = default; //!< Defaulted.
+        ~TraceInfo() = default; //!< Defaulted.
+
+        //!\brief Construct from name, description, and open flag.
         inline TraceInfo(const std::string& n, const std::string& d, bool o) :
           name(n),
           description(d),
@@ -171,485 +170,394 @@ namespace tdl
         {
         }
 
-        /// name of the node
-        std::string name;
-        /// description of the node
-        std::string description;
-        /// If it was opened (true) or closed (false)
-        bool opened;
+        std::string name{}; //!< Name of the node.
+        std::string description{}; //!< Description of the node.
+        bool opened{}; //!< Was the node open?
       };
 
-      /// Default constructor used to create a past-the-end iterator
-      ParamIterator();
-      /// Constructor for begin iterator
+      ParamIterator() = default; //!< Defaulted.
+      ParamIterator(ParamIterator const &) = default; //!< Defaulted.
+      ParamIterator(ParamIterator &&) = default; //!< Defaulted.
+      ParamIterator & operator=(ParamIterator const &) = default; //!< Defaulted.
+      ParamIterator & operator=(ParamIterator &&) = default; //!< Defaulted.
+      ~ParamIterator() = default; //!< Defaulted.
+
+      //!\brief Construct from a node.
       ParamIterator(const Param::ParamNode& root);
-      /// Destructor
-      ~ParamIterator();
-      /// Dereferencing
+
+      //!\brief Dereference.
       const Param::ParamEntry& operator*();
-      /// Dereferencing
+
+      //!\brief Dereference.
       const Param::ParamEntry* operator->();
-      /// Prefix increment operator
+
+      //!\brief Prefix increment operator.
       ParamIterator& operator++();
-      /// Postfix increment operator
+
+      //!\brief Postfix increment operator.
       ParamIterator operator++(int);
-      /// Equality operator
+
+      //!\brief Equality operator.
       bool operator==(const ParamIterator& rhs) const;
-      /// Equality operator
+
+      //!\brief Inequality operator.
       bool operator!=(const ParamIterator& rhs) const;
-      /// Returns the absolute path of the current element (including all sections)
+
+      //!\brief Returns the absolute path of the current element (including all sections).
       std::string getName() const;
-      /// Returns the traceback of the opened and closed sections
+
+      //!\brief Returns the traceback of the opened and closed sections.
       const std::vector<TraceInfo>& getTrace() const;
 
   protected:
-      /// Pointer to the root node
-      const Param::ParamNode* root_;
-      /// Index of the current ParamEntry (-1 means invalid)
-      int current_;
-      /// Pointers to the ParamNodes we are in
-      std::vector<const Param::ParamNode*> stack_;
-      /// Node traversal data during last ++ operation.
-      std::vector<TraceInfo> trace_;
+      const Param::ParamNode* root_{nullptr}; //!< Pointer to the root node.
+      int current_{}; //!< Index of the current ParamEntry (-1 means invalid).
+      std::vector<const Param::ParamNode*> stack_{}; //!< Pointers to the ParamNodes we are in.
+      std::vector<TraceInfo> trace_{}; //!< Node traversal data during last ++ operation.
 
     };
 
-    /// Default constructor
-    Param();
+    Param() = default; //!< Defaulted.
+    Param(Param const &) = default; //!< Defaulted.
+    Param(Param &&) = default; //!< Defaulted.
+    Param & operator=(Param const &) = default; //!< Defaulted.
+    Param & operator=(Param &&) = default; //!< Defaulted.
+    ~Param() = default; //!< Defaulted.
 
-    /// Copy constructor
-    Param(const Param&) = default;
-
-    /// Move constructor
-    Param(Param&&) = default;
-
-    /// Destructor
-    ~Param();
-
-    /// Assignment operator
-    Param& operator=(const Param&) = default;
-
-    /// Move assignment operator
-    Param& operator=(Param&&) & = default;
-
-    /// Equality operator
+    //!\brief Equality operator.
     bool operator==(const Param& rhs) const;
 
-    /// Begin iterator for the internal tree
+    //!\brief Begin iterator for the internal tree.
     ParamIterator begin() const;
 
-    /// End iterator for the internal tree
+    //!\brief End iterator for the internal tree.
     ParamIterator end() const;
 
-    ///@name Accessors for single parameters
-    //@{
-
-    /**
-      @brief Sets a value.
-
-      @param key String key. Can contain ':' which separates section names
-      @param value The actual value
-      @param description Verbose description of the parameter
-      @param tags list of tags associated to this parameter
-    */
+    /*!\name Accessors for single parameters
+     * \{
+     */
+    /*!\brief Sets a value.
+     * \param key String key. Can contain ':' which separates section names.
+     * \param value The actual value.
+     * \param description Verbose description of the parameter.
+     * \param tags list of tags associated to this parameter.
+     */
     void setValue(const std::string& key, const ParamValue& value, const std::string& description = "", const std::vector<std::string>& tags = std::vector<std::string>());
 
-    /**
-      @brief Returns a value of a parameter.
-
-      @exception Exception::ElementNotFound is thrown if the parameter does not exists.
-    */
+    /*!\brief Returns a value of a parameter.
+     * \throws Exception::ElementNotFound if the parameter does not exist.
+     */
     const ParamValue& getValue(const std::string& key) const;
 
-    /**
-      @brief Returns the type of a parameter.
-
-      @exception Exception::ElementNotFound is thrown if the parameter does not exists.
-    */
+    /*!\brief Returns the type of a parameter.
+     * \throws Exception::ElementNotFound if the parameter does not exist.
+     */
     ParamValue::ValueType getValueType(const std::string& key) const;
 
-    /**
-      @brief Returns the whole parameter entry.
-
-      @exception Exception::ElementNotFound is thrown if the parameter does not exists.
-    */
+    /*!\brief Returns the whole parameter entry.
+     * \throws Exception::ElementNotFound if the parameter does not exist.
+     */
     const ParamEntry& getEntry(const std::string& key) const;
 
-    /**
-      @brief Tests if a parameter is set (expecting its fully qualified name, e.g., TextExporter:1:proteins_only)
-
-      @param key The fully qualified name of the parameter to check.
-      @return True if the parameter exists, false otherwise.
+    /*!\brief Tests if a parameter is set (expecting its fully qualified name, e.g., TextExporter:1:proteins_only)
+     * \param key The fully qualified name of the parameter to check.
+     * \returns True if the parameter exists, false otherwise.
     */
     bool exists(const std::string& key) const;
 
-    /**
-      @brief Checks whether a section is present.
-
-      @param key The key of the section to be searched for. May or may not contain ":" suffix.
-      @return True if the section exists, false otherwise.
+    /*!\brief Checks whether a section is present.
+     * \param key The key of the section to be searched for. May or may not contain ":" suffix.
+     * \returns True if the section exists, false otherwise.
      */
     bool hasSection(const std::string& key) const;
 
-    /**
-      @brief Find leaf node by name (if it exists).
-
-      @param leaf The name of the parameter to find excluding the path parameter, e.g., given the parameter TextExporter:1:proteins_only the leaf would be named proteins_only.
-      @return Returns end() if leaf does not exist.
-    */
+    /*!\brief Find leaf node by name.
+     * \param leaf The name of the parameter to find excluding the path parameter, e.g., given the parameter TextExporter:1:proteins_only the leaf would be named proteins_only.
+     * \returns Iterator to the leaf node, or `end()` if not found.
+     */
     ParamIterator findFirst(const std::string& leaf) const;
 
-    /**
-      @brief Find next leaf node by name (if it exists), not considering the @p start_leaf
-
-      @param leaf The name of the parameter to find excluding the path parameter, e.g., given the parameter TextExporter:1:proteins_only the leaf would be named proteins_only.
-      @param start_leaf The already found leaf, that should not be considered during this search.
-      @return Returns end() if leaf does not exist.
-    */
+    /*!\brief Find next leaf node by name, not considering the `start_leaf`.
+     * \param leaf The name of the parameter to find excluding the path parameter, e.g., given the parameter TextExporter:1:proteins_only the leaf would be named proteins_only.
+     * \param start_leaf The already found leaf that should not be considered during this search.
+     * \returns Iterator to the leaf node, or `end()` if not found.
+     */
     ParamIterator findNext(const std::string& leaf, const ParamIterator& start_leaf) const;
-    //@}
+    //!\}
 
-    ///@name Tags handling
-    //@{
+    /*!\name Tags handling
+     * \{
+     */
 
-    /**
-      @brief Adds the tag @p tag to the entry @p key
-
-      E.g. "advanced", "required", "input file", "output file"
-
-      @exception Exception::ElementNotFound is thrown if the parameter does not exists.
-      @exception Exception::InvalidValue is thrown if the tag contain a comma character.
-    */
+    /*!\brief Adds a tag to an entry.
+     * \throws Exception::ElementNotFound if the parameter does not exist.
+     * \throws Exception::InvalidValue if the tag contain a comma character.
+     * \details
+     * Example of a tag: "advanced", "required", "input file", "output file"
+     */
     void addTag(const std::string& key, const std::string& tag);
 
-    /**
-      @brief Adds the tags in the list @p tags to the entry @p key
-
-      @exception Exception::ElementNotFound is thrown if the parameter does not exists.
-      @exception Exception::InvalidValue is thrown if a tag contain a comma character.
-    */
+    /*!\brief Appends a list of tags to an entry.
+     * \throws Exception::ElementNotFound if the parameter does not exist.
+     * \throws Exception::InvalidValue if a tag contains a comma character.
+     */
     void addTags(const std::string& key, const std::vector<std::string>& tags);
 
-    /**
-      @brief Returns if the parameter @p key has a tag
-
-      Example: The tag 'advanced' is used in the GUI to determine which parameters are always displayed
-      and which parameters are displayed only in 'advanced mode'.
-
-      @exception Exception::ElementNotFound is thrown if the parameter does not exists.
-    */
+    /*!\brief Returns whether an entry has a tag.
+     * \throws Exception::ElementNotFound if the parameter does not exist.
+     * \details
+     * Example: The tag 'advanced' is used in the GUI to determine which parameters are always displayed
+     * and which parameters are displayed only in 'advanced mode'.
+     */
     bool hasTag(const std::string& key, const std::string& tag) const;
 
-    /**
-      @brief Returns the tags of entry @p key
-
-      @exception Exception::ElementNotFound is thrown if the parameter does not exists.
-    */
+    /*!\brief Returns the tags of an entry.
+     * \throws Exception::ElementNotFound if the parameter does not exist.
+     */
     std::vector<std::string> getTags(const std::string& key) const;
 
-    /**
-      @brief Removes all tags from the entry @p key
-
-      @exception Exception::ElementNotFound is thrown if the parameter does not exists.
-    */
+    /*!\brief Removes all tags from an etry.
+     * \throws Exception::ElementNotFound if the parameter does not exist.
+     */
     void clearTags(const std::string& key);
-    //@}
+    //!\}
 
 
-    ///@name Descriptions handling
-    //@{
+    /*!\name Descriptions handling
+     * \{
+     */
 
-    /**
-      @brief Returns the description of a parameter.
-
-      @exception Exception::ElementNotFound is thrown if the parameter does not exists.
-    */
+    /*!\brief Returns the description of a parameter.
+     * \throws Exception::ElementNotFound if the parameter does not exist.
+     */
     const std::string& getDescription(const std::string& key) const;
 
-    /**
-      @brief Sets a description for an existing section
-
-      Descriptions for values cannot be set with this method.
-      They have to be set when inserting the value itself.
-
-      @exception Exception::ElementNotFound is thrown if the section does not exists.
-    */
+    /*!\brief Sets a description for an existing section.
+     * \throws Exception::ElementNotFound if the section does not exist.
+     * \details
+     * Descriptions for values cannot be set with this method.
+     * They have to be set when inserting the value itself.
+     */
     void setSectionDescription(const std::string& key, const std::string& description);
 
-    /**
-      @brief Returns the description corresponding to the section with name @p key.
-
-      If the section does not exist an empty string is returned.
-    */
+    /*!\brief Returns the description corresponding to a given section.
+     * \returns The description, or an empty string if the section does not exist.
+     */
     const std::string& getSectionDescription(const std::string& key) const;
 
-    /**
-    @brief Adds a parameter section under the path @p key with the given @p description.
-
-    If the section already exists, the description is only overwritten if not empty.
-    */
+    /*!\brief Adds a parameter section.
+     * \details
+     * Non-empty descriptions of existing section will not be overwritten.
+     */
     void addSection(const std::string& key, const std::string& description);
-    //@}
+    //!\}
 
-    ///@name Manipulation of the whole parameter set
-    //@{
+    /*!\name Manipulation of the whole parameter set
+     * \{
+     */
 
-    ///Returns the number of entries (leafs).
+    //!\brief Returns the number of entries (leafs).
     size_t size() const;
 
-    ///Returns if there are no entries.
+    //!\brief Returns whether there are no entries.
     bool empty() const;
 
-    /// Deletes all entries
+    //!\brief Deletes all entries.
     void clear();
 
-    /// Insert all values of @p param and adds the prefix @p prefix.
-    /// You should append ':' to prefix manually when you want it to be a section.
+    /*!\brief Inserts all values of a parameter and prepends a prefix.
+     * \details
+     * Appending `:` to the prefix will cause it to be a section.
+     */
     void insert(const std::string& prefix, const Param& param);
 
-    /**
-      @brief Remove the entry @p key or a section @p key (when suffix is ':')
-
-      Remove deletes either an entry or a section (when @p key ends with ':'),
-      by matching the exact name. No partial matches are accepted.
-
-      If an empty internal node remains, the tree is pruned until every node has either a successor node
-      or a leaf, i.e. no naked nodes remain.
-    */
+    /*!\brief Remove an entry or a section (when suffix is ':').
+     * \details
+     * No partial matches are accepted.
+     * If an empty internal node remains, the tree is pruned until every node has either a successor node
+     * or a leaf, i.e. no naked nodes remain.
+     */
     void remove(const std::string& key);
 
-    /**
-      @brief Remove all entries that start with @p prefix
-
-      Partial are valid as well. All entries and sections which match the prefix are deleted.
-
-      If an empty internal node remains, the tree is pruned until every node has either a successor node
-      or a leaf, i.e. no naked nodes remain.
-    */
+    /*!\brief Remove all entries that starting with a prefix.
+     * \details
+     * Partial matches are valid. All entries and sections which match the prefix are deleted.
+     * If an empty internal node remains, the tree is pruned until every node has either a successor node
+     * or a leaf, i.e. no naked nodes remain.
+     */
     void removeAll(const std::string& prefix);
 
-    /**
-      @brief Returns a new Param object containing all entries that start with @p prefix.
-
-      @param prefix should contain a ':' at the end if you want to extract a subtree.
-             Otherwise not only nodes, but as well values with that prefix are copied.
-      @param remove_prefix indicates if the prefix is removed before adding entries to the new Param
-    */
+    /*!\brief Returns a new Param object containing all entries that start with a given prefix.
+     * \param prefix Should end in ':' to extract a subtree. Otherwise, not only nodes, but also values with that
+     *               prefix are copied.
+     * \param remove_prefix Indicates whether the prefix is removed before adding entries to the new Param.
+     */
     Param copy(const std::string& prefix, bool remove_prefix = false) const;
 
-    /**
-      @brief Returns a new Param object containing all entries in the given subset.
-
-      @param subset The subset of Param nodes that should be copied out of the object
-             here. Includes values etc. Does not check any compatibility. Just matches the names.
-      @note Only matches entries and nodes at the root=top level and copies over whole subtrees if matched.
-            This function is mainly used for copying subsection parameters that were not registered as
-            as an actual subsection e.g. for backwards compatibility of param names.
-    */
+    /*!\brief Returns a new Param object containing all entries in the given subset.
+     * \param subset The subset of Param nodes that should be copied from the object.
+     *               Includes values etc. Does not check any compatibility. Just matches the names.
+     * \note Only matches entries and nodes at the root=top level and copies whole subtrees if matched.
+     *       This function is mainly used for copying subsection parameters that were not registered as
+     *       as an actual subsection e.g. for backwards compatibility of param names.
+     */
     Param copySubset(const Param& subset) const;
 
-    /**
-      @brief Rescue parameter <b>values</b> from @p p_outdated to current param
-
-      Calls ::update(p_outdated, true, add_unknown, false, false, TDL_LOGSTREAM_WARN) and returns its value.
-    */
+    /*!\brief Rescue parameter <b>values</b> from an outdated param to this.
+     * \details
+     * Calls \ref update(const Param&, bool, bool, bool, bool, TDL_LOGSTREAM_TYPE&)
+     * "update(p_outdated, true, add_unknown, false, false, TDL_LOGSTREAM_WARN)" and returns its value.
+     */
     bool update(const Param& p_outdated, const bool add_unknown = false);
 
-    /**
-      @brief Rescue parameter <b>values</b> from @p p_outdated to current param
-
-      Calls ::update(p_outdated, true, add_unknown, false, false, stream) and returns its value.
-    */
+    /*!\brief Rescue parameter <b>values</b> from an outdated param to this.
+     * \details
+     * Calls \ref update(const Param&, bool, bool, bool, bool, TDL_LOGSTREAM_TYPE&)
+     * "update(p_outdated, true, add_unknown, false, false, stream)" and returns its value.
+     */
     bool update(const Param& p_outdated, const bool add_unknown, TDL_LOGSTREAM_TYPE& stream);
 
-
-    /**
-      @brief Rescue parameter <b>values</b> from @p p_outdated to current param
-
-      All parameters present in both param objects will be transferred into this object, given that:
-      <ul>
-        <li>the name is equal</li>
-        <li>the type is equal</li>
-        <li>the value from @p p_outdated meets the new restrictions</li>
-      </ul>
-
-      Not transferred are values from parameter "version" (to preserve the new version) or "type" (to preserve layout).
-
-      @param p_outdated Old/outdated param object, whose values (as long as they are still valid) are used to update this object
-      @param verbose Print information about expected value updates
-      @param add_unknown Add unknown parameters from @p_outdated to this param object.
-      @param fail_on_invalid_values Return false if outdated parameters hold invalid values
-      @param fail_on_unknown_parameters Return false if outdated parameters contain unknown parameters (takes precedence over @p add_unknown)
-      @param stream The stream where all the logging output is send to.
-      @return true on success, false on failure
-    */
+    /*!\brief Rescue parameter <b>values</b> from an outdated param to this.
+     * \param p_outdated Old/outdated param object whose valid values are used to update this object.
+     * \param verbose Print information about expected value updates.
+     * \param add_unknown Add unknown parameters from old param to this param object.
+     * \param fail_on_invalid_values Return false if outdated parameters hold invalid values.
+     * \param fail_on_unknown_parameters Return false if outdated parameters contain unknown parameters (takes precedence over add_unknown).
+     * \param stream The stream where all the logging output is sent to.
+     * \returns true on success, false on failure.
+     * \details
+     * All parameters present in both param objects will be transferred into this object, given that:
+     * <ul>
+     *   <li>the name is equal</li>
+     *   <li>the type is equal</li>
+     *   <li>the value from p_outdated meets the new restrictions</li>
+     * </ul>
+     * Not transferred are values from parameter "version" (to preserve the new version) or "type" (to preserve layout).
+     */
     bool update(const Param& p_outdated, bool verbose, bool add_unknown, bool fail_on_invalid_values, bool fail_on_unknown_parameters, TDL_LOGSTREAM_TYPE& stream);
 
-    /**
-      @brief Adds missing parameters from the given param @p toMerge to this param. Existing parameters will not be modified.
-
-      @param toMerge The Param object from which parameters should be added to this param.
-    */
+    /*!\brief Adds missing parameters from the given param to this param. Existing parameters will not be modified.
+     * \param toMerge The Param object from which parameters should be added to this param.
+     */
     void merge(const Param& toMerge);
+    //!\}
 
-    //@}
+    /*!\name Default value handling
+     * \{
+     */
 
-
-    ///@name Default value handling
-    //@{
-    /**
-      @brief Insert all values of @p defaults and adds the prefix @p prefix, if the values are not already set.
-
-      @param defaults The default values.
-      @param prefix The prefix to add to all defaults.
-      @param showMessage If <tt>true</tt> each default that is actually set is printed to stdout as well.
-
-      @see checkDefaults
-    */
+    /*!\brief Adds defaults for missing values and prepends an prefix.
+     * \param defaults The default values.
+     * \param prefix The prefix to add to all defaults.
+     * \param showMessage If <tt>true</tt>, each default that is actually set is printed to stdout as well.
+     * \see checkDefaults
+     */
     void setDefaults(const Param& defaults, const std::string& prefix = "", bool showMessage = false);
 
-    /**
-      @brief Checks the current parameter entries against given @p defaults
-
-      Several checks are performed:
-      - If a parameter is present for which no default value is specified, a warning is issued to @p os.
-      - If the type of a parameter and its default do not match, an exception is thrown.
-      - If a string parameter contains an invalid string, an exception is thrown.
-      - If parameter entry is a string list, an exception is thrown, if one or more list members are invalid strings
-      - If a numeric parameter is out of the valid range, an exception is thrown.
-      - If entry is a numeric list an exception is thrown, if one or more list members are out of the valid range
-
-      @param name The name that is used in error messages.
-      @param defaults The default values.
-      @param prefix The prefix where to check for the defaults.
-
-      Warnings etc. will be send to TDL_LOGSTREAM_WARN.
-
-      @exception Exception::InvalidParameter is thrown if errors occur during the check
-    */
+    /*!\brief Validates the current parameter entries against defaults.
+     * \param name The name that is used in error messages.
+     * \param defaults The default values.
+     * \param prefix The prefix where to check for the defaults.
+     * \throws Exception::InvalidParameter if errors occur during the check.
+     * \details
+     * Several checks are performed:
+     * - Existence of parameters with no defaults: warning.
+     * - Mismatch of parameter type and its default type: exception.
+     * - String/String-list parameters containing invalid characters: exception.
+     * - Numeric/Numeric-list parameters out of valid range: exception.
+     *
+     * Warnings etc. will be sent to TDL_LOGSTREAM_WARN.
+     */
     void checkDefaults(const std::string& name, const Param& defaults, const std::string& prefix = "") const;
-    //@}
+    //!\}
 
-    ///@name Restriction handling
-    //@{
-    /**
-      @brief Sets the valid strings for the parameter @p key.
+    /*!\name Restriction handling
+     * \{
+     */
 
-      It is only checked in checkDefaults().
-
-      @exception Exception::InvalidParameter is thrown, if one of the strings contains a comma character
-      @exception Exception::ElementNotFound exception is thrown, if the parameter is no string parameter
-    */
+    /*!\brief Sets the valid strings for a parameter.
+     * \throws Exception::InvalidParameter if one of the strings contains a comma character.
+     * \throws Exception::ElementNotFound if the parameter is no string parameter.
+     * \see checkDefaults()
+     */
     void setValidStrings(const std::string& key, const std::vector<std::string>& strings);
 
-    /**
-      @brief Sets the minimum value for the integer or integer list parameter @p key.
-
-      It is only checked in checkDefaults().
-
-      @exception Exception::ElementNotFound is thrown if @p key is not found or if the parameter type is wrong
-    */
+    /*!\brief Sets the minimum value for the integer or integer list parameter.
+     * \throws Exception::ElementNotFound if parameter is not found or the parameter type is wrong.
+     * \see checkDefaults()
+     */
     void setMinInt(const std::string& key, int min);
 
-    /**
-      @brief Sets the maximum value for the integer or integer list parameter @p key.
-
-      It is only checked in checkDefaults().
-
-      @exception Exception::ElementNotFound is thrown if @p key is not found or if the parameter type is wrong
-    */
+    /*!\brief Sets the maximum value for the integer or integer list parameter.
+     * \throws Exception::ElementNotFound if parameter is not found or the parameter type is wrong.
+     * \see checkDefaults()
+     */
     void setMaxInt(const std::string& key, int max);
 
-    /**
-      @brief Sets the minimum value for the floating point or floating point list parameter @p key.
-
-      It is only checked in checkDefaults().
-
-      @exception Exception::ElementNotFound is thrown if @p key is not found or if the parameter type is wrong
-    */
+    /*!\brief Sets the minimum value for the floating point or floating point list parameter.
+     * \throws Exception::ElementNotFound if parameter is not found or the parameter type is wrong.
+     * \see checkDefaults()
+     */
     void setMinFloat(const std::string& key, double min);
 
-    /**
-      @brief Sets the maximum value for the floating point or floating point list parameter @p key.
-
-      It is only checked in checkDefaults().
-
-      @exception Exception::ElementNotFound is thrown if @p key is not found or if the parameter type is wrong
-    */
+    /*!\brief Sets the maximum value for the floating point or floating point list parameter.
+     * \throws Exception::ElementNotFound if parameter is not found or the parameter type is wrong.
+     * \see checkDefaults()
+     */
     void setMaxFloat(const std::string& key, double max);
-    //@}
+    //!\}
 
-    ///@name Command line parsing
-    //@{
-    /**
-      @brief Parses command line arguments
+    /*!\name Command line parsing
+     * \{
+     */
 
-      This method discriminates three types of arguments:<BR>
-      (1) options (starting with '-') that have a text argument<BR>
-      (2) options (starting with '-') that have no text argument<BR>
-      (3) text arguments (not starting with '-')
-
-      Command line arguments '-a avalue -b -c bvalue misc1 misc2' would be stored like this:<BR>
-      "prefix:-a" -> "avalue"<BR>
-      "prefix:-b" -> ""<BR>
-      "prefix:-c" -> "bvalue"<BR>
-      "prefix:misc" -> list("misc1","misc2")<BR>
-
-      @param argc argc variable from command line
-      @param argv argv variable from command line
-      @param prefix prefix for all options
-    */
+    /*!\brief Parses command line arguments.
+     * \param argc argc variable from command line.
+     * \param argv argv variable from command line.
+     * \param prefix prefix for all options.
+     * \details
+     * This method distinguishes three types of arguments:
+     * * options (starting with '-') that have a text argument
+     * * options (starting with '-') that have no text argument
+     * * text arguments (not starting with '-')
+     *
+     * Command line arguments '-a avalue -b -c bvalue misc1 misc2' would be stored like this:
+     * * "prefix:-a" -> "avalue"
+     * * "prefix:-b" -> ""
+     * * "prefix:-c" -> "bvalue"
+     * * "prefix:misc" -> list("misc1","misc2")
+     */
     void parseCommandLine(const int argc, const char** argv, const std::string& prefix = "");
 
-    /**
-      @brief Parses command line arguments to specified key locations.
-
-      Parses command line arguments to specified key locations and stores the result internally.
-
-      @param argc argc variable from command line
-      @param argv argv variable from command line
-      @param options_with_one_argument a map of options that are followed by one argument (with key where they are stored)
-      @param options_without_argument a map of options that are not followed by an argument (with key where they are stored). Options specified on the command line are set to the string 'true'.
-      @param options_with_multiple_argument a map of options that are followed by several arguments (with key where they are stored)
-      @param misc key where a StringList of all non-option arguments are stored
-      @param unknown key where a StringList of all unknown options are stored
+    /*!\brief Parses command line arguments to specified key locations.
+     * \param argc argc variable from command line.
+     * \param argv argv variable from command line.
+     * \param options_with_one_argument a map of options that are followed by one argument (with key where they are stored).
+     * \param options_without_argument a map of options that are not followed by an argument (with key where they are stored). Options specified on the command line are set to the string 'true'.
+     * \param options_with_multiple_argument a map of options that are followed by several arguments (with key where they are stored).
+     * \param misc key where a StringList of all non-option arguments are stored.
+     * \param unknown key where a StringList of all unknown options are stored.
     */
     void parseCommandLine(const int argc, const char** argv, const std::map<std::string, std::string>& options_with_one_argument, const std::map<std::string, std::string>& options_without_argument, const std::map<std::string, std::string>& options_with_multiple_argument, const std::string& misc = "misc", const std::string& unknown = "unknown");
-
-    //@}
+    //!\}
 
   protected:
-
-    /**
-      @brief Returns a mutable reference to a parameter entry.
-
-      @exception Exception::ElementNotFound is thrown for unset parameters
-    */
+    /*!\brief Returns a mutable reference to a parameter entry.
+     * \throws Exception::ElementNotFound for unset parameters.
+     */
     ParamEntry& getEntry_(const std::string& key) const;
 
-    /// Constructor from a node which is used as root node
+    //!\brief Constructor from a node which is used as root node.
     Param(const Param::ParamNode& node);
 
-    /// Invisible root node that stores all the data
-    mutable Param::ParamNode root_;
+    //!\brief Invisible root node that stores all the data.
+    mutable Param::ParamNode root_{"ROOT", ""};
   };
 
-  /// Output of Param to a stream.
+  //!\brief Formatted output.
   TDL_DLLAPI std::ostream& operator<<(std::ostream& os, const Param& param);
 
   //********************************* ParamEntry **************************************
-  Param::ParamEntry::ParamEntry() :
-    name(),
-    description(),
-    value(),
-    tags(),
-    min_float(-std::numeric_limits<double>::max()),
-    max_float(std::numeric_limits<double>::max()),
-    min_int(-std::numeric_limits<int>::max()),
-    max_int(std::numeric_limits<int>::max()),
-    valid_strings()
-  {
-  }
 
   Param::ParamEntry::ParamEntry(const std::string& n, const ParamValue& v, const std::string& d, const std::vector<std::string>& t) :
     name(n),
@@ -674,9 +582,6 @@ namespace tdl
     }
   }
 
-  Param::ParamEntry::~ParamEntry()
-  {
-  }
 
   bool Param::ParamEntry::isValid(std::string& message) const
   {
@@ -793,14 +698,6 @@ namespace tdl
   }
 
   //********************************* ParamNode **************************************
-  Param::ParamNode::ParamNode() :
-    name(),
-    description(),
-    entries(),
-    nodes()
-  {
-  }
-
   Param::ParamNode::ParamNode(const std::string& n, const std::string& d) :
     name(n),
     description(d),
@@ -811,10 +708,6 @@ namespace tdl
       {
         std::cerr << "Error ParamNode name must not contain ':' characters!" << std::endl;
       }
-  }
-
-  Param::ParamNode::~ParamNode()
-  {
   }
 
   bool Param::ParamNode::operator==(const ParamNode& rhs) const
@@ -1044,15 +937,6 @@ namespace tdl
   }
 
   //********************************* Param **************************************
-
-  Param::Param() :
-    root_("ROOT", "")
-  {
-  }
-
-  Param::~Param()
-  {
-  }
 
   Param::Param(const ParamNode& node) :
     root_(node)
@@ -2115,14 +1999,6 @@ OPENMS_THREAD_CRITICAL(oms_log)
     return ParamIterator();
   }
 
-  Param::ParamIterator::ParamIterator() :
-    root_(nullptr),
-    current_(0),
-    stack_(),
-    trace_()
-  {
-  }
-
   Param::ParamIterator::ParamIterator(const Param::ParamNode& root) :
     root_(&root),
     current_(-1),
@@ -2139,10 +2015,6 @@ OPENMS_THREAD_CRITICAL(oms_log)
     //find first entry
     stack_.push_back(root_);
     operator++();
-  }
-
-  Param::ParamIterator::~ParamIterator()
-  {
   }
 
   const Param::ParamEntry& Param::ParamIterator::operator*()

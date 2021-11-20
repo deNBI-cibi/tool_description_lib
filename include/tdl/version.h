@@ -1,12 +1,19 @@
-#pragma once
-
-#include <cstddef>
-#include <cstdint>
+// -----------------------------------------------------------------------------------------------------
+// Copyright (c) 2006-2021, Knut Reinert & Freie Universität Berlin
+// Copyright (c) 2016-2021, Knut Reinert & MPI für molekulare Genetik
+// This file may be used, modified and/or redistributed under the terms of the 3-clause BSD-License
+// shipped with this file and also available at: https://github.com/deNBI-cibi/tool_description_lib/blob/master/LICENSE.md
+// -----------------------------------------------------------------------------------------------------
 
 /*!\file
  * \brief Provides TDL version macros and global variables.
  * \author Svenja Mehringer <svenja.mehringer AT fu-berlin.de>
  */
+
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
 
 //!\brief The major version as MACRO.
 #define TDL_VERSION_MAJOR     0
@@ -21,7 +28,7 @@
 #define TDL_VERSION (TDL_VERSION_MAJOR * 10000 + TDL_VERSION_MINOR * 100 + TDL_VERSION_PATCH)
 
 /*!\brief Converts a number to a string. Preprocessor needs this indirection to
- * properly expand the values to strings.
+ *        properly expand the values to strings.
  */
 #define TDL_VERSION_CSTRING_HELPER_STR(str) #str
 
@@ -43,6 +50,9 @@
     TDL_VERSION_CSTRING_HELPER_FUNC(TDL_VERSION_MAJOR, TDL_VERSION_MINOR, TDL_VERSION_PATCH)                           \
     TDL_RELEASE_CANDIDATE_HELPER(TDL_RELEASE_CANDIDATE)
 
+/*!\namespace tdl
+ * \brief The tdl namespace.
+ */
 namespace tdl
 {
 

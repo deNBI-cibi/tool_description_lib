@@ -1,16 +1,25 @@
+// -----------------------------------------------------------------------------------------------------
+// Copyright (c) 2006-2021, Knut Reinert & Freie Universität Berlin
+// Copyright (c) 2016-2021, Knut Reinert & MPI für molekulare Genetik
+// This file may be used, modified and/or redistributed under the terms of the 3-clause BSD-License
+// shipped with this file and also available at: https://github.com/deNBI-cibi/tool_description_lib/blob/master/LICENSE.md
+// -----------------------------------------------------------------------------------------------------
+
+/*!\file
+ * \brief Provides TDL ParamCTDFile.
+ */
+
 #pragma once
 
-#include <string>
 #include <fstream>
+#include <string>
 
 #include <tdl/Param.h>
 
 namespace tdl
 {
 
-  /**
-   @brief A struct to pass information about the tool as one parameter
-   */
+  //!\brief Encompasses all metadata of a tool.
   struct ToolInfo
   {
     std::string version_;
@@ -21,62 +30,51 @@ namespace tdl
     std::vector<std::string> citations_;
   };
 
-  /**
-  @brief Serializes a Param class in paramCTD file format.
-         Note: only storing is currently possible
-
-*/
+  //!\brief Stores a Param class in paramCTD file format.
   class TDL_DLLAPI ParamCTDFile
   {
   public:
-    ParamCTDFile() = default; ///Constructor
+    ParamCTDFile() = default; //!< Defaulted.
+    ParamCTDFile(ParamCTDFile const &) = default; //!< Defaulted.
+    ParamCTDFile(ParamCTDFile &&) = default; //!< Defaulted.
+    ParamCTDFile & operator=(ParamCTDFile const &) = default; //!< Defaulted.
+    ParamCTDFile & operator=(ParamCTDFile &&) = default; //!< Defaulted.
+    ~ParamCTDFile() = default; //!< Defaulted.
 
-    ~ParamCTDFile() = default; ///Destructor
-
-    /**
-       @brief Write CTD file
-
-       @param filename The name of the file the param data structure should be stored in.
-       @param param The param data structure that should be stored.
-       @param ToolInfo Additional information about the Tool for which the param data should be stored.
-
-       @exception std::ios::failure is thrown if the file could not be created
+    /*!\brief Writes CTD file.
+     * \param filename The name of the file the param data structure should be stored in.
+     * \param param The param data structure that should be stored.
+     * \param tool_info Additional information about the Tool for which the param data should be stored.
+     * \exception std::ios::failure if the file can not be created.
      */
     void store(const std::string& filename, const Param& param, const ToolInfo& tool_info) const;
 
-    /**
-       @brief Write CTD to output stream.
-
-       @param os_ptr The stream to which the param data should be written.
-       @param param The param data structure that should be writte to stream.
-       @param tool_info Additional information about the Tool for which the param data should be written.
+    /*!\brief Writes CTD to output stream.
+     * \param os_ptr The stream to which the param data should be written.
+     * \param param The param data structure that should be writte to stream.
+     * \param tool_info Additional information about the Tool for which the param data should be written.
      */
     void writeCTDToStream(std::ostream* os_ptr, const Param& param, const ToolInfo& tool_info) const;
 
   private:
-    /**
-      @brief Escapes certain characters in a string that are not allowed in XML
-             Escaped characters are: & < > " '
-
-      @param to_escape The string in which the characters should be escaped
-
-      @returns The escaped string
+    /*!\brief Escapes <code>& < > " '</code> in a string.
+     * \param to_escape The string in which the characters should be escaped.
+     * \returns The escaped string.
      */
     static std::string escapeXML(const std::string& to_escape);
 
-    /**
-      @brief Replace all occurrences of a character in a string with a string
-
-      @param replace_in The string in which the characters should be replaced.
-      @param to_replace The character that should be replaced.
-      @param replace_with The string the character should be replaced with.
+    /*!\brief Replace all occurrences of a character in a string with a string
+     * \param replace_in The string in which the characters should be replaced.
+     * \param to_replace The character that should be replaced.
+     * \param replace_with The string the character should be replaced with.
      */
     static void replace(std::string& replace_in, char to_replace, const std::string& replace_with);
 
     const std::string schema_location_ = "/SCHEMAS/Param_1_7_0.xsd";
     const std::string schema_version_ = "1.7.0";
   };
-    void ParamCTDFile::store(const std::string& filename, const Param& param, const ToolInfo& tool_info) const
+
+  void ParamCTDFile::store(const std::string& filename, const Param& param, const ToolInfo& tool_info) const
   {
     std::ofstream os;
     std::ostream* os_ptr;
@@ -85,8 +83,8 @@ namespace tdl
       os.open(filename.c_str(), std::ofstream::out);
       if (!os)
       {
-        //Replace the OpenMS specific exception with a std exception
-        //Exception::UnableToCreateFile(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, filename);
+        // Replace the OpenMS specific exception with a std exception
+        // Exception::UnableToCreateFile(__FILE__, __LINE__, OPENMS_PRETTY_FUNCTION, filename);
         throw std::ios::failure("Unable to create file: " + filename);
       }
       os_ptr = &os;
@@ -99,6 +97,8 @@ namespace tdl
     writeCTDToStream(os_ptr, param, tool_info);
   }
 
+  // Doxygen escape - all this XML syntax causes trouble.
+  //!\cond
   void ParamCTDFile::writeCTDToStream(std::ostream *os_ptr, const Param &param, const ToolInfo& tool_info) const
   {
     std::ostream& os = *os_ptr;
@@ -393,6 +393,7 @@ namespace tdl
     os << "</PARAMETERS>\n";
     os << "</tool>" << std::endl; //forces a flush
   }
+  //!\endcond
 
   std::string ParamCTDFile::escapeXML(const std::string &to_escape)
   {
