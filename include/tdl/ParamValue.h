@@ -6,7 +6,7 @@
 // -----------------------------------------------------------------------------------------------------
 
 /*!\file
- * \brief Provides TDL ParamValue.
+ * \brief Provides tdl::ParamValue.
  */
 
 #pragma once
