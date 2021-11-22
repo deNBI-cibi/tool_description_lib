@@ -1,9 +1,11 @@
+# -----------------------------------------------------------------------------------------------------
+# Copyright (c) 2006-2021, Knut Reinert & Freie Universität Berlin
+# Copyright (c) 2016-2021, Knut Reinert & MPI für molekulare Genetik
+# This file may be used, modified and/or redistributed under the terms of the 3-clause BSD-License
+# shipped with this file and also available at: https://github.com/deNBI-cibi/tool_description_lib/blob/master/LICENSE.md
+# -----------------------------------------------------------------------------------------------------
+
 cmake_minimum_required (VERSION 3.10)
-#project (tdl_test_unit CXX)
-
-#find_package (tdl REQUIRED HINTS ${CMAKE_CURRENT_LIST_DIR}/../build_system)
-
-#include (GoogleTest OPTIONAL)
 
 # A compatible function for cmake < 3.20 that basically returns `cmake_path (GET <filename> STEM LAST_ONLY <out_var>)`
 function (tdl_path_longest_stem out_var filename)
@@ -20,7 +22,7 @@ function (tdl_path_longest_stem out_var filename)
 endfunction ()
 
 macro (add_tdl_test unit_test_cpp)
-    cmake_parse_arguments(TDL_TEST "" "" "CYCLIC_DEPENDING_INCLUDES" ${ARGN})
+    cmake_parse_arguments (TDL_TEST "" "" "CYCLIC_DEPENDING_INCLUDES" ${ARGN})
 
     file (RELATIVE_PATH unit_test "${CMAKE_SOURCE_DIR}" "${CMAKE_CURRENT_LIST_DIR}/${unit_test_cpp}")
 
