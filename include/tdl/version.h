@@ -15,7 +15,7 @@
 //!\brief The patch version as MACRO.
 #define TDL_VERSION_PATCH     0
 //!\brief The release candidate number. 0 means stable release, >= 1 means release candidate.
-#define TDL_RELEASE_CANDIDATE 0
+#define TDL_RELEASE_CANDIDATE 1
 
 //!\brief The full version as MACRO (number).
 #define TDL_VERSION (TDL_VERSION_MAJOR * 10000 + TDL_VERSION_MINOR * 100 + TDL_VERSION_PATCH)
