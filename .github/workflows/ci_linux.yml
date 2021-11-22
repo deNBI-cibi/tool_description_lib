@@ -9,6 +9,10 @@ on:
       - 'release*'
   pull_request:
 
+concurrency:
+  group: build-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 env:
   CMAKE_VERSION: 3.14.7
   SEQAN3_NO_VERSION_CHECK: 1
