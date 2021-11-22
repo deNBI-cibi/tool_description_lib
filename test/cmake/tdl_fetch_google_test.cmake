@@ -6,16 +6,23 @@
 # -----------------------------------------------------------------------------------------------------
 
 cmake_minimum_required (VERSION 3.14)
-project (tdl_test_unit CXX)
 
-find_package (tdl REQUIRED HINTS ${CMAKE_CURRENT_LIST_DIR}/../build_system)
-list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+# Exposes the google-test targets `gtest` and `gtest_main`.
+macro (tdl_fetch_google_test)
+    enable_testing ()
 
-include (GoogleTest OPTIONAL)
-include (tdl_fetch_google_test)
-tdl_fetch_google_test ()
+    message (STATUS "Fetch Google Test:")
 
-include (add_tdl_test)
-add_tdl_test (ParamValue_test.cpp)
-add_tdl_test (Param_test.cpp)
-add_tdl_test (ParamCTDFile_test.cpp)
+    include (FetchContent)
+    FetchContent_Declare (
+        gtest_fetch_content
+        GIT_REPOSITORY "https://github.com/google/googletest.git"
+        GIT_TAG "release-1.11.0"
+    )
+    option (BUILD_GMOCK "" OFF)
+    FetchContent_MakeAvailable (gtest_fetch_content)
+
+    if (NOT TARGET gtest_build)
+        add_custom_target (gtest_build DEPENDS gtest_main gtest)
+    endif ()
+endmacro ()

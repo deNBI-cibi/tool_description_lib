@@ -35,27 +35,27 @@
 # Additionally, the following [IMPORTED][IMPORTED] targets are defined:
 #
 #   tdl::tdl          -- interface target where
-#                                  target_link_libraries(target tdl::tdl)
+#                                  target_link_libraries (target tdl::tdl)
 #                              automatically sets
-#                                  target_include_directories(target $TDL_INCLUDE_DIRS),
-#                                  target_link_libraries(target $TDL_LIBRARIES),
-#                                  target_compile_definitions(target $TDL_DEFINITIONS) and
-#                                  target_compile_options(target $TDL_CXX_FLAGS)
+#                                  target_include_directories (target $TDL_INCLUDE_DIRS),
+#                                  target_link_libraries (target $TDL_LIBRARIES),
+#                                  target_compile_definitions (target $TDL_DEFINITIONS) and
+#                                  target_compile_options (target $TDL_CXX_FLAGS)
 #                              for a target.
 #
 #   [IMPORTED]: https://cmake.org/cmake/help/v3.10/prop_tgt/IMPORTED.html#prop_tgt:IMPORTED
 #
 # ============================================================================
 
-cmake_minimum_required (VERSION 3.4...3.12)
+cmake_minimum_required (VERSION 3.12)
 
 # ----------------------------------------------------------------------------
 # Set initial variables
 # ----------------------------------------------------------------------------
 
 # make output globally quiet if required by find_package, this effects cmake functions like `check_*`
-set(CMAKE_REQUIRED_QUIET_SAVE ${CMAKE_REQUIRED_QUIET})
-set(CMAKE_REQUIRED_QUIET ${${CMAKE_FIND_PACKAGE_NAME}_FIND_QUIETLY})
+set (CMAKE_REQUIRED_QUIET_SAVE ${CMAKE_REQUIRED_QUIET})
+set (CMAKE_REQUIRED_QUIET ${${CMAKE_FIND_PACKAGE_NAME}_FIND_QUIETLY})
 
 # ----------------------------------------------------------------------------
 # Greeter
@@ -114,12 +114,12 @@ else ()
 endif ()
 
 # ----------------------------------------------------------------------------
-# Detect if we are a clone of repository and if yes auto-add submodules
+# Detect if we are a clone of repository and if yes auto-add submodules - currently no submdules!
 # ----------------------------------------------------------------------------
 
-if (TDL_CLONE_DIR)
-    tdl_config_print ("Detected as running from a repository checkout…")
-endif ()
+# if (TDL_CLONE_DIR)
+#     tdl_config_print ("Detected as running from a repository checkout…")
+# endif ()
 
 # ----------------------------------------------------------------------------
 # Options for CheckCXXSourceCompiles
@@ -136,9 +136,7 @@ set (CMAKE_REQUIRED_FLAGS       ${CMAKE_CXX_FLAGS})
 # ----------------------------------------------------------------------------
 
 # librt
-if ((${CMAKE_SYSTEM_NAME} STREQUAL "Linux") OR
-    (${CMAKE_SYSTEM_NAME} STREQUAL "kFreeBSD") OR
-    (${CMAKE_SYSTEM_NAME} STREQUAL "GNU"))
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "^(Linux|kFreeBSD|GNU)$")
     set (TDL_LIBRARIES ${TDL_LIBRARIES} rt)
 endif ()
 
@@ -147,7 +145,7 @@ check_include_file_cxx (execinfo.h _TDL_HAS_EXECINFO)
 mark_as_advanced (_TDL_HAS_EXECINFO)
 if (_TDL_HAS_EXECINFO)
     tdl_config_print ("Optional dependency:        libexecinfo found.")
-    if ((${CMAKE_SYSTEM_NAME} STREQUAL "FreeBSD") OR (${CMAKE_SYSTEM_NAME} STREQUAL "OpenBSD"))
+    if ("${CMAKE_SYSTEM_NAME}" MATCHES "^(FreeBSD|OpenBSD)$")
         set (TDL_LIBRARIES ${TDL_LIBRARIES} execinfo elf)
     endif ()
 else ()
@@ -188,11 +186,11 @@ endif ()
 find_package_handle_standard_args (${CMAKE_FIND_PACKAGE_NAME} REQUIRED_VARS TDL_INCLUDE_DIR)
 
 # Set TDL_* variables with the content of ${CMAKE_FIND_PACKAGE_NAME}_(FOUND|...|VERSION)
-# This needs to be done, because `find_package(tdl)` might be called in any case-sensitive way and we want to
+# This needs to be done, because `find_package (tdl)` might be called in any case-sensitive way and we want to
 # guarantee that TDL_* are always set.
-#foreach (package_var FOUND DIR ROOT CONFIG VERSION VERSION_MAJOR VERSION_MINOR VERSION_PATCH VERSION_TWEAK VERSION_COUNT)
-#    set (TDL_${package_var} "${${CMAKE_FIND_PACKAGE_NAME}_${package_var}}")
-#endforeach ()
+foreach (package_var FOUND DIR ROOT CONFIG VERSION VERSION_MAJOR VERSION_MINOR VERSION_PATCH VERSION_TWEAK VERSION_COUNT)
+   set (TDL_${package_var} "${${CMAKE_FIND_PACKAGE_NAME}_${package_var}}")
+endforeach ()
 
 # propagate TDL_INCLUDE_DIR into TDL_INCLUDE_DIRS
 set (TDL_INCLUDE_DIRS ${TDL_INCLUDE_DIR} ${TDL_DEPENDENCY_INCLUDE_DIRS})
@@ -221,22 +219,20 @@ set (CMAKE_REQUIRED_QUIET ${CMAKE_REQUIRED_QUIET_SAVE})
 if (TDL_FIND_DEBUG)
   message ("Result for ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt")
   message ("")
-  message ("  CMAKE_BUILD_TYPE            ${CMAKE_BUILD_TYPE}")
-  message ("  CMAKE_SOURCE_DIR            ${CMAKE_SOURCE_DIR}")
-  message ("  CMAKE_INCLUDE_PATH          ${CMAKE_INCLUDE_PATH}")
-  message ("  TDL_INCLUDE_DIR          ${TDL_INCLUDE_DIR}")
+  message ("  CMAKE_BUILD_TYPE    ${CMAKE_BUILD_TYPE}")
+  message ("  CMAKE_SOURCE_DIR    ${CMAKE_SOURCE_DIR}")
+  message ("  CMAKE_INCLUDE_PATH  ${CMAKE_INCLUDE_PATH}")
+  message ("  TDL_INCLUDE_DIR     ${TDL_INCLUDE_DIR}")
   message ("")
-  message ("  ${CMAKE_FIND_PACKAGE_NAME}_FOUND                ${${CMAKE_FIND_PACKAGE_NAME}_FOUND}")
-#  message ("  TDL_HAS_ZLIB             ${ZLIB_FOUND}")
-#  message ("  TDL_HAS_BZIP2            ${BZIP2_FOUND}")
+  message ("  ${CMAKE_FIND_PACKAGE_NAME}_FOUND           ${${CMAKE_FIND_PACKAGE_NAME}_FOUND}")
   message ("")
-  message ("  TDL_INCLUDE_DIRS         ${TDL_INCLUDE_DIRS}")
-  message ("  TDL_LIBRARIES            ${TDL_LIBRARIES}")
-  message ("  TDL_DEFINITIONS          ${TDL_DEFINITIONS}")
-  message ("  TDL_CXX_FLAGS            ${TDL_CXX_FLAGS}")
+  message ("  TDL_INCLUDE_DIRS    ${TDL_INCLUDE_DIRS}")
+  message ("  TDL_LIBRARIES       ${TDL_LIBRARIES}")
+  message ("  TDL_DEFINITIONS     ${TDL_DEFINITIONS}")
+  message ("  TDL_CXX_FLAGS       ${TDL_CXX_FLAGS}")
   message ("")
-  message ("  TDL_VERSION              ${TDL_VERSION}")
-  message ("  TDL_VERSION_MAJOR        ${TDL_VERSION_MAJOR}")
-  message ("  TDL_VERSION_MINOR        ${TDL_VERSION_MINOR}")
-  message ("  TDL_VERSION_PATCH        ${TDL_VERSION_PATCH}")
+  message ("  TDL_VERSION         ${TDL_VERSION}")
+  message ("  TDL_VERSION_MAJOR   ${TDL_VERSION_MAJOR}")
+  message ("  TDL_VERSION_MINOR   ${TDL_VERSION_MINOR}")
+  message ("  TDL_VERSION_PATCH   ${TDL_VERSION_PATCH}")
 endif ()
