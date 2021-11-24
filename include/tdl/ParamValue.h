@@ -15,6 +15,7 @@
 #include <tdl/exception.h>
 
 #include <cstddef>
+#include <sstream>
 #include <string>
 #include <vector>
 
