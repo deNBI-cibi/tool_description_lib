@@ -74,7 +74,7 @@ namespace tdl
     const std::string schema_version_ = "1.7.0";
   };
 
-  void ParamCTDFile::store(const std::string& filename, const Param& param, const ToolInfo& tool_info) const
+  inline void ParamCTDFile::store(const std::string& filename, const Param& param, const ToolInfo& tool_info) const
   {
     std::ofstream os;
     std::ostream* os_ptr;
@@ -97,9 +97,9 @@ namespace tdl
     writeCTDToStream(os_ptr, param, tool_info);
   }
 
-  // Doxygen escape - all this XML syntax causes trouble.
+  // Doxygen escape - all this XML causes trouble
   //!\cond
-  void ParamCTDFile::writeCTDToStream(std::ostream *os_ptr, const Param &param, const ToolInfo& tool_info) const
+  inline void ParamCTDFile::writeCTDToStream(std::ostream *os_ptr, const Param &param, const ToolInfo& tool_info) const
   {
     std::ostream& os = *os_ptr;
     os.precision(std::numeric_limits<double>::digits10);
@@ -395,7 +395,7 @@ namespace tdl
   }
   //!\endcond
 
-  std::string ParamCTDFile::escapeXML(const std::string &to_escape)
+  inline std::string ParamCTDFile::escapeXML(const std::string &to_escape)
   {
     std::string copy = to_escape;
     if(copy.find('&') != std::string::npos) replace(copy, '&', "&amp;");
@@ -407,7 +407,7 @@ namespace tdl
     return copy;
   }
 
-  void ParamCTDFile::replace(std::string &replace_in, char to_replace, const std::string &replace_with)
+  inline void ParamCTDFile::replace(std::string &replace_in, char to_replace, const std::string &replace_with)
   {
     for(size_t i = 0; i < replace_in.size(); ++i) {
       if (replace_in[i] == to_replace)
