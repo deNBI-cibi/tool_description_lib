@@ -6,7 +6,9 @@
 namespace tdl {
 
 //!TODO needs a more general solution
+#ifndef TDL_PRETTY_FUNCTION
 #define TDL_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#endif
 
 /** simple class to capture __FILE__, __LINE__ and TDL_PRETTY_FUNCTION
  *
