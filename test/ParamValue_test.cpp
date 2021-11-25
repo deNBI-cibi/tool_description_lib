@@ -373,7 +373,7 @@ TEST(ParamValue, conversion_int_operator) {
   int k = d;
   EXPECT_EQ(k,-55);
 
-  EXPECT_THROW((int)tdl::ParamValue(55.4), tdl::ConversionError);
+  EXPECT_THROW(static_cast<int>(tdl::ParamValue(55.4)), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_unsigned_int_operator) {
@@ -381,8 +381,8 @@ TEST(ParamValue, conversion_unsigned_int_operator) {
   unsigned int k = d;
   EXPECT_EQ(k,55);
 
-  EXPECT_THROW((unsigned int)tdl::ParamValue(-55), tdl::ConversionError);
-  EXPECT_THROW((unsigned int)tdl::ParamValue(55.4), tdl::ConversionError);
+  EXPECT_THROW(static_cast<unsigned int>(tdl::ParamValue(-55)), tdl::ConversionError);
+  EXPECT_THROW(static_cast<unsigned int>(tdl::ParamValue(55.4)), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_short_int) {
@@ -390,7 +390,7 @@ TEST(ParamValue, conversion_short_int) {
   short int k = d;
   EXPECT_EQ(k,-55);
 
-  EXPECT_THROW((short int)tdl::ParamValue(55.4), tdl::ConversionError);
+  EXPECT_THROW(static_cast<short int>(tdl::ParamValue(55.4)), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_unsigned_short_int) {
@@ -398,8 +398,8 @@ TEST(ParamValue, conversion_unsigned_short_int) {
   unsigned short int k = d;
   EXPECT_EQ(k,55);
 
-  EXPECT_THROW((unsigned short int)tdl::ParamValue(-55), tdl::ConversionError);
-  EXPECT_THROW((unsigned short int)tdl::ParamValue(55.4), tdl::ConversionError);
+  EXPECT_THROW(static_cast<unsigned short int>(tdl::ParamValue(-55)), tdl::ConversionError);
+  EXPECT_THROW(static_cast<unsigned short int>(tdl::ParamValue(55.4)), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_long_int) {
@@ -407,7 +407,7 @@ TEST(ParamValue, conversion_long_int) {
   long int k = d;
   EXPECT_EQ(k,-55);
 
-  EXPECT_THROW((long int)tdl::ParamValue(55.4), tdl::ConversionError);
+  EXPECT_THROW(static_cast<long int>(tdl::ParamValue(55.4)), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_unsigned_long_int) {
@@ -415,8 +415,8 @@ TEST(ParamValue, conversion_unsigned_long_int) {
   unsigned long int k = d;
   EXPECT_EQ(k,55);
 
-  EXPECT_THROW((unsigned long int)tdl::ParamValue(-55), tdl::ConversionError);
-  EXPECT_THROW((unsigned long int)tdl::ParamValue(55.4), tdl::ConversionError);
+  EXPECT_THROW(static_cast<unsigned long int>(tdl::ParamValue(-55)), tdl::ConversionError);
+  EXPECT_THROW(static_cast<unsigned long int>(tdl::ParamValue(55.4)), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_long_long) {
@@ -436,7 +436,7 @@ TEST(ParamValue, conversion_long_long) {
       EXPECT_EQ(k,-55);
   }
 
-  EXPECT_THROW((long int)tdl::ParamValue(55.4), tdl::ConversionError);
+  EXPECT_THROW(static_cast<long int>(tdl::ParamValue(55.4)), tdl::ConversionError);
 }
 
 TEST(ParamValue, conversion_unsigned_long_long) {
@@ -451,8 +451,8 @@ TEST(ParamValue, conversion_unsigned_long_long) {
       EXPECT_EQ(k,55);
   }
 
-  EXPECT_THROW((unsigned long int)tdl::ParamValue(-55), tdl::ConversionError);
-  EXPECT_THROW((unsigned long int)tdl::ParamValue(55.4), tdl::ConversionError);
+  EXPECT_THROW(static_cast<unsigned long int>(tdl::ParamValue(-55)), tdl::ConversionError);
+  EXPECT_THROW(static_cast<unsigned long int>(tdl::ParamValue(55.4)), tdl::ConversionError);
 }
 
 TEST(ParamValue, compare_operator) {
