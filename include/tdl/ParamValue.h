@@ -308,7 +308,7 @@ namespace tdl
       std::vector<std::string>* str_list_;
       std::vector<int>* int_list_;
       std::vector<double>* dou_list_;
-    } data_;
+    } data_{};
 
   private:
 

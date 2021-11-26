@@ -1,21 +1,18 @@
-name: TDL CI on Linux
+name: CI on Linux
 
 on:
   push:
     branches:
       # Push events to branches matching refs/heads/master
       - 'master'
-      # Push events to branches matching refs/heads/release*
-      - 'release*'
   pull_request:
 
 concurrency:
-  group: build-${{ github.event.pull_request.number || github.ref }}
+  group: linux-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
-  CMAKE_VERSION: 3.14.7
-  SEQAN3_NO_VERSION_CHECK: 1
+  CMAKE_VERSION: 3.15.4
   TZ: Europe/Berlin
 
 defaults:
@@ -31,50 +28,73 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - name: "Unit gcc11"
+          - name: "gcc11"
             cxx: "g++-11"
             cc: "gcc-11"
-            build: unit
             build_type: Release
-            build_threads: 2
-            test_threads: 2
+            cxx_flags: "-std=c++20"
 
-          - name: "Unit gcc10"
+          - name: "gcc10"
             cxx: "g++-10"
             cc: "gcc-10"
-            build: unit
             build_type: Release
-            build_threads: 2
-            test_threads: 2
+            cxx_flags: "-std=c++20"
+
+          - name: "gcc9"
+            cxx: "g++-9"
+            cc: "gcc-9"
+            build_type: Release
+            cxx_flags: "-std=c++2a"
+
+          - name: "clang12"
+            cxx: "clang++-12"
+            cc: "clang-12"
+            build_type: Release
+            cxx_flags: "-std=c++20"
+
+          - name: "clang11"
+            cxx: "clang++-11"
+            cc: "clang-11"
+            build_type: Release
+            cxx_flags: "-std=c++20"
+
+          - name: "clang10"
+            cxx: "clang++-10"
+            cc: "clang-10"
+            build_type: Release
+            cxx_flags: "-std=c++20"
 
     steps:
       - name: Checkout TDL
         uses: actions/checkout@v2
         with:
           path: tdl
-          fetch-depth: 3
-          submodules: recursive
+          fetch-depth: 2
+          submodules: false
 
-      - name: Add package source
-        run: |
-          sudo add-apt-repository --no-update --yes ppa:ubuntu-toolchain-r/ppa
-          sudo add-apt-repository --no-update --yes ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
+      - name: Checkout SeqAn3
+        uses: actions/checkout@v2
+        with:
+          repository: seqan/seqan3
+          ref: 383e8f8d638f8a727a79136ce96ae7642befe39f
+          path: seqan3
+          fetch-depth: 2
+          submodules: false
+
+      - name: Configure APT
+        continue-on-error: true
+        run: bash ./seqan3/.github/workflows/scripts/configure_apt.sh
 
       - name: Install CMake
-        run: bash ./tdl/.github/workflows/scripts/install_cmake.sh
+        run: bash ./seqan3/.github/workflows/scripts/install_cmake.sh
 
       - name: Install ccache
-        run: sudo apt-get install --yes ccache
+        run: |
+          conda install --yes --override-channels --channel conda-forge ccache
+          sudo ln -s $CONDA/bin/ccache /usr/bin/ccache
 
       - name: Install compiler ${{ matrix.cxx }}
         run: sudo apt-get install --yes ${{ matrix.cxx }}
-
-      - name: Install lcov
-        if: matrix.build == 'coverage'
-        run: |
-          sudo apt-get install --yes lcov
-          sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-7 100
 
       - name: Load ccache
         uses: actions/cache@v2
@@ -91,6 +111,7 @@ jobs:
         run: |
           env cmake --version
           env ${{ matrix.cxx }} --version
+          env ccache --version
 
       - name: Configure tests
         env:
@@ -99,31 +120,26 @@ jobs:
         run: |
           mkdir tdl-build
           cd tdl-build
-          cmake ../tdl/test -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
-          make gtest_build
+          cmake ../tdl/test -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                            -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic ${{ matrix.cxx_flags }}"
+          make -j2 gtest_build
 
       - name: Build tests
         env:
           CCACHE_BASEDIR: ${{ github.workspace }}
           CCACHE_DIR: ${{ github.workspace }}/.ccache
           CCACHE_COMPRESS: true
-          CCACHE_COMPRESSLEVEL: 6
-          CCACHE_MAXSIZE: 1G
+          CCACHE_COMPRESSLEVEL: 12
+          CCACHE_MAXSIZE: 75M
         run: |
-          ccache -p || true
+          ccache -z
           cd tdl-build
-          make -k -j${{ matrix.build_threads }}
-          ccache -s || true
+          make -k -j2
+          ccache -sv
 
       - name: Run tests
-        if: matrix.build != 'coverage'
         run: |
           cd tdl-build
-          ctest . -j${{ matrix.test_threads }} --output-on-failure
-
-      - name: Submit coverage build
-        if: matrix.build == 'coverage'
-        uses: codecov/codecov-action@v1
-        with:
-          files: ${{ github.workspace }}/tdl-build/tdl_coverage
-          root_dir: ${{ github.workspace }}/tdl
+          ctest . -j2 --output-on-failure
