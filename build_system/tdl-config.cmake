@@ -14,10 +14,6 @@
 #
 #   C++17
 #
-# tdl has the following optional dependencies:
-#
-#   Xcerex    -- XML parsing
-#
 # Once the search has been performed, the following variables will be set.
 #
 #   TDL_FOUND            -- Indicate whether tdl was found and requirements met.
@@ -114,14 +110,6 @@ else ()
 endif ()
 
 # ----------------------------------------------------------------------------
-# Detect if we are a clone of repository and if yes auto-add submodules - currently no submdules!
-# ----------------------------------------------------------------------------
-
-# if (TDL_CLONE_DIR)
-#     tdl_config_print ("Detected as running from a repository checkout…")
-# endif ()
-
-# ----------------------------------------------------------------------------
 # Options for CheckCXXSourceCompiles
 # ----------------------------------------------------------------------------
 
@@ -131,26 +119,6 @@ set (CMAKE_REQUIRED_QUIET       1)
 set (CMAKE_REQUIRED_INCLUDES    ${CMAKE_INCLUDE_PATH} ${TDL_INCLUDE_DIR} ${TDL_DEPENDENCY_INCLUDE_DIRS})
 set (CMAKE_REQUIRED_FLAGS       ${CMAKE_CXX_FLAGS})
 
-# ----------------------------------------------------------------------------
-# System dependencies
-# ----------------------------------------------------------------------------
-
-# librt
-if ("${CMAKE_SYSTEM_NAME}" MATCHES "^(Linux|kFreeBSD|GNU)$")
-    set (TDL_LIBRARIES ${TDL_LIBRARIES} rt)
-endif ()
-
-# libexecinfo -- implicit
-check_include_file_cxx (execinfo.h _TDL_HAS_EXECINFO)
-mark_as_advanced (_TDL_HAS_EXECINFO)
-if (_TDL_HAS_EXECINFO)
-    tdl_config_print ("Optional dependency:        libexecinfo found.")
-    if ("${CMAKE_SYSTEM_NAME}" MATCHES "^(FreeBSD|OpenBSD)$")
-        set (TDL_LIBRARIES ${TDL_LIBRARIES} execinfo elf)
-    endif ()
-else ()
-    tdl_config_print ("Optional dependency:        libexecinfo not found.")
-endif ()
 
 # ----------------------------------------------------------------------------
 # Set C++ Standard
