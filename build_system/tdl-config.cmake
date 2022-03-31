@@ -119,18 +119,6 @@ set (CMAKE_REQUIRED_QUIET       1)
 set (CMAKE_REQUIRED_INCLUDES    ${CMAKE_INCLUDE_PATH} ${TDL_INCLUDE_DIR} ${TDL_DEPENDENCY_INCLUDE_DIRS})
 set (CMAKE_REQUIRED_FLAGS       ${CMAKE_CXX_FLAGS})
 
-
-# ----------------------------------------------------------------------------
-# Set C++ Standard
-# ----------------------------------------------------------------------------
-
-if (NOT DEFINED CMAKE_CXX_STANDARD)
-    tdl_config_print("No C++ standard set via CMAKE_CXX_STANDARD: setting it to C++17")
-    set(CMAKE_CXX_STANDARD 17)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
-    set(CMAKE_CXX_EXTENSIONS OFF)
-endif()
-
 # ----------------------------------------------------------------------------
 # Perform compilability test of platform.h (tests some requirements)
 # ----------------------------------------------------------------------------
@@ -190,8 +178,10 @@ if (TDL_FOUND AND NOT TARGET tdl::tdl)
     # include everything except tdl/include/ as -isystem, i.e.
     # a system header which suppresses warnings of external libraries.
     target_include_directories (tdl_tdl SYSTEM INTERFACE "${TDL_DEPENDENCY_INCLUDE_DIRS}")
+    target_compile_features(tdl_tdl INTERFACE cxx_std_17)
     add_library (tdl::tdl ALIAS tdl_tdl)
 endif ()
+
 
 set (CMAKE_REQUIRED_QUIET ${CMAKE_REQUIRED_QUIET_SAVE})
 
