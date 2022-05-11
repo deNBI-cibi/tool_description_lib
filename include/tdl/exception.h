@@ -2,6 +2,25 @@
 
 #include <string>
 #include <string_view>
+#include <stdexcept>
+
+/* This is a workaround for OpenMS.
+ *
+ * The goal is to allow OpenMS tools to stay compatible with the old exception
+ * class hierachy. The following Code allows to inject the OpenMS exception
+ * if the makro TDL_USE_OPENMS_EXCEPTION is defined.
+ */
+#ifdef TDL_USE_OPENMS_EXCEPTION
+#include "OpenMS/CONCEPT/Exception.h"
+namespace tdl {
+using TDLExceptionBase = OpenMS::Exception::BaseException;
+}
+#else
+namespace tdl {
+using TDLExceptionBase = std::exception;
+}
+#endif
+
 
 namespace tdl {
 
@@ -54,10 +73,9 @@ public:
     }
 };
 
-
 /** This exception is being thrown if any conversion errors have occurred
  */
-class ConversionError {
+class ConversionError : public TDLExceptionBase {
     Source source;
     std::string message;
 
@@ -79,6 +97,9 @@ public:
     /// Reason why this exception was thrown.
     auto getMessage() const -> std::string_view {
         return message;
+    }
+    const char* what() const noexcept {
+        return message.c_str();
     }
 };
 
