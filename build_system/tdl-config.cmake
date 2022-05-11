@@ -157,7 +157,9 @@ set (TDL_INCLUDE_DIRS ${TDL_INCLUDE_DIR})
 
 if (TDL_FOUND AND NOT TARGET tdl::tdl)
     add_library (tdl_tdl INTERFACE)
-    target_include_directories (tdl_tdl INTERFACE "${TDL_INCLUDE_DIR}")
+    target_include_directories (tdl_tdl INTERFACE
+                                    "$<BUILD_INTERFACE:${TDL_INCLUDE_DIRS}>"
+                                    "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
     target_compile_features(tdl_tdl INTERFACE cxx_std_17)
     add_library (tdl::tdl ALIAS tdl_tdl)
 endif ()
