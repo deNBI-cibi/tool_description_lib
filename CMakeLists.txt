@@ -18,7 +18,4 @@ project (
     HOMEPAGE_URL "https://github.com/deNBI-cibi/tool_description_lib"
 )
 
-# make cache variables for install destinations
-#include(GNUInstallDirs)
-
 find_package (tdl 0.1 REQUIRED HINTS ${TDL_MODULE_PATH})
