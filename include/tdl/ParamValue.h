@@ -11,7 +11,9 @@
 
 #pragma once
 
+#include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <sstream>
 #include <string>
 #include <vector>
