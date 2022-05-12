@@ -26,7 +26,13 @@ namespace tdl {
 
 //!TODO needs a more general solution
 #ifndef TDL_PRETTY_FUNCTION
-#define TDL_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#   if defined(__GNUC__) || defined(__clang__)
+#       define TDL_PRETTY_FUNCTION __PRETTY_FUNCTION__
+#   elif defined(__FUNCSIG__)
+#       define TDL_PRETTY_FUNCTION __FUNCSIG__
+#   else
+#       define TDL_PRETTY_FUNCTION "(plattform support no function names)"
+#   endif
 #endif
 
 /** Represents a location in the source code.
