@@ -388,7 +388,11 @@ namespace tdl
     {
       for ([[maybe_unused]] auto& trace : param_it.getTrace())
       {
-        indentations -= 2;
+      // !TODO !FIXME this should be an assert, but for some reason this crashes in the current shargparser
+      // implementation. Must be fixed in future PR.
+        if (indentations >= 2) {
+            indentations -= 2;
+        }
         os << std::string(indentations, ' ') << "</NODE>\n";
       }
     }
