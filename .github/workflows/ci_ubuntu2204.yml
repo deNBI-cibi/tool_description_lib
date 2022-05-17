@@ -90,7 +90,7 @@ jobs:
           repository: seqan/seqan3
           ref: 383e8f8d638f8a727a79136ce96ae7642befe39f
           path: seqan3
-          fetch-depth: 2
+          fetch-depth: 1
           submodules: false
 
       - name: Configure APT

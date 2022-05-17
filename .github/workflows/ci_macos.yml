@@ -84,6 +84,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: tdl
+          fetch-depth: 2
 
       - name: Checkout SeqAn3
         uses: actions/checkout@v2
@@ -109,7 +110,7 @@ jobs:
         run: |
           env cmake --version
           env ${{ matrix.cxx }} --version
-          
+
       - name: Install dependencies
         run: bash ./seqan3/.github/workflows/scripts/install_via_brew.sh boost
 
@@ -127,7 +128,7 @@ jobs:
         run: |
           cd tdl-build
           make -k -j3
-          
+
       - name: Run tests
         run: |
           cd tdl-build
