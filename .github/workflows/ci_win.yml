@@ -1,0 +1,67 @@
+name: CI on Windows
+
+on:
+  push:
+    branches:
+      # Push events to branches matching refs/heads/master
+      - 'master'
+  pull_request:
+  # Enables a manual trigger, may run on any branch
+  workflow_dispatch:
+
+concurrency:
+  group: windows-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: Europe/Berlin
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 180
+    if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "Visual Studio 16 2019"
+            os: windows-2019
+            toolset: '14.29'
+            msvc_ver: '16'
+            build_type: Release
+            cxx_flags: "/std:c++latest /EHsc"
+
+    steps:
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          toolset: ${{ matrix.toolset }}
+
+      - name: Checkout TDL
+        uses: actions/checkout@v2
+        with:
+          path: tdl
+
+      - name: Configure tests
+        run: |
+          New-Item -Name "tdl-build" -ItemType "directory" -Force
+          ls
+          cd tdl-build
+          cmake ../tdl/test -G"${{ matrix.name }}" `
+                         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
+                         -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
+      - name: Build tests
+        run: |
+          cd tdl-build
+          cmake --build . --config "${{ matrix.build_type }}" --parallel 2 `
+                -- /p:TrackFileAccess=false
+      - name: Run tests
+        run: |
+          cd tdl-build
+          ctest . -j2 -C "${{ matrix.build_type }}" --output-on-failure --timeout 240 -E "build_manual|test_py_lib_dox"
+          if (!$?)
+          {
+            ctest . -j2 -C "${{ matrix.build_type }}" --output-on-failure --timeout 240 --rerun-failed
+          }
