@@ -109,8 +109,9 @@ jobs:
         run: |
           env cmake --version
           env ${{ matrix.cxx }} --version
+          
       - name: Install dependencies
-        run: brew install --force-bottle boost
+        run: bash ./seqan3/.github/workflows/scripts/install_via_brew.sh boost
 
       - name: Configure tests
         env:
@@ -126,6 +127,7 @@ jobs:
         run: |
           cd tdl-build
           make -k -j3
+          
       - name: Run tests
         run: |
           cd tdl-build

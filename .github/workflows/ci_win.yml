@@ -55,13 +55,9 @@ jobs:
       - name: Build tests
         run: |
           cd tdl-build
-          cmake --build . --config "${{ matrix.build_type }}" --parallel 2 `
-                -- /p:TrackFileAccess=false
+          cmake --build . --config "${{ matrix.build_type }}" --parallel 2 ` -- /p:TrackFileAccess=false
+          
       - name: Run tests
         run: |
           cd tdl-build
-          ctest . -j2 -C "${{ matrix.build_type }}" --output-on-failure --timeout 240 -E "build_manual|test_py_lib_dox"
-          if (!$?)
-          {
-            ctest . -j2 -C "${{ matrix.build_type }}" --output-on-failure --timeout 240 --rerun-failed
-          }
+          ctest . -j2 -C "${{ matrix.build_type }}" --output-on-failure --timeout 240 
