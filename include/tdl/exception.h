@@ -12,6 +12,7 @@
  */
 #ifdef TDL_USE_OPENMS_EXCEPTION
 #include "OpenMS/CONCEPT/Exception.h"
+
 namespace tdl {
 using TDLExceptionBase = OpenMS::Exception::BaseException;
 }
@@ -24,7 +25,6 @@ using TDLExceptionBase = std::exception;
 
 namespace tdl {
 
-//!TODO needs a more general solution
 #ifndef TDL_PRETTY_FUNCTION
 #   if defined(__GNUC__) || defined(__clang__)
 #       define TDL_PRETTY_FUNCTION __PRETTY_FUNCTION__
