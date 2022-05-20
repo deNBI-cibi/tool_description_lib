@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
 
-#include <sstream>
+#include <cstdint>
 #include <iostream>
+#include <sstream>
 
 #include <tdl/ParamValue.h>
 
@@ -431,8 +432,8 @@ TEST(ParamValue, conversion_long_long) {
       EXPECT_EQ(k,-1);
   }
   {
-      tdl::ParamValue d(static_cast<ssize_t>(-55));
-      ssize_t k = d;
+      tdl::ParamValue d(static_cast<long long>(-55));
+      long long k = d;
       EXPECT_EQ(k,-55);
   }
 

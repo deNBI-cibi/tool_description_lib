@@ -2,8 +2,6 @@
 
 #include <tdl/ParamCTDFile.h>
 
-#include <filesystem>
-
 TEST(ParamCTDFile_test, default_construction)
 {
   auto ptr = new tdl::ParamCTDFile();
