@@ -1,4 +1,4 @@
-name: CI on Linux
+name: CI on Ubuntu 20.04
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   pull_request:
 
 concurrency:
-  group: linux-${{ github.event.pull_request.number || github.ref }}
+  group: ubuntu2004-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
@@ -28,35 +28,17 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - name: "gcc11"
-            cxx: "g++-11"
-            cc: "gcc-11"
+          - name: "gcc8 (c++17)"
+            cxx: "g++-8"
+            cc: "gcc-8"
             build_type: Release
-            cxx_flags: "-std=c++20"
+            cxx_flags: "-std=c++17"
 
-          - name: "gcc10"
-            cxx: "g++-10"
-            cc: "gcc-10"
+          - name: "gcc7 (c++17)"
+            cxx: "g++-7"
+            cc: "gcc-7"
             build_type: Release
-            cxx_flags: "-std=c++20"
-
-          - name: "gcc9"
-            cxx: "g++-9"
-            cc: "gcc-9"
-            build_type: Release
-            cxx_flags: "-std=c++2a"
-
-          - name: "clang12"
-            cxx: "clang++-12"
-            cc: "clang-12"
-            build_type: Release
-            cxx_flags: "-std=c++20"
-
-          - name: "clang11"
-            cxx: "clang++-11"
-            cc: "clang-11"
-            build_type: Release
-            cxx_flags: "-std=c++20"
+            cxx_flags: "-std=c++17"
 
           - name: "clang10"
             cxx: "clang++-10"
@@ -78,7 +60,7 @@ jobs:
           repository: seqan/seqan3
           ref: 383e8f8d638f8a727a79136ce96ae7642befe39f
           path: seqan3
-          fetch-depth: 2
+          fetch-depth: 1
           submodules: false
 
       - name: Configure APT

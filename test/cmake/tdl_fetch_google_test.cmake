@@ -17,7 +17,7 @@ macro (tdl_fetch_google_test)
     FetchContent_Declare (
         gtest_fetch_content
         GIT_REPOSITORY "https://github.com/google/googletest.git"
-        GIT_TAG "release-1.11.0"
+        GIT_TAG "8d51dc50eb7e7698427fed81b85edad0e032112e"
     )
     option (BUILD_GMOCK "" OFF)
     FetchContent_MakeAvailable (gtest_fetch_content)
@@ -25,4 +25,5 @@ macro (tdl_fetch_google_test)
     if (NOT TARGET gtest_build)
         add_custom_target (gtest_build DEPENDS gtest_main gtest)
     endif ()
+
 endmacro ()
