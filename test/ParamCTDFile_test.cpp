@@ -49,34 +49,34 @@ TEST_F(ParamCTDFileF, store) {
     paramFile.writeCTDToStream(&buffer, p2, info);
     EXPECT_EQ(buffer.str(), R"(<?xml version="1.0" encoding="UTF-8"?>
 <tool ctdVersion="1.7" version="a" name="a" docurl="a" category="a" >
-<description><![CDATA[a]]></description>
-<manual><![CDATA[a]]></manual>
-<citations>
-</citations>
-<PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <NODE name="test" description="sectiondesc">
-    <ITEM name="float" value="17.399999618530273" type="double" description="floatdesc" required="false" advanced="false" tags="a,b,c" />
-    <ITEM name="string" value="test,test,test" type="string" description="stringdesc" required="false" advanced="false" />
-    <ITEM name="int" value="17" type="int" description="intdesc" required="false" advanced="false" />
-    <NODE name="a" description="">
-      <ITEM name="a1" value="47.100000000000001" type="double" description="a1desc&quot;&lt;&gt;#br#newline" required="false" advanced="false" />
+  <description><![CDATA[a]]></description>
+  <manual><![CDATA[a]]></manual>
+  <citations>
+  </citations>
+  <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NODE name="test" description="sectiondesc">
+      <ITEM name="float" value="17.399999618530273" type="double" description="floatdesc" required="false" advanced="false" tags="a,b,c" />
+      <ITEM name="string" value="test,test,test" type="string" description="stringdesc" required="false" advanced="false" />
+      <ITEM name="int" value="17" type="int" description="intdesc" required="false" advanced="false" />
+      <NODE name="a" description="">
+        <ITEM name="a1" value="47.100000000000001" type="double" description="a1desc&quot;&lt;&gt;#br#newline" required="false" advanced="false" />
+      </NODE>
+      <NODE name="b" description="bdesc&quot;&lt;&gt;#br#newline">
+        <ITEM name="b1" value="47.100000000000001" type="double" description="" required="false" advanced="false" />
+      </NODE>
     </NODE>
-    <NODE name="b" description="bdesc&quot;&lt;&gt;#br#newline">
-      <ITEM name="b1" value="47.100000000000001" type="double" description="" required="false" advanced="false" />
+    <NODE name="test2" description="">
+      <ITEM name="float" value="17.5" type="double" description="" required="false" advanced="false" />
+      <ITEM name="string" value="test2" type="string" description="" required="false" advanced="false" />
+      <ITEM name="int" value="18" type="int" description="" required="false" advanced="false" />
+      <NODE name="a" description="adesc">
+        <ITEM name="a1" value="47.100000000000001" type="double" description="" required="false" advanced="false" />
+      </NODE>
+      <NODE name="b" description="">
+        <ITEM name="b1" value="47.100000000000001" type="double" description="" required="false" advanced="true" />
+      </NODE>
     </NODE>
-  </NODE>
-  <NODE name="test2" description="">
-    <ITEM name="float" value="17.5" type="double" description="" required="false" advanced="false" />
-    <ITEM name="string" value="test2" type="string" description="" required="false" advanced="false" />
-    <ITEM name="int" value="18" type="int" description="" required="false" advanced="false" />
-    <NODE name="a" description="adesc">
-      <ITEM name="a1" value="47.100000000000001" type="double" description="" required="false" advanced="false" />
-    </NODE>
-    <NODE name="b" description="">
-      <ITEM name="b1" value="47.100000000000001" type="double" description="" required="false" advanced="true" />
-    </NODE>
-  </NODE>
-</PARAMETERS>
+  </PARAMETERS>
 </tool>
 )");
   }
@@ -91,14 +91,14 @@ TEST_F(ParamCTDFileF, store) {
     paramFile.writeCTDToStream(&buffer, p7, info);
     EXPECT_EQ(buffer.str(), R"(<?xml version="1.0" encoding="UTF-8"?>
 <tool ctdVersion="1.7" version="a" name="a" docurl="a" category="a" >
-<description><![CDATA[a]]></description>
-<manual><![CDATA[a]]></manual>
-<citations>
-</citations>
-<PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ITEM name="true" value="5" type="int" description="" required="false" advanced="true" />
-  <ITEM name="false" value="5" type="int" description="" required="false" advanced="false" />
-</PARAMETERS>
+  <description><![CDATA[a]]></description>
+  <manual><![CDATA[a]]></manual>
+  <citations>
+  </citations>
+  <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ITEM name="true" value="5" type="int" description="" required="false" advanced="true" />
+    <ITEM name="false" value="5" type="int" description="" required="false" advanced="false" />
+  </PARAMETERS>
 </tool>
 )");
   }
@@ -160,72 +160,72 @@ TEST_F(ParamCTDFileF, store) {
     paramFile.writeCTDToStream(&buffer, p5, info);
     EXPECT_EQ(buffer.str(), R"(<?xml version="1.0" encoding="UTF-8"?>
 <tool ctdVersion="1.7" version="a" name="a" docurl="a" category="a" >
-<description><![CDATA[a]]></description>
-<manual><![CDATA[a]]></manual>
-<citations>
-</citations>
-<PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ITEM name="int" value="5" type="int" description="" required="false" advanced="false" />
-  <ITEM name="int_min" value="5" type="int" description="" required="false" advanced="false" restrictions="4:" />
-  <ITEM name="int_max" value="5" type="int" description="" required="false" advanced="false" restrictions=":6" />
-  <ITEM name="int_min_max" value="5" type="int" description="" required="false" advanced="false" restrictions="0:10" />
-  <ITEM name="float" value="5.1" type="double" description="" required="false" advanced="false" />
-  <ITEM name="float_min" value="5.1" type="double" description="" required="false" advanced="false" restrictions="4.100000:" />
-  <ITEM name="float_max" value="5.1" type="double" description="" required="false" advanced="false" restrictions=":6.100000" />
-  <ITEM name="float_min_max" value="5.1" type="double" description="" required="false" advanced="false" restrictions="0.100000:10.100000" />
-  <ITEM name="string" value="bli" type="string" description="" required="false" advanced="false" />
-  <ITEM name="string_2" value="bla" type="string" description="" required="false" advanced="false" restrictions="bla,bluff" />
-  <ITEMLIST name="stringlist2" type="string" description="" required="false" advanced="false" restrictions="xml,txt" >
-    <LISTITEM value="a.txt"/>
-    <LISTITEM value="b.xml"/>
-    <LISTITEM value="c.pdf"/>
-  </ITEMLIST>
-  <ITEMLIST name="stringlist" type="string" description="" required="false" advanced="false" >
-    <LISTITEM value="aa.C"/>
-    <LISTITEM value="bb.h"/>
-    <LISTITEM value="c.doxygen"/>
-  </ITEMLIST>
-  <ITEMLIST name="intlist" type="int" description="" required="false" advanced="false" >
-    <LISTITEM value="2"/>
-    <LISTITEM value="5"/>
-    <LISTITEM value="10"/>
-  </ITEMLIST>
-  <ITEMLIST name="intlist2" type="int" description="" required="false" advanced="false" restrictions="1:" >
-    <LISTITEM value="2"/>
-    <LISTITEM value="5"/>
-    <LISTITEM value="10"/>
-  </ITEMLIST>
-  <ITEMLIST name="intlist3" type="int" description="" required="false" advanced="false" restrictions=":11" >
-    <LISTITEM value="2"/>
-    <LISTITEM value="5"/>
-    <LISTITEM value="10"/>
-  </ITEMLIST>
-  <ITEMLIST name="intlist4" type="int" description="" required="false" advanced="false" restrictions="0:15" >
-    <LISTITEM value="2"/>
-    <LISTITEM value="5"/>
-    <LISTITEM value="10"/>
-  </ITEMLIST>
-  <ITEMLIST name="doublelist" type="double" description="" required="false" advanced="false" >
-    <LISTITEM value="1.2"/>
-    <LISTITEM value="3.33"/>
-    <LISTITEM value="4.44"/>
-  </ITEMLIST>
-  <ITEMLIST name="doublelist2" type="double" description="" required="false" advanced="false" restrictions="1.100000:" >
-    <LISTITEM value="1.2"/>
-    <LISTITEM value="3.33"/>
-    <LISTITEM value="4.44"/>
-  </ITEMLIST>
-  <ITEMLIST name="doublelist3" type="double" description="" required="false" advanced="false" restrictions=":4.450000" >
-    <LISTITEM value="1.2"/>
-    <LISTITEM value="3.33"/>
-    <LISTITEM value="4.44"/>
-  </ITEMLIST>
-  <ITEMLIST name="doublelist4" type="double" description="" required="false" advanced="false" restrictions="0.100000:5.800000" >
-    <LISTITEM value="1.2"/>
-    <LISTITEM value="3.33"/>
-    <LISTITEM value="4.44"/>
-  </ITEMLIST>
-</PARAMETERS>
+  <description><![CDATA[a]]></description>
+  <manual><![CDATA[a]]></manual>
+  <citations>
+  </citations>
+  <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ITEM name="int" value="5" type="int" description="" required="false" advanced="false" />
+    <ITEM name="int_min" value="5" type="int" description="" required="false" advanced="false" restrictions="4:" />
+    <ITEM name="int_max" value="5" type="int" description="" required="false" advanced="false" restrictions=":6" />
+    <ITEM name="int_min_max" value="5" type="int" description="" required="false" advanced="false" restrictions="0:10" />
+    <ITEM name="float" value="5.1" type="double" description="" required="false" advanced="false" />
+    <ITEM name="float_min" value="5.1" type="double" description="" required="false" advanced="false" restrictions="4.100000:" />
+    <ITEM name="float_max" value="5.1" type="double" description="" required="false" advanced="false" restrictions=":6.100000" />
+    <ITEM name="float_min_max" value="5.1" type="double" description="" required="false" advanced="false" restrictions="0.100000:10.100000" />
+    <ITEM name="string" value="bli" type="string" description="" required="false" advanced="false" />
+    <ITEM name="string_2" value="bla" type="string" description="" required="false" advanced="false" restrictions="bla,bluff" />
+    <ITEMLIST name="stringlist2" type="string" description="" required="false" advanced="false" restrictions="xml,txt" >
+      <LISTITEM value="a.txt"/>
+      <LISTITEM value="b.xml"/>
+      <LISTITEM value="c.pdf"/>
+    </ITEMLIST>
+    <ITEMLIST name="stringlist" type="string" description="" required="false" advanced="false" >
+      <LISTITEM value="aa.C"/>
+      <LISTITEM value="bb.h"/>
+      <LISTITEM value="c.doxygen"/>
+    </ITEMLIST>
+    <ITEMLIST name="intlist" type="int" description="" required="false" advanced="false" >
+      <LISTITEM value="2"/>
+      <LISTITEM value="5"/>
+      <LISTITEM value="10"/>
+    </ITEMLIST>
+    <ITEMLIST name="intlist2" type="int" description="" required="false" advanced="false" restrictions="1:" >
+      <LISTITEM value="2"/>
+      <LISTITEM value="5"/>
+      <LISTITEM value="10"/>
+    </ITEMLIST>
+    <ITEMLIST name="intlist3" type="int" description="" required="false" advanced="false" restrictions=":11" >
+      <LISTITEM value="2"/>
+      <LISTITEM value="5"/>
+      <LISTITEM value="10"/>
+    </ITEMLIST>
+    <ITEMLIST name="intlist4" type="int" description="" required="false" advanced="false" restrictions="0:15" >
+      <LISTITEM value="2"/>
+      <LISTITEM value="5"/>
+      <LISTITEM value="10"/>
+    </ITEMLIST>
+    <ITEMLIST name="doublelist" type="double" description="" required="false" advanced="false" >
+      <LISTITEM value="1.2"/>
+      <LISTITEM value="3.33"/>
+      <LISTITEM value="4.44"/>
+    </ITEMLIST>
+    <ITEMLIST name="doublelist2" type="double" description="" required="false" advanced="false" restrictions="1.100000:" >
+      <LISTITEM value="1.2"/>
+      <LISTITEM value="3.33"/>
+      <LISTITEM value="4.44"/>
+    </ITEMLIST>
+    <ITEMLIST name="doublelist3" type="double" description="" required="false" advanced="false" restrictions=":4.450000" >
+      <LISTITEM value="1.2"/>
+      <LISTITEM value="3.33"/>
+      <LISTITEM value="4.44"/>
+    </ITEMLIST>
+    <ITEMLIST name="doublelist4" type="double" description="" required="false" advanced="false" restrictions="0.100000:5.800000" >
+      <LISTITEM value="1.2"/>
+      <LISTITEM value="3.33"/>
+      <LISTITEM value="4.44"/>
+    </ITEMLIST>
+  </PARAMETERS>
 </tool>
 )");
 
@@ -266,48 +266,48 @@ TEST_F(ParamCTDFileF, writeCTDToStream)
   paramFile.writeCTDToStream(&buffer, p, info);
   EXPECT_EQ(buffer.str(), R"(<?xml version="1.0" encoding="UTF-8"?>
 <tool ctdVersion="1.7" version="2.6.0-pre-STL-ParamCTD-2021-06-02" name="AccurateMassSearch" docurl="http://www.openms.de/doxygen/nightly/html/UTILS_AccurateMassSearch.html" category="Utilities" >
-<description><![CDATA[Match MS signals to molecules from a database by mass.]]></description>
-<manual><![CDATA[Match MS signals to molecules from a database by mass.]]></manual>
-<citations>
-  <citation doi="10.1038/nmeth.3959" url="" />
-</citations>
-<PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ITEMLIST name="stringlist" type="string" description="StringList Description" required="false" advanced="false" >
-    <LISTITEM value="a"/>
-    <LISTITEM value="bb"/>
-    <LISTITEM value="ccc"/>
-  </ITEMLIST>
-  <ITEMLIST name="intlist" type="int" description="" required="false" advanced="false" >
-    <LISTITEM value="1"/>
-    <LISTITEM value="22"/>
-    <LISTITEM value="333"/>
-  </ITEMLIST>
-  <ITEM name="item" value="bla" type="string" description="" required="false" advanced="false" />
-  <ITEMLIST name="stringlist2" type="string" description="" required="false" advanced="false" >
-  </ITEMLIST>
-  <ITEMLIST name="intlist2" type="int" description="" required="false" advanced="false" >
-  </ITEMLIST>
-  <ITEM name="item1" value="7" type="int" description="" required="false" advanced="false" />
-  <ITEMLIST name="intlist3" type="int" description="" required="false" advanced="false" >
-    <LISTITEM value="1"/>
-  </ITEMLIST>
-  <ITEMLIST name="stringlist3" type="string" description="" required="false" advanced="false" >
-    <LISTITEM value="1"/>
-  </ITEMLIST>
-  <ITEM name="item3" value="7.6" type="double" description="" required="false" advanced="false" />
-  <ITEMLIST name="doublelist" type="double" description="" required="false" advanced="false" >
-    <LISTITEM value="1.22"/>
-    <LISTITEM value="2.33"/>
-    <LISTITEM value="4.55"/>
-  </ITEMLIST>
-  <ITEMLIST name="doublelist3" type="double" description="" required="false" advanced="false" >
-    <LISTITEM value="1.4"/>
-  </ITEMLIST>
-  <ITEM name="file_parameter" value="" type="input-file" description="This is a file parameter." required="false" advanced="false" supported_formats="*.mzML,*.mzXML" />
-  <ITEM name="advanced_parameter" value="" type="string" description="This is an advanced parameter." required="false" advanced="true" />
-  <ITEM name="flag" value="false" type="bool" description="This is a flag i.e. in a command line input it does not need a value." required="false" advanced="false" />
-  <ITEM name="noflagJustTrueFalse" value="true" type="string" description="This is not a flag but has a boolean meaning." required="false" advanced="false" restrictions="true,false" />
-</PARAMETERS>
+  <description><![CDATA[Match MS signals to molecules from a database by mass.]]></description>
+  <manual><![CDATA[Match MS signals to molecules from a database by mass.]]></manual>
+  <citations>
+    <citation doi="10.1038/nmeth.3959" url="" />
+  </citations>
+  <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ITEMLIST name="stringlist" type="string" description="StringList Description" required="false" advanced="false" >
+      <LISTITEM value="a"/>
+      <LISTITEM value="bb"/>
+      <LISTITEM value="ccc"/>
+    </ITEMLIST>
+    <ITEMLIST name="intlist" type="int" description="" required="false" advanced="false" >
+      <LISTITEM value="1"/>
+      <LISTITEM value="22"/>
+      <LISTITEM value="333"/>
+    </ITEMLIST>
+    <ITEM name="item" value="bla" type="string" description="" required="false" advanced="false" />
+    <ITEMLIST name="stringlist2" type="string" description="" required="false" advanced="false" >
+    </ITEMLIST>
+    <ITEMLIST name="intlist2" type="int" description="" required="false" advanced="false" >
+    </ITEMLIST>
+    <ITEM name="item1" value="7" type="int" description="" required="false" advanced="false" />
+    <ITEMLIST name="intlist3" type="int" description="" required="false" advanced="false" >
+      <LISTITEM value="1"/>
+    </ITEMLIST>
+    <ITEMLIST name="stringlist3" type="string" description="" required="false" advanced="false" >
+      <LISTITEM value="1"/>
+    </ITEMLIST>
+    <ITEM name="item3" value="7.6" type="double" description="" required="false" advanced="false" />
+    <ITEMLIST name="doublelist" type="double" description="" required="false" advanced="false" >
+      <LISTITEM value="1.22"/>
+      <LISTITEM value="2.33"/>
+      <LISTITEM value="4.55"/>
+    </ITEMLIST>
+    <ITEMLIST name="doublelist3" type="double" description="" required="false" advanced="false" >
+      <LISTITEM value="1.4"/>
+    </ITEMLIST>
+    <ITEM name="file_parameter" value="" type="input-file" description="This is a file parameter." required="false" advanced="false" supported_formats="*.mzML,*.mzXML" />
+    <ITEM name="advanced_parameter" value="" type="string" description="This is an advanced parameter." required="false" advanced="true" />
+    <ITEM name="flag" value="false" type="bool" description="This is a flag i.e. in a command line input it does not need a value." required="false" advanced="false" />
+    <ITEM name="noflagJustTrueFalse" value="true" type="string" description="This is not a flag but has a boolean meaning." required="false" advanced="false" restrictions="true,false" />
+  </PARAMETERS>
 </tool>
 )");
 }
@@ -334,46 +334,46 @@ TEST_F(ParamCTDFileF, storing_of_lists) {
   paramFile.writeCTDToStream(&buffer, p, info);
   EXPECT_EQ(buffer.str(), R"(<?xml version="1.0" encoding="UTF-8"?>
 <tool ctdVersion="1.7" version="a" name="b" docurl="c" category="d" >
-<description><![CDATA[e]]></description>
-<manual><![CDATA[e]]></manual>
-<citations>
-  <citation doi="f" url="" />
-</citations>
-<PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ITEMLIST name="stringlist" type="string" description="" required="false" advanced="false" >
-    <LISTITEM value="a"/>
-    <LISTITEM value="bb"/>
-    <LISTITEM value="ccc"/>
-  </ITEMLIST>
-  <ITEMLIST name="intlist" type="int" description="" required="false" advanced="false" >
-    <LISTITEM value="1"/>
-    <LISTITEM value="22"/>
-    <LISTITEM value="333"/>
-  </ITEMLIST>
-  <ITEM name="item" value="bla" type="string" description="" required="false" advanced="false" />
-  <ITEMLIST name="stringlist2" type="string" description="" required="false" advanced="false" >
-  </ITEMLIST>
-  <ITEMLIST name="intlist2" type="int" description="" required="false" advanced="false" >
-  </ITEMLIST>
-  <ITEM name="item1" value="7" type="int" description="" required="false" advanced="false" />
-  <ITEMLIST name="intlist3" type="int" description="" required="false" advanced="false" >
-    <LISTITEM value="0"/>
-  </ITEMLIST>
-  <ITEMLIST name="stringlist3" type="string" description="" required="false" advanced="false" >
-    <LISTITEM value="1"/>
-  </ITEMLIST>
-  <ITEM name="item3" value="7.6" type="double" description="" required="false" advanced="false" />
-  <ITEMLIST name="doublelist" type="double" description="" required="false" advanced="false" >
-    <LISTITEM value="1.22"/>
-    <LISTITEM value="2.33"/>
-    <LISTITEM value="4.55"/>
-  </ITEMLIST>
-  <ITEMLIST name="doublelist2" type="double" description="" required="false" advanced="false" >
-  </ITEMLIST>
-  <ITEMLIST name="doublelist3" type="double" description="" required="false" advanced="false" >
-    <LISTITEM value="1.4"/>
-  </ITEMLIST>
-</PARAMETERS>
+  <description><![CDATA[e]]></description>
+  <manual><![CDATA[e]]></manual>
+  <citations>
+    <citation doi="f" url="" />
+  </citations>
+  <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ITEMLIST name="stringlist" type="string" description="" required="false" advanced="false" >
+      <LISTITEM value="a"/>
+      <LISTITEM value="bb"/>
+      <LISTITEM value="ccc"/>
+    </ITEMLIST>
+    <ITEMLIST name="intlist" type="int" description="" required="false" advanced="false" >
+      <LISTITEM value="1"/>
+      <LISTITEM value="22"/>
+      <LISTITEM value="333"/>
+    </ITEMLIST>
+    <ITEM name="item" value="bla" type="string" description="" required="false" advanced="false" />
+    <ITEMLIST name="stringlist2" type="string" description="" required="false" advanced="false" >
+    </ITEMLIST>
+    <ITEMLIST name="intlist2" type="int" description="" required="false" advanced="false" >
+    </ITEMLIST>
+    <ITEM name="item1" value="7" type="int" description="" required="false" advanced="false" />
+    <ITEMLIST name="intlist3" type="int" description="" required="false" advanced="false" >
+      <LISTITEM value="0"/>
+    </ITEMLIST>
+    <ITEMLIST name="stringlist3" type="string" description="" required="false" advanced="false" >
+      <LISTITEM value="1"/>
+    </ITEMLIST>
+    <ITEM name="item3" value="7.6" type="double" description="" required="false" advanced="false" />
+    <ITEMLIST name="doublelist" type="double" description="" required="false" advanced="false" >
+      <LISTITEM value="1.22"/>
+      <LISTITEM value="2.33"/>
+      <LISTITEM value="4.55"/>
+    </ITEMLIST>
+    <ITEMLIST name="doublelist2" type="double" description="" required="false" advanced="false" >
+    </ITEMLIST>
+    <ITEMLIST name="doublelist3" type="double" description="" required="false" advanced="false" >
+      <LISTITEM value="1.4"/>
+    </ITEMLIST>
+  </PARAMETERS>
 </tool>
 )");
 }
@@ -399,24 +399,24 @@ TEST_F(ParamCTDFileF, escaping_of_characters) {
   paramFile.writeCTDToStream(&buffer, p, info);
   EXPECT_EQ(buffer.str(), R"(<?xml version="1.0" encoding="UTF-8"?>
 <tool ctdVersion="1.7" version="a" name="a" docurl="a" category="a" >
-<description><![CDATA[a]]></description>
-<manual><![CDATA[a]]></manual>
-<citations>
-  <citation doi="a" url="" />
-</citations>
-<PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ITEM name="string" value="bla" type="string" description="string" required="false" advanced="false" />
-  <ITEM name="string_with_ampersand" value="bla2&amp;blubb" type="string" description="string with ampersand" required="false" advanced="false" />
-  <ITEM name="string_with_ampersand_in_descr" value="blaxx" type="string" description="String with &amp; in description" required="false" advanced="false" />
-  <ITEM name="string_with_single_quote" value="bla&apos;xxx" type="string" description="String with single quotes" required="false" advanced="false" />
-  <ITEM name="string_with_single_quote_in_descr" value="blaxxx" type="string" description="String with &apos; quote in description" required="false" advanced="false" />
-  <ITEM name="string_with_double_quote" value="bla&quot;xxx" type="string" description="String with double quote" required="false" advanced="false" />
-  <ITEM name="string_with_double_quote_in_descr" value="bla&quot;xxx" type="string" description="String with &quot; description" required="false" advanced="false" />
-  <ITEM name="string_with_greater_sign" value="bla&gt;xxx" type="string" description="String with greater sign" required="false" advanced="false" />
-  <ITEM name="string_with_greater_sign_in_descr" value="bla greater xxx" type="string" description="String with &gt;" required="false" advanced="false" />
-  <ITEM name="string_with_less_sign" value="bla&lt;xxx" type="string" description="String with less sign" required="false" advanced="false" />
-  <ITEM name="string_with_less_sign_in_descr" value="bla less sign_xxx" type="string" description="String with less sign &lt;" required="false" advanced="false" />
-</PARAMETERS>
+  <description><![CDATA[a]]></description>
+  <manual><![CDATA[a]]></manual>
+  <citations>
+    <citation doi="a" url="" />
+  </citations>
+  <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ITEM name="string" value="bla" type="string" description="string" required="false" advanced="false" />
+    <ITEM name="string_with_ampersand" value="bla2&amp;blubb" type="string" description="string with ampersand" required="false" advanced="false" />
+    <ITEM name="string_with_ampersand_in_descr" value="blaxx" type="string" description="String with &amp; in description" required="false" advanced="false" />
+    <ITEM name="string_with_single_quote" value="bla&apos;xxx" type="string" description="String with single quotes" required="false" advanced="false" />
+    <ITEM name="string_with_single_quote_in_descr" value="blaxxx" type="string" description="String with &apos; quote in description" required="false" advanced="false" />
+    <ITEM name="string_with_double_quote" value="bla&quot;xxx" type="string" description="String with double quote" required="false" advanced="false" />
+    <ITEM name="string_with_double_quote_in_descr" value="bla&quot;xxx" type="string" description="String with &quot; description" required="false" advanced="false" />
+    <ITEM name="string_with_greater_sign" value="bla&gt;xxx" type="string" description="String with greater sign" required="false" advanced="false" />
+    <ITEM name="string_with_greater_sign_in_descr" value="bla greater xxx" type="string" description="String with &gt;" required="false" advanced="false" />
+    <ITEM name="string_with_less_sign" value="bla&lt;xxx" type="string" description="String with less sign" required="false" advanced="false" />
+    <ITEM name="string_with_less_sign_in_descr" value="bla less sign_xxx" type="string" description="String with less sign &lt;" required="false" advanced="false" />
+  </PARAMETERS>
 </tool>
 )");
 }
