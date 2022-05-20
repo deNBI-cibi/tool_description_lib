@@ -1138,7 +1138,7 @@ namespace tdl
     std::string s;
     if (full_precision)
     {
-      os.precision(15);
+      os.precision(std::numeric_limits<double>::max_digits10);
     }
     else
     {
