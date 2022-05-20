@@ -32,7 +32,7 @@ TEST_F(ParamCTDFileF, store) {
 
   //exception
   tdl::Param p300;
-  tdl::ToolInfo info = {"a", "a", "a", "a", "a", std::vector<std::string>()};
+  tdl::ToolInfo info = {"a", "a", "a", "a", "a", "a", std::vector<std::string>()};
   EXPECT_THROW(paramFile.store("/does/not/exist/FileDoesNotExist.ctd", p300, info), std::ios::failure);
 
 
@@ -51,6 +51,7 @@ TEST_F(ParamCTDFileF, store) {
 <tool ctdVersion="1.7" version="a" name="a" docurl="a" category="a" >
   <description><![CDATA[a]]></description>
   <manual><![CDATA[a]]></manual>
+  <executableName>a</executableName>
   <citations>
   </citations>
   <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -93,6 +94,7 @@ TEST_F(ParamCTDFileF, store) {
 <tool ctdVersion="1.7" version="a" name="a" docurl="a" category="a" >
   <description><![CDATA[a]]></description>
   <manual><![CDATA[a]]></manual>
+  <executableName>a</executableName>
   <citations>
   </citations>
   <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -162,6 +164,7 @@ TEST_F(ParamCTDFileF, store) {
 <tool ctdVersion="1.7" version="a" name="a" docurl="a" category="a" >
   <description><![CDATA[a]]></description>
   <manual><![CDATA[a]]></manual>
+  <executableName>a</executableName>
   <citations>
   </citations>
   <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -261,6 +264,7 @@ TEST_F(ParamCTDFileF, writeCTDToStream)
                         "http://www.openms.de/doxygen/nightly/html/UTILS_AccurateMassSearch.html",
                         "Utilities",
                         "Match MS signals to molecules from a database by mass.",
+                        "AccurateMassSearch",
                         {"10.1038/nmeth.3959"}};
   std::ostringstream buffer;
   paramFile.writeCTDToStream(&buffer, p, info);
@@ -268,6 +272,7 @@ TEST_F(ParamCTDFileF, writeCTDToStream)
 <tool ctdVersion="1.7" version="2.6.0-pre-STL-ParamCTD-2021-06-02" name="AccurateMassSearch" docurl="http://www.openms.de/doxygen/nightly/html/UTILS_AccurateMassSearch.html" category="Utilities" >
   <description><![CDATA[Match MS signals to molecules from a database by mass.]]></description>
   <manual><![CDATA[Match MS signals to molecules from a database by mass.]]></manual>
+  <executableName>AccurateMassSearch</executableName>
   <citations>
     <citation doi="10.1038/nmeth.3959" url="" />
   </citations>
@@ -329,15 +334,16 @@ TEST_F(ParamCTDFileF, storing_of_lists) {
   p.setValue("doublelist2", std::vector<double>{});
   p.setValue("doublelist3", std::vector<double>{1.4});
   //store
-  tdl::ToolInfo info = {"a", "b", "c", "d", "e", {"f"}};
+  tdl::ToolInfo info = {"a", "b", "c", "d", "e", "f", {"g"}};
   std::ostringstream buffer;
   paramFile.writeCTDToStream(&buffer, p, info);
   EXPECT_EQ(buffer.str(), R"(<?xml version="1.0" encoding="UTF-8"?>
 <tool ctdVersion="1.7" version="a" name="b" docurl="c" category="d" >
   <description><![CDATA[e]]></description>
   <manual><![CDATA[e]]></manual>
+  <executableName>f</executableName>
   <citations>
-    <citation doi="f" url="" />
+    <citation doi="g" url="" />
   </citations>
   <PARAMETERS version="1.7.0" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS/SCHEMAS/Param_1_7_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ITEMLIST name="stringlist" type="string" description="" required="false" advanced="false" >
@@ -394,13 +400,14 @@ TEST_F(ParamCTDFileF, escaping_of_characters) {
   p.setValue("string_with_less_sign", std::string{"bla<xxx"}, "String with less sign");
   p.setValue("string_with_less_sign_in_descr", std::string{"bla less sign_xxx"}, "String with less sign <");
 
-  tdl::ToolInfo info = {"a", "a", "a", "a", "a", {"a"}};
+  tdl::ToolInfo info = {"a", "a", "a", "a", "a", "a", {"a"}};
   std::ostringstream buffer;
   paramFile.writeCTDToStream(&buffer, p, info);
   EXPECT_EQ(buffer.str(), R"(<?xml version="1.0" encoding="UTF-8"?>
 <tool ctdVersion="1.7" version="a" name="a" docurl="a" category="a" >
   <description><![CDATA[a]]></description>
   <manual><![CDATA[a]]></manual>
+  <executableName>a</executableName>
   <citations>
     <citation doi="a" url="" />
   </citations>

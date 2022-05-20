@@ -22,12 +22,13 @@ namespace tdl
   //!\brief Encompasses all metadata of a tool.
   struct ToolInfo
   {
-    std::string version_;
-    std::string name_;
-    std::string docurl_;
-    std::string category_;
-    std::string description_;
-    std::vector<std::string> citations_;
+    std::string version_{};
+    std::string name_{};
+    std::string docurl_{};
+    std::string category_{};
+    std::string description_{};
+    std::string executableName_{};
+    std::vector<std::string> citations_{};
   };
 
   //!\brief Stores a Param class in paramCTD file format.
@@ -113,6 +114,10 @@ namespace tdl
        << R"(" docurl=")" << tool_info.docurl_ << R"(" category=")" << tool_info.category_ << "\" >\n";
     os << "  <description><![CDATA[" << tool_info.description_ << "]]></description>\n";
     os << "  <manual><![CDATA[" << tool_info.description_ << "]]></manual>\n";
+    if (not tool_info.executableName_.empty())
+    {
+      os << "  <executableName>" << tool_info.executableName_ << "</executableName>\n";
+    }
     os << "  <citations>\n";
 
     for (auto& doi : tool_info.citations_)
