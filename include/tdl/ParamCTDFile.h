@@ -22,12 +22,13 @@ namespace tdl
   //!\brief Encompasses all metadata of a tool.
   struct ToolInfo
   {
-    std::string version_;
-    std::string name_;
-    std::string docurl_;
-    std::string category_;
-    std::string description_;
-    std::vector<std::string> citations_;
+    std::string version_{};
+    std::string name_{};
+    std::string docurl_{};
+    std::string category_{};
+    std::string description_{};
+    std::string executableName_{};
+    std::vector<std::string> citations_{};
   };
 
   //!\brief Stores a Param class in paramCTD file format.
@@ -111,23 +112,27 @@ namespace tdl
     os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     os << R"(<tool ctdVersion="1.7" version=")" << tool_info.version_ << R"(" name=")" << tool_info.name_
        << R"(" docurl=")" << tool_info.docurl_ << R"(" category=")" << tool_info.category_ << "\" >\n";
-    os << "<description><![CDATA[" << tool_info.description_ << "]]></description>\n";
-    os << "<manual><![CDATA[" << tool_info.description_ << "]]></manual>\n";
-    os << "<citations>\n";
+    os << "  <description><![CDATA[" << tool_info.description_ << "]]></description>\n";
+    os << "  <manual><![CDATA[" << tool_info.description_ << "]]></manual>\n";
+    if (not tool_info.executableName_.empty())
+    {
+      os << "  <executableName>" << tool_info.executableName_ << "</executableName>\n";
+    }
+    os << "  <citations>\n";
 
     for (auto& doi : tool_info.citations_)
     {
-      os << "  <citation doi=\"" << doi << "\" url=\"\" />\n";
+      os << "    <citation doi=\"" << doi << "\" url=\"\" />\n";
     }
 
-    os << "</citations>\n";
-    os << "<PARAMETERS version=\"" << schema_version_
+    os << "  </citations>\n";
+    os << "  <PARAMETERS version=\"" << schema_version_
        << R"(" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/OpenMS/OpenMS/develop/share/OpenMS)"
        << schema_location_
        << "\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n";
 
     //Write the xml stuff
-    uint32_t indentations = 2;
+    uint32_t indentations = 4;
     auto param_it = param.begin();
     for (auto last = param.end(); param_it != last; ++param_it)
     {
@@ -397,7 +402,7 @@ namespace tdl
       }
     }
 
-    os << "</PARAMETERS>\n";
+    os << "  </PARAMETERS>\n";
     os << "</tool>" << std::endl; //forces a flush
   }
   //!\endcond
