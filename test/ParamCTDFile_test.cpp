@@ -24,6 +24,7 @@ protected:
     p.setValue("test2:int",18);
     p.setSectionDescription("test","sectiondesc");
     p.addTags("test:float", {"a","b","c"});
+    p.setCliMapping("test", "--test");
   }
 };
 
@@ -77,6 +78,11 @@ TEST_F(ParamCTDFileF, store) {
     </NODE>
   </NODE>
 </PARAMETERS>
+  <CLI>
+    <CLIELEMENT optionIdentifier="--test">
+      <MAPPING referenceName="test" />
+    </CLIELEMENT>
+  </CLI>
 </tool>
 )");
   }

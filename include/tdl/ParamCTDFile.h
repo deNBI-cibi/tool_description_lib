@@ -396,8 +396,21 @@ namespace tdl
         os << std::string(indentations, ' ') << "</NODE>\n";
       }
     }
-
     os << "</PARAMETERS>\n";
+
+    // Print cli mapping, if available
+    if (param.getCliMapping().size() > 0)
+    {
+        os << "  <CLI>\n";
+        for (auto const& [name, argument] : param.getCliMapping())
+        {
+            os << "    <CLIELEMENT optionIdentifier=\"" + argument + "\">\n";
+            os << "      <MAPPING referenceName=\"" + name + "\" />\n";
+            os << "    </CLIELEMENT>\n";
+        }
+        os << "  </CLI>\n";
+    }
+
     os << "</tool>" << std::endl; //forces a flush
   }
   //!\endcond

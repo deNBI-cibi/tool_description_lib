@@ -507,6 +507,23 @@ namespace tdl
     void setMaxFloat(const std::string& key, double max);
     //!\}
 
+
+    /*!\brief Set the cli mapping from a key to the required parameter on the command line
+     * \param key             name of the key as used in e.g. setValue
+     * \param cliArgumentName identifier used before the name on a cli. This can be empty in case of positional arguments.
+     */
+    void setCliMapping(std::string const& key, std::string const& cliArgumentName) {
+        cliMapping[key] = cliArgumentName;
+    }
+
+    /*!\brief Access to the CLI Mapping.
+     * \return returns a mapping from  a key to a cli argument parameter.
+     */
+    auto getCliMapping() const -> auto const&
+    {
+        return cliMapping;
+    }
+
     /*!\name Command line parsing
      * \{
      */
@@ -552,6 +569,9 @@ namespace tdl
 
     //!\brief Invisible root node that stores all the data.
     mutable Param::ParamNode root_{"ROOT", ""};
+
+    //!\brief Maps a key to an cli argument;
+    std::map<std::string, std::string> cliMapping;
   };
 
   //!\brief Formatted output.
