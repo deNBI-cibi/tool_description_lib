@@ -122,7 +122,7 @@ jobs:
           ls
           mkdir tdl-build
           cd tdl-build
-          cmake ../tdl/test -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          cmake ../tdl -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                             -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
       - name: Build tests
         run: |

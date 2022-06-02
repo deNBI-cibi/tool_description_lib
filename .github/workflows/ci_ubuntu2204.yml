@@ -132,11 +132,10 @@ jobs:
         run: |
           mkdir tdl-build
           cd tdl-build
-          cmake ../tdl/test -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-                            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
-                            -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic ${{ matrix.cxx_flags }}"
-          make -j2 gtest_build
+          cmake ../tdl -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                       -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+                       -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+                       -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic ${{ matrix.cxx_flags }}"
 
       - name: Build tests
         env:
