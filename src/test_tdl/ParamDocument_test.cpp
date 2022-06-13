@@ -5,8 +5,7 @@
 // shipped with this file.
 // -----------------------------------------------------------------------------------------------------
 
-#include <tdl/ParamDocument.h>
-#include <tdl/ParamDocumentToCTD.h>
+#include <tdl/tdl.h>
 
 #include <cassert>
 #include <iostream>
