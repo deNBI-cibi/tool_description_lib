@@ -278,10 +278,10 @@ inline auto convertToCTD(ParamTree const& param) -> XMLNode {
 }
 
 
-/*!\brief converts a ParamDocument into a string that
+/*!\brief converts a ToolInfo into a string that
  * holds the CTD representation of the given tool
  */
-inline auto convertToCTD(ParamDocument const& doc) {
+inline auto convertToCTD(ToolInfo const& doc) {
     auto& node = doc.params;
     auto& tool_info = doc.metaInfo;
     auto const schema_location = std::string{"/SCHEMAS/Param_1_7_0.xsd"};

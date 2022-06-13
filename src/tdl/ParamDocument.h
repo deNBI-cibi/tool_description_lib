@@ -145,7 +145,7 @@ struct Citation {
 };
 
 //!\brief Meta data of the tool
-struct ToolMetaInfo {
+struct MetaInfo {
     std::string version{};              //!\brief version as a string
     std::string name{};                 //!\brief name of the app
     std::string docurl{};               //!\brief url to the documentation of the app
@@ -156,8 +156,8 @@ struct ToolMetaInfo {
 };
 
 //! A full parameter tree document with cli mappings
-struct ParamDocument {
-    ToolMetaInfo            metaInfo{};
+struct ToolInfo {
+    MetaInfo                metaInfo{};
     ParamTree::Children     params{};
     std::vector<CLIMapping> cliMapping{};
 };

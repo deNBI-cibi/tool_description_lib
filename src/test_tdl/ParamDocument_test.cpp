@@ -18,7 +18,7 @@
 
 void testToolInfo() {
     { // Testing empty ToolInfo (making sure only minimum number of fields are being printed)
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {
                 CPP20(.version        = ) {},
                 CPP20(.name           = ) {},
@@ -39,7 +39,7 @@ void testToolInfo() {
     }
 
     { // Testing filling all fields (with exception of citations for better overview)
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {
                 CPP20(.version        =) {"7.6.5"},
                 CPP20(.name           =) {"testApp"},
@@ -62,7 +62,7 @@ void testToolInfo() {
         assert(expected == output);
     }
     { // Testing citations list
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {
                 CPP20(.version        =) {},
                 CPP20(.name           =) {},
@@ -89,7 +89,7 @@ void testToolInfo() {
 
 void testParamTreeSingleInt() {
     { // Single Int, no tags, no limits
-        auto doc = tdl::ParamDocument{
+        auto doc = tdl::ToolInfo{
             {},
             { tdl::ParamTree{CPP20(.name        =) "foo",
                              CPP20(.description =) "testing a single int with no tags and no limits",
@@ -111,7 +111,7 @@ void testParamTreeSingleInt() {
 
     }
     { // Single Int, no tags, min limits
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {
                 CPP20(.version        =) {},
                 CPP20(.name           =) {},
@@ -140,7 +140,7 @@ void testParamTreeSingleInt() {
         assert(expected == output);
     }
     { // Single Int, no tags, a max limits
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -162,7 +162,7 @@ void testParamTreeSingleInt() {
 
     }
     { // Single Int, no tags, with limits
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -186,7 +186,7 @@ void testParamTreeSingleInt() {
 
 void testParamTreeSingleTypes() {
     { // Single double, no tags, with limits
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -207,7 +207,7 @@ void testParamTreeSingleTypes() {
         assert(expected == output);
     }
     { // Single string, no tags, with validator list
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -231,7 +231,7 @@ void testParamTreeSingleTypes() {
 
 void testParamTreeListTypes() {
     { // List of ints, no tags, with limits
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -258,7 +258,7 @@ void testParamTreeListTypes() {
     }
 
     { // List of doubles, no tags, with limits
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -284,7 +284,7 @@ void testParamTreeListTypes() {
         assert(expected == output);
     }
     { // List of strings, no tags, with validator list
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -310,7 +310,7 @@ void testParamTreeListTypes() {
         assert(expected == output);
     }
     { // a single string with only 'false' and 'true' as options
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -335,7 +335,7 @@ void testParamTreeListTypes() {
 
 void testParamTreeNestedTypes() {
     { // zero nested parameters
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -357,7 +357,7 @@ void testParamTreeNestedTypes() {
     }
 
     { // a single nested parameter
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -385,7 +385,7 @@ void testParamTreeNestedTypes() {
         assert(expected == output);
     }
     { // a multi nested parameter
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "build",
@@ -438,7 +438,7 @@ void testParamTreeNestedTypes() {
 
 void testParamTreeTags() {
     { // Single Int with special tag "required"
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -460,7 +460,7 @@ void testParamTreeTags() {
         assert(expected == output);
     }
     { // Single Int with special tag "advanced"
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -482,7 +482,7 @@ void testParamTreeTags() {
         assert(expected == output);
     }
     { // Single Int with some random tags: "fast" and "easy"
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -505,7 +505,7 @@ void testParamTreeTags() {
     }
 
     { // Single String with special tag "input file"
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -527,7 +527,7 @@ void testParamTreeTags() {
         assert(expected == output);
     }
     { // Single String with special tag "output file"
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -550,7 +550,7 @@ void testParamTreeTags() {
     }
 
     { // Single String with special tag "output prefix"
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -573,7 +573,7 @@ void testParamTreeTags() {
     }
 
     { // List of strings with special tag "input file"
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -595,7 +595,7 @@ void testParamTreeTags() {
         assert(expected == output);
     }
     { // Single String with special tag "output file"
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {{{
                 CPP20(.name        =) "foo",
@@ -621,7 +621,7 @@ void testParamTreeTags() {
 
 void testCliMapping() {
     { // Single double, no tags, with limits
-        auto output = convertToCTD(tdl::ParamDocument {
+        auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
             CPP20(.params =) {},
             CPP20(.cliMapping =) {
@@ -643,10 +643,6 @@ void testCliMapping() {
         assert(expected == output);
     }
 }
-
-
-
-
 
 int main() {
     testToolInfo();
