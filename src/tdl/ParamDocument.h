@@ -155,13 +155,10 @@ struct ToolMetaInfo {
     std::vector<Citation> citations{};  //!\brief list publication integrated into this app
 };
 
-
-
-
 //! A full parameter tree document with cli mappings
 struct ParamDocument {
-    ToolMetaInfo metaInfo{};
-    ParamTree::Children root{};
+    ToolMetaInfo            metaInfo{};
+    ParamTree::Children     params{};
     std::vector<CLIMapping> cliMapping{};
 };
 }

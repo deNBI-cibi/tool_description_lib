@@ -282,7 +282,7 @@ inline auto convertToCTD(ParamTree const& param) -> XMLNode {
  * holds the CTD representation of the given tool
  */
 inline auto convertToCTD(ParamDocument const& doc) {
-    auto& node = doc.root;
+    auto& node = doc.params;
     auto& tool_info = doc.metaInfo;
     auto const schema_location = std::string{"/SCHEMAS/Param_1_7_0.xsd"};
     auto const schema_version  = std::string{"1.7.0"};
