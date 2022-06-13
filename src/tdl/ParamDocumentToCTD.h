@@ -158,8 +158,8 @@ auto generateValidList(T const& value) -> std::optional<std::string> {
 }
 
 
-//!\brief converts a ParamTree into an XMLNode
-inline auto convertToCTD(ParamTree const& param) -> XMLNode {
+//!\brief converts a Node into an XMLNode
+inline auto convertToCTD(Node const& param) -> XMLNode {
     // generate a single Node
     auto xmlNode = XMLNode{/*.tag = */"NODE",
                            /*.attr = */{{"name", param.name}, {"description", param.description}}};
@@ -241,7 +241,7 @@ inline auto convertToCTD(ParamTree const& param) -> XMLNode {
                 xmlNode.children.push_back({"LISTITEM", {{"value", v}}});
             }
         },
-        [&](ParamTree::Children const& children) {
+        [&](Node::Children const& children) {
             for (auto const& child : children) {
                 xmlNode.children.emplace_back(convertToCTD(child));
             }

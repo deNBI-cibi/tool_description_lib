@@ -102,7 +102,7 @@ struct TStringValue {
 
 }
 
-// Value types that are valid entries in the ParamTree
+// Value types that are valid entries in the Node
 using BoolValue       = bool;
 using IntValue        = detail::TValue<int>;
 using DoubleValue     = detail::TValue<double>;
@@ -115,8 +115,8 @@ using StringValueList = detail::TStringValue<std::string, std::vector<std::strin
  *
  * This represents values that are structured in a tree and strongly typed.
  */
-struct ParamTree {
-    using Children = std::vector<ParamTree>;
+struct Node {
+    using Children = std::vector<Node>;
     using Value = std::variant<BoolValue,          // just a single bool value
                                IntValue,           // single int, double or string value
                                DoubleValue,
@@ -158,7 +158,7 @@ struct MetaInfo {
 //! A full parameter tree document with cli mappings
 struct ToolInfo {
     MetaInfo                metaInfo{};
-    ParamTree::Children     params{};
+    Node::Children          params{};
     std::vector<CLIMapping> cliMapping{};
 };
 }

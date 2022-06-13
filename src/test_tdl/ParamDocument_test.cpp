@@ -87,11 +87,11 @@ void testToolInfo() {
     }
 }
 
-void testParamTreeSingleInt() {
+void testNodeSingleInt() {
     { // Single Int, no tags, no limits
         auto doc = tdl::ToolInfo{
             {},
-            { tdl::ParamTree{CPP20(.name        =) "foo",
+            { tdl::Node{CPP20(.name        =) "foo",
                              CPP20(.description =) "testing a single int with no tags and no limits",
                              CPP20(.tags        =) {},
                              CPP20(.value       =) tdl::IntValue{5}
@@ -184,7 +184,7 @@ void testParamTreeSingleInt() {
     }
 }
 
-void testParamTreeSingleTypes() {
+void testNodeSingleTypes() {
     { // Single double, no tags, with limits
         auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
@@ -229,7 +229,7 @@ void testParamTreeSingleTypes() {
     }
 }
 
-void testParamTreeListTypes() {
+void testNodeListTypes() {
     { // List of ints, no tags, with limits
         auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
@@ -333,7 +333,7 @@ void testParamTreeListTypes() {
 
 }
 
-void testParamTreeNestedTypes() {
+void testNodeNestedTypes() {
     { // zero nested parameters
         auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
@@ -341,7 +341,7 @@ void testParamTreeNestedTypes() {
                 CPP20(.name        =) "foo",
                 CPP20(.description =) "some major command",
                 CPP20(.tags        =) {},
-                CPP20(.value       =) tdl::ParamTree::Children{}
+                CPP20(.value       =) tdl::Node::Children{}
             }}}
         });
         auto expected = std::string{R"(<?xml version="1.0" encoding="UTF-8"?>
@@ -363,7 +363,7 @@ void testParamTreeNestedTypes() {
                 CPP20(.name        =) "foo",
                 CPP20(.description =) "some major command",
                 CPP20(.tags        =) {},
-                CPP20(.value       =) tdl::ParamTree::Children {{
+                CPP20(.value       =) tdl::Node::Children {{
                     CPP20(.name        =) "input",
                     CPP20(.description =) "input file",
                     CPP20(.tags        =) {},
@@ -391,7 +391,7 @@ void testParamTreeNestedTypes() {
                 CPP20(.name        =) "build",
                 CPP20(.description =) "builds some index for search",
                 CPP20(.tags        =) {},
-                CPP20(.value       =) tdl::ParamTree::Children {{
+                CPP20(.value       =) tdl::Node::Children {{
                     CPP20(.name        =) "input",
                     CPP20(.description =) "input file",
                     CPP20(.tags        =) {},
@@ -401,7 +401,7 @@ void testParamTreeNestedTypes() {
                 CPP20(.name        =) "search",
                 CPP20(.description =) "reusing index to search",
                 CPP20(.tags        =) {},
-                CPP20(.value       =) tdl::ParamTree::Children {{
+                CPP20(.value       =) tdl::Node::Children {{
                         CPP20(.name        =) "queries",
                         CPP20(.description =) "files with search queries",
                         CPP20(.tags        =) {},
@@ -436,7 +436,7 @@ void testParamTreeNestedTypes() {
 
 }
 
-void testParamTreeTags() {
+void testNodeTags() {
     { // Single Int with special tag "required"
         auto output = convertToCTD(tdl::ToolInfo {
             CPP20(.metaInfo =) {},
@@ -646,11 +646,11 @@ void testCliMapping() {
 
 int main() {
     testToolInfo();
-    testParamTreeSingleInt();
-    testParamTreeSingleTypes();
-    testParamTreeListTypes();
-    testParamTreeNestedTypes();
-    testParamTreeTags();
+    testNodeSingleInt();
+    testNodeSingleTypes();
+    testNodeListTypes();
+    testNodeNestedTypes();
+    testNodeTags();
     testCliMapping();
     std::cout << "Success! Nothing failed!\n";
     return EXIT_SUCCESS;
