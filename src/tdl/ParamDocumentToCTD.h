@@ -27,24 +27,6 @@
 
 namespace tdl {
 
-//\brief Citation information of the app
-struct Citation {
-    std::string doi; //!\brief the doi (document object identifier)
-    std::string url; //!\brief an url for direct access.
-};
-
-//!\brief Meta data of the tool
-struct ToolInfo {
-    std::string version{};              //!\brief version as a string
-    std::string name{};                 //!\brief name of the app
-    std::string docurl{};               //!\brief url to the documentation of the app
-    std::string category{};             //!\brief category of the app
-    std::string description{};          //!\brief a brief description of the app
-    std::string executableName{};       //!\brief the actual call of this app
-    std::vector<Citation> citations{};  //!\brief list publication integrated into this app
-};
-
-
 namespace detail {
 
 //!\brief overload structure allowing fancy 'std::visit` syntax
@@ -296,11 +278,12 @@ inline auto convertToCTD(ParamTree const& param) -> XMLNode {
 }
 
 
-/*!\brief converts a ToolInfo and a ParamDocument into a string that
+/*!\brief converts a ParamDocument into a string that
  * holds the CTD representation of the given tool
  */
-inline auto convertToCTD(ToolInfo const& tool_info, ParamDocument const& doc) {
+inline auto convertToCTD(ParamDocument const& doc) {
     auto& node = doc.root;
+    auto& tool_info = doc.metaInfo;
     auto const schema_location = std::string{"/SCHEMAS/Param_1_7_0.xsd"};
     auto const schema_version  = std::string{"1.7.0"};
 

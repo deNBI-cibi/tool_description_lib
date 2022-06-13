@@ -138,9 +138,30 @@ struct CLIMapping {
     std::string referenceName;    //!< name of the option inside the parameter tree
 };
 
+//\brief Citation information of the app
+struct Citation {
+    std::string doi; //!\brief the doi (document object identifier)
+    std::string url; //!\brief an url for direct access.
+};
+
+//!\brief Meta data of the tool
+struct ToolMetaInfo {
+    std::string version{};              //!\brief version as a string
+    std::string name{};                 //!\brief name of the app
+    std::string docurl{};               //!\brief url to the documentation of the app
+    std::string category{};             //!\brief category of the app
+    std::string description{};          //!\brief a brief description of the app
+    std::string executableName{};       //!\brief the actual call of this app
+    std::vector<Citation> citations{};  //!\brief list publication integrated into this app
+};
+
+
+
+
 //! A full parameter tree document with cli mappings
 struct ParamDocument {
-    ParamTree::Children root;
+    ToolMetaInfo metaInfo{};
+    ParamTree::Children root{};
     std::vector<CLIMapping> cliMapping{};
 };
 }
