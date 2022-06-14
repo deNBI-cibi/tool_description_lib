@@ -21,7 +21,6 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 180
-    if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
@@ -50,7 +49,7 @@ jobs:
           New-Item -Name "tdl-build" -ItemType "directory" -Force
           ls
           cd tdl-build
-          cmake ../tdl/test -G"${{ matrix.name }}" `
+          cmake ../tdl -G"${{ matrix.name }}" `
                          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
                          -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
       - name: Build tests
