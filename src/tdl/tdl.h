@@ -9,4 +9,5 @@
 
 #include "ParamDocument.h"
 #include "ParamDocumentToCTD.h"
+#include "ParamDocumentToCWL.h"
 

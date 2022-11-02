@@ -22,6 +22,7 @@ add_library(tdl INTERFACE)
 target_include_directories(tdl INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<INSTALL_INTERFACE:include>)
+target_link_libraries(tdl INTERFACE yaml-cpp)
 add_library (tdl::tdl ALIAS tdl)
 
 if (${TDL_ROOT_PROJECT})

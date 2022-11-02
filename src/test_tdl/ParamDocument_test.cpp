@@ -644,6 +644,8 @@ void testCliMapping() {
     }
 }
 
+
+void testCWL();
 int main() {
     testToolInfo();
     testNodeSingleInt();
@@ -652,6 +654,7 @@ int main() {
     testNodeNestedTypes();
     testNodeTags();
     testCliMapping();
+    testCWL();
     std::cout << "Success! Nothing failed!\n";
     return EXIT_SUCCESS;
 }
