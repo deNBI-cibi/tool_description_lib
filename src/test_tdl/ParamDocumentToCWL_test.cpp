@@ -5,16 +5,7 @@
 // shipped with this file.
 // -----------------------------------------------------------------------------------------------------
 
-#include <tdl/tdl.h>
-
-#include <cassert>
-#include <iostream>
-
-#if __cplusplus >= 202002L
-#  define CPP20(x) x
-#else
-#  define CPP20(x)
-#endif
+#include "utils.h"
 
 
 namespace cwl_tests {
