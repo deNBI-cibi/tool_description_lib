@@ -213,7 +213,7 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
     };
 
     auto baseCommand = std::vector<std::string>{};
-    baseCommand.push_back("echo"); //!TODO this should be the executable name
+    baseCommand.push_back(tool_info.executableName);
 
     // add cli mapping
     if (not doc.cliMapping.empty()) {
@@ -254,22 +254,9 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
             input.inputBinding = binding;
             tool.inputs->push_back(input);
         }
-
+    }
         tool.baseCommand = baseCommand;
 
-
-//            cliNode.children.push_back({/*.tag = */"clielement", /*.attr = */{{"optionIdentifier", optionIdentifier}}});
-//            cliNode.children.back().children.push_back({/*.tag = */"mapping", /*.attr = */{{"referenceName", referenceName}}});
-//        }
-
-
-//        auto cliNode = detail::XMLNode{/*.tag = */"cli"};
-//        for (auto const& [optionIdentifier, referenceName] : doc.cliMapping) {
-//            cliNode.children.push_back({/*.tag = */"clielement", /*.attr = */{{"optionIdentifier", optionIdentifier}}});
-//            cliNode.children.back().children.push_back({/*.tag = */"mapping", /*.attr = */{{"referenceName", referenceName}}});
-//        }
-//        toolNode.children.emplace_back(std::move(cliNode));
-    }
 
 #if 0
 
