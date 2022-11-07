@@ -5,7 +5,7 @@
 # shipped with this file.
 # -----------------------------------------------------------------------------------------------------
 
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.15)
 
 # check if this is the main project
 if (NOT DEFINED PROJECT_NAME)
@@ -22,6 +22,26 @@ add_library(tdl INTERFACE)
 target_include_directories(tdl INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<INSTALL_INTERFACE:include>)
+
+find_package (yaml-cpp QUIET)
+
+if (NOT yaml-cpp_FOUND)
+    message (STATUS "Fetching yaml-cpp")
+
+    include (FetchContent)
+    FetchContent_Declare (
+        yaml-cpp_fetch_content
+        GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp.git"
+        GIT_TAG "yaml-cpp-0.7.0")
+    option (YAML_CPP_BUILD_CONTRIB "" OFF)
+    option (YAML_CPP_BUILD_TOOLS "" OFF)
+    option (YAML_BUILD_SHARED_LIBS "" OFF)
+    option (YAML_CPP_INSTALL "" ON)
+    FetchContent_MakeAvailable (yaml-cpp_fetch_content)
+else ()
+    message (STATUS "Found yaml-cpp ${yaml-cpp_VERSION}")
+endif ()
+
 target_link_libraries(tdl INTERFACE yaml-cpp)
 add_library (tdl::tdl ALIAS tdl)
 
