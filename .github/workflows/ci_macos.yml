@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CMAKE_VERSION: 3.15.1
+  CMAKE_VERSION: 3.15.4
   TZ: Europe/Berlin
 
 defaults:
@@ -24,7 +24,7 @@ defaults:
 jobs:
   build:
     name: ${{ matrix.name }}
-    runs-on: macos-10.15
+    runs-on: macos-12
     timeout-minutes: 180
     strategy:
       fail-fast: false
@@ -109,6 +109,7 @@ jobs:
         run: |
           env cmake --version
           env ${{ matrix.cxx }} --version
+          sudo xcode-select -s '/Applications/Xcode_13.4.1.app/Contents/Developer' # https://github.com/actions/runner-images/issues/6350
 
       - name: Install dependencies
         run: bash ./seqan3/.github/workflows/scripts/install_via_brew.sh boost
@@ -123,6 +124,7 @@ jobs:
           cd tdl-build
           cmake ../tdl -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
                             -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
+
       - name: Build tests
         run: |
           cd tdl-build
