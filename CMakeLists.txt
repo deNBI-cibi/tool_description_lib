@@ -20,7 +20,7 @@ project (tdl LANGUAGES CXX VERSION "${TDL_PROJECT_VERSION}"
 
 add_library(tdl INTERFACE)
 target_include_directories(tdl INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>
     $<INSTALL_INTERFACE:include>)
 
 find_package (yaml-cpp QUIET)
@@ -38,6 +38,7 @@ if (NOT yaml-cpp_FOUND)
     option (YAML_BUILD_SHARED_LIBS "" OFF)
     option (YAML_CPP_INSTALL "" ON)
     FetchContent_MakeAvailable (yaml-cpp_fetch_content)
+    target_compile_options (yaml-cpp PRIVATE "-w")
 else ()
     message (STATUS "Found yaml-cpp ${yaml-cpp_VERSION}")
 endif ()
