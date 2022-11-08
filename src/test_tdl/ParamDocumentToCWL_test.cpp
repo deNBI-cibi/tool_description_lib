@@ -13,7 +13,14 @@ namespace cwl_tests {
 void testToolInfo() {
     { // a multi nested parameter
         auto output = convertToCWL(tdl::ToolInfo {
-            CPP20(.metaInfo =) {},
+            CPP20(.metaInfo =) {
+                CPP20(.version        =) {},
+                CPP20(.name           =) {},
+                CPP20(.docurl         =) {},
+                CPP20(.category       =) {},
+                CPP20(.description    =) {},
+                CPP20(.executableName =) "echo",
+            },
             CPP20(.params =) {
                 tdl::Node{CPP20(.name        =) "command",
                           CPP20(.description =) "Command",
@@ -35,7 +42,7 @@ void testToolInfo() {
                 {CPP20(.optionIdentifier =) "",         CPP20(.referenceName    =) "command"},
                 {CPP20(.optionIdentifier =) "--kmer",   CPP20(.referenceName    =) "kmer"},
                 {CPP20(.optionIdentifier =) "--window", CPP20(.referenceName    =) "window"},
-            }
+            },
         });
         auto expected = std::string{R"(inputs:
   - id: kmer

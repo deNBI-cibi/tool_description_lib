@@ -232,8 +232,8 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
                 [&](DoubleValue const&) {
                     input.type = cwl::CWLType::double_;
                 },
-                [&](StringValue const& v) {
-                    if (optionIdentifier.empty()) {
+                [&, opt=&optionIdentifier](StringValue const& v) {
+                    if (opt->empty()) {
                         baseCommand.push_back(v.value);
                     }
                     input.type = cwl::CWLType::string;
