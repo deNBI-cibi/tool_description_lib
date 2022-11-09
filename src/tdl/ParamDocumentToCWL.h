@@ -217,41 +217,76 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
 
     // add cli mapping
     for (auto const& [optionIdentifier, referenceName] : doc.cliMapping) {
-        auto input         = cwl::CommandInputParameter{};
-        input.id           = referenceName;
+        auto addInput = [&](auto type) {
+            auto input         = cwl::CommandInputParameter{};
+            input.id           = referenceName;
+            input.type         = type;
+
+            auto binding       = cwl::CommandLineBinding{};
+            binding.prefix     = optionIdentifier;
+            input.inputBinding = binding;
+            tool.inputs->push_back(input);
+        };
+
+        auto addOutput = [&](auto type) {
+            auto input         = cwl::CommandInputParameter{};
+            input.id           = referenceName;
+            input.type         = type;
+
+            auto binding       = cwl::CommandLineBinding{};
+            binding.prefix     = optionIdentifier;
+            input.inputBinding = binding;
+            tool.inputs->push_back(input);
+
+            auto output         = cwl::CommandOutputParameter{};
+            output.id           = referenceName;
+            output.type         = type;
+
+            auto binding2       = cwl::CommandOutputBinding{};
+            binding2.glob       = "$(inputs." + referenceName + ")";
+            output.outputBinding = binding2;
+            tool.outputs->push_back(output);
+        };
+
+
 
         auto ptr = findNode(referenceName);
         if (ptr) {
             std::visit(overloaded{
                 [&](BoolValue const&) {
-                    input.type = cwl::CWLType::boolean;
+                    addInput(cwl::CWLType::boolean);
                 },
                 [&](IntValue const&) {
-                    input.type = cwl::CWLType::long_;
+                    addInput(cwl::CWLType::long_);
                 },
                 [&](DoubleValue const&) {
-                    input.type = cwl::CWLType::double_;
+                    addInput(cwl::CWLType::double_);
                 },
-                [&, opt=&optionIdentifier](StringValue const& v) {
-                    if (opt->empty()) {
+                [&](StringValue const& v) {
+                    if (optionIdentifier.empty()) {
                         baseCommand.push_back(v.value);
+                        return;
                     }
-                    input.type = cwl::CWLType::string;
+
+                    if (ptr->tags.contains("output")) {
+                        if (ptr->tags.contains("file")) {
+                            addOutput(cwl::CWLType::File);
+                        } else if (ptr->tags.contains("directory")) {
+                            addOutput(cwl::CWLType::Directory);
+                        }
+                    } else if (ptr->tags.contains("file")) {
+                        addInput(cwl::CWLType::File);
+                    } else if (ptr->tags.contains("directory")) {
+                        addInput(cwl::CWLType::Directory);
+                    } else {
+                        addInput(cwl::CWLType::string);
+                    }
                 },
                 [&](auto const&) {
-                    input.type = cwl::CWLType::null;
+                    addInput(cwl::CWLType::null);
                 },
             }, ptr->value);
         }
-
-        if (optionIdentifier.empty()) {
-            continue;
-        }
-
-        auto binding       = cwl::CommandLineBinding{};
-        binding.prefix     = optionIdentifier;
-        input.inputBinding = binding;
-        tool.inputs->push_back(input);
     }
     tool.baseCommand = baseCommand;
 
