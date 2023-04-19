@@ -173,8 +173,7 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
 
     auto tool = cwl::CommandLineTool{};
     tool.cwlVersion  = cwl::CWLVersion::v1_2;
-    tool.id          = tool_info.name;
-    tool.label       = tool_info.name; //!TODO Label and id are the same?
+    tool.label       = tool_info.name;
     tool.doc         = tool_info.description;
     // = tool_info.category; //!TODO
     // = tool_info.docurl; //!TODO
@@ -213,14 +212,22 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
     };
 
     auto baseCommand = std::vector<std::string>{};
-    baseCommand.push_back(tool_info.executableName);
+    baseCommand.push_back(std::filesystem::path{tool_info.executableName}.filename().string());
 
     // add cli mapping
     for (auto const& [optionIdentifier, referenceName] : doc.cliMapping) {
+        auto ptr = findNode(referenceName);
+
         auto addInput = [&](auto type) {
             auto input         = cwl::CommandInputParameter{};
             input.id           = referenceName;
-            input.type         = type;
+            if (ptr->tags.contains("required")) {
+                input.type         = type;
+            } else {
+                using namespace https___w3id_org_cwl_cwl;
+                input.type         = std::vector<std::variant<CWLType, CommandInputRecordSchema, CommandInputEnumSchema, CommandInputArraySchema, std::string>>{cwl::CWLType::null, type};
+            }
+            input.doc          = ptr->description;
 
             auto binding       = cwl::CommandLineBinding{};
             binding.prefix     = optionIdentifier;
@@ -231,7 +238,8 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
         auto addOutput = [&](auto type) {
             auto input         = cwl::CommandInputParameter{};
             input.id           = referenceName;
-            input.type         = type;
+            input.type         = cwl::CWLType::string;
+            input.doc          = ptr->description;
 
             auto binding       = cwl::CommandLineBinding{};
             binding.prefix     = optionIdentifier;
@@ -250,7 +258,6 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
 
 
 
-        auto ptr = findNode(referenceName);
         if (ptr) {
             std::visit(overloaded{
                 [&](BoolValue const&) {

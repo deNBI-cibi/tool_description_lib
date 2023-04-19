@@ -29,12 +29,12 @@ void testToolInfo() {
                 },
                 tdl::Node{CPP20(.name        =) "kmer",
                             CPP20(.description =) "The k-mer size",
-                            CPP20(.tags        =) {},
+                            CPP20(.tags        =) {"required"},
                             CPP20(.value       =) tdl::IntValue{20, 1, 32}
                 },
                 tdl::Node{CPP20(.name        =) "window",
                             CPP20(.description =) "The window size",
-                            CPP20(.tags        =) {},
+                            CPP20(.tags        =) {"required"},
                             CPP20(.value       =) tdl::IntValue{20}
                }
             },
@@ -45,17 +45,18 @@ void testToolInfo() {
             },
         });
         auto expected = std::string{R"(inputs:
-  - id: kmer
+  - doc: The k-mer size
+    id: kmer
     type: long
     inputBinding:
       prefix: --kmer
-  - id: window
+  - doc: The window size
+    id: window
     type: long
     inputBinding:
       prefix: --window
 outputs:
   []
-id: ""
 label: ""
 doc: ""
 cwlVersion: v1.2
