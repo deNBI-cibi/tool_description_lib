@@ -28,18 +28,6 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - name: "gcc8 (c++17)"
-            cxx: "g++-8"
-            cc: "gcc-8"
-            build_type: Release
-            cxx_flags: "-std=c++17"
-
-          - name: "gcc7 (c++17)"
-            cxx: "g++-7"
-            cc: "gcc-7"
-            build_type: Release
-            cxx_flags: "-std=c++17"
-
           - name: "clang10"
             cxx: "clang++-10"
             cc: "clang-10"
