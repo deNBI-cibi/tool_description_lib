@@ -11,6 +11,7 @@
 #include "generated-cwl.h"
 
 #include <cassert>
+#include <filesystem>
 #include <functional>
 #include <iomanip>
 #include <limits>
@@ -218,10 +219,10 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
     for (auto const& [optionIdentifier, referenceName] : doc.cliMapping) {
         auto ptr = findNode(referenceName);
 
-        auto addInput = [&](auto type) {
+        auto addInput = [&, &referenceName=referenceName, &optionIdentifier=optionIdentifier](auto type) {
             auto input         = cwl::CommandInputParameter{};
             input.id           = referenceName;
-            if (ptr->tags.contains("required")) {
+            if (ptr->tags.count("required")) {
                 input.type         = type;
             } else {
                 using namespace https___w3id_org_cwl_cwl;
@@ -235,7 +236,7 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
             tool.inputs->push_back(input);
         };
 
-        auto addOutput = [&](auto type) {
+        auto addOutput = [&, &referenceName=referenceName, &optionIdentifier=optionIdentifier](auto type) {
             auto input         = cwl::CommandInputParameter{};
             input.id           = referenceName;
             input.type         = cwl::CWLType::string;
@@ -269,21 +270,21 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
                 [&](DoubleValue const&) {
                     addInput(cwl::CWLType::double_);
                 },
-                [&](StringValue const& v) {
+                [&, &optionIdentifier=optionIdentifier](StringValue const& v) {
                     if (optionIdentifier.empty()) {
                         baseCommand.push_back(v.value);
                         return;
                     }
 
-                    if (ptr->tags.contains("output")) {
-                        if (ptr->tags.contains("file")) {
+                    if (ptr->tags.count("output")) {
+                        if (ptr->tags.count("file")) {
                             addOutput(cwl::CWLType::File);
-                        } else if (ptr->tags.contains("directory")) {
+                        } else if (ptr->tags.count("directory")) {
                             addOutput(cwl::CWLType::Directory);
                         }
-                    } else if (ptr->tags.contains("file")) {
+                    } else if (ptr->tags.count("file")) {
                         addInput(cwl::CWLType::File);
-                    } else if (ptr->tags.contains("directory")) {
+                    } else if (ptr->tags.count("directory")) {
                         addInput(cwl::CWLType::Directory);
                     } else {
                         addInput(cwl::CWLType::string);
