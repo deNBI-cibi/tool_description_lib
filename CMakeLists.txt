@@ -18,10 +18,12 @@ endif ()
 project (tdl LANGUAGES CXX VERSION "${TDL_PROJECT_VERSION}"
              DESCRIPTION "tdl -- tool description library")
 
-add_library(tdl INTERFACE)
-target_include_directories(tdl INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>
-    $<INSTALL_INTERFACE:include>)
+if (NOT TARGET tdl)
+    add_library(tdl INTERFACE)
+    target_include_directories(tdl INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>
+        $<INSTALL_INTERFACE:include>)
+endif()
 
 find_package (yaml-cpp QUIET)
 
