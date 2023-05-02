@@ -7,7 +7,8 @@
 
 cmake_minimum_required (VERSION 3.12)
 
-find_path(TDL_DIR NAMES tdl-config.cmake)
+set(TDL_DIR "${CMAKE_CURRENT_LIST_DIR}")
 include("${TDL_DIR}/CMakeLists.txt")
 set(TDL_LIBRARIES "yaml-cpp")
 set(TDL_INCLUDE_DIRS "${TDL_DIR}/src")
+set(TDL_FOUND TRUE)
