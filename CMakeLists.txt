@@ -5,9 +5,15 @@
 # shipped with this file.
 # -----------------------------------------------------------------------------------------------------
 
+# This file is called in the following scenarios
+# 1. scenario: this file is at the root of a `cmake ..` call.
+#       In this case we assume this project is compiled for packaging or testing.
+# 2. scenario: another project is adding this directory via "add_subdirectory".
+#       In this case we don't want any tests to be included.
+
 cmake_minimum_required (VERSION 3.15)
 
-# check if this is the main project
+# check if this is the root project (
 if (NOT DEFINED PROJECT_NAME)
     set(CMAKE_CXX_STANDARD 17)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,37 +24,10 @@ endif ()
 project (tdl LANGUAGES CXX VERSION "${TDL_PROJECT_VERSION}"
              DESCRIPTION "tdl -- tool description library")
 
-if (NOT TARGET tdl)
-    add_library(tdl INTERFACE)
-    target_include_directories(tdl INTERFACE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>
-        $<INSTALL_INTERFACE:include>)
-endif()
+include(tdl-config.cmake)
 
-find_package (yaml-cpp QUIET)
 
-if (NOT yaml-cpp_FOUND)
-    message (STATUS "Fetching yaml-cpp")
-
-    include (FetchContent)
-    FetchContent_Declare (
-        yaml-cpp_fetch_content
-        GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp.git"
-        GIT_TAG "yaml-cpp-0.7.0")
-    option (YAML_CPP_BUILD_CONTRIB "" OFF)
-    option (YAML_CPP_BUILD_TOOLS "" OFF)
-    option (YAML_BUILD_SHARED_LIBS "" OFF)
-    option (YAML_CPP_INSTALL "" ON)
-    set_property (GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)
-    FetchContent_MakeAvailable (yaml-cpp_fetch_content)
-    target_compile_options (yaml-cpp PRIVATE "-w")
-else ()
-    message (STATUS "Found yaml-cpp ${yaml-cpp_VERSION}")
-endif ()
-
-target_link_libraries(tdl INTERFACE yaml-cpp)
-add_library (tdl::tdl ALIAS tdl)
-
+# Enable and include testing if this is a root directory
 if (${TDL_ROOT_PROJECT})
     enable_testing()
     file(GLOB TEST_CPP_FILES

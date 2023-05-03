@@ -6,9 +6,34 @@
 # -----------------------------------------------------------------------------------------------------
 
 cmake_minimum_required (VERSION 3.12)
+if (TARGET tdl)
+    return()
+endif()
 
-set(TDL_DIR "${CMAKE_CURRENT_LIST_DIR}")
-include("${TDL_DIR}/CMakeLists.txt")
-set(TDL_LIBRARIES "yaml-cpp")
-set(TDL_INCLUDE_DIRS "${TDL_DIR}/src")
-set(TDL_FOUND TRUE)
+find_package (yaml-cpp QUIET)
+
+if (NOT yaml-cpp_FOUND)
+    message (STATUS "Fetching yaml-cpp")
+
+    include (FetchContent)
+    FetchContent_Declare (
+        yaml-cpp_fetch_content
+        GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp.git"
+        GIT_TAG "yaml-cpp-0.7.0")
+    option (YAML_CPP_BUILD_CONTRIB "" OFF)
+    option (YAML_CPP_BUILD_TOOLS "" OFF)
+    option (YAML_BUILD_SHARED_LIBS "" OFF)
+    option (YAML_CPP_INSTALL "" ON)
+    set_property (GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)
+    FetchContent_MakeAvailable (yaml-cpp_fetch_content)
+    target_compile_options (yaml-cpp PRIVATE "-w")
+else ()
+    message (STATUS "Found yaml-cpp ${yaml-cpp_VERSION}")
+endif ()
+
+add_library(tdl INTERFACE)
+target_include_directories(tdl INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>
+    $<INSTALL_INTERFACE:include>)
+target_link_libraries(tdl INTERFACE yaml-cpp)
+add_library (tdl::tdl ALIAS tdl)
