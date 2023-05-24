@@ -118,7 +118,24 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
             input.inputBinding = binding;
             tool.inputs->push_back(input);
         };
+        auto addInputArray = [&, &referenceName=referenceName, &optionIdentifier=optionIdentifier](auto type) {
+            auto input     = cwl::CommandInputParameter{};
+            input.id       = referenceName;
+            auto arrayType = cwl::CommandInputArraySchema{};
+            arrayType.items = type;
+            if (ptr->tags.count("required")) {
+                input.type = arrayType;
+            } else {
+                using namespace https___w3id_org_cwl_cwl;
+                input.type         = std::vector<std::variant<CWLType, CommandInputRecordSchema, CommandInputEnumSchema, CommandInputArraySchema, std::string>>{cwl::CWLType::null, arrayType};
+            }
+            input.doc          = ptr->description;
 
+            auto binding       = cwl::CommandLineBinding{};
+            binding.prefix     = optionIdentifier;
+            input.inputBinding = binding;
+            tool.inputs->push_back(input);
+        };
         auto addOutput = [&, &referenceName=referenceName, &optionIdentifier=optionIdentifier](auto type) {
             auto input         = cwl::CommandInputParameter{};
             input.id           = referenceName;
@@ -139,7 +156,32 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
             output.outputBinding = binding2;
             tool.outputs->push_back(output);
         };
+        auto addOutputPrefixed = [&, &referenceName=referenceName, &optionIdentifier=optionIdentifier](auto type, bool multipleFiles) {
+            auto input         = cwl::CommandInputParameter{};
+            input.id           = referenceName;
+            input.type         = cwl::CWLType::string;
+            input.doc          = ptr->description;
 
+            auto binding       = cwl::CommandLineBinding{};
+            binding.prefix     = optionIdentifier;
+            input.inputBinding = binding;
+            tool.inputs->push_back(input);
+
+            auto output         = cwl::CommandOutputParameter{};
+            output.id           = referenceName;
+
+            if (multipleFiles) {
+                auto arrayType  = cwl::CommandOutputArraySchema{};
+                arrayType.items = type;
+                output.type     = arrayType;
+            } else {
+                output.type     = type;
+            }
+            auto binding2       = cwl::CommandOutputBinding{};
+            binding2.glob       = "$(inputs." + referenceName + ")*";
+            output.outputBinding = binding2;
+            tool.outputs->push_back(output);
+        };
 
 
         if (ptr) {
@@ -164,6 +206,8 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
                             addOutput(cwl::CWLType::File);
                         } else if (ptr->tags.count("directory")) {
                             addOutput(cwl::CWLType::Directory);
+                        } else if (ptr->tags.count("prefixed")) {
+                            addOutputPrefixed(cwl::CWLType::File, /*.mutliplieFiles = */ false);
                         }
                     } else if (ptr->tags.count("file")) {
                         addInput(cwl::CWLType::File);
@@ -171,6 +215,27 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
                         addInput(cwl::CWLType::Directory);
                     } else {
                         addInput(cwl::CWLType::string);
+                    }
+                },
+                [&](IntValueList const&) {
+                    addInputArray(cwl::CWLType::long_);
+                },
+                [&](DoubleValueList const&) {
+                    addInputArray(cwl::CWLType::double_);
+                },
+                [&](StringValueList const&) {
+                    if (ptr->tags.count("output")) {
+                        if (ptr->tags.count("prefixed")) {
+                            addOutputPrefixed(cwl::CWLType::File, /*.multipleFiles =*/ true);
+                        } else {
+                            //!TODO not implemented
+                        }
+                    } else if (ptr->tags.count("file")) {
+                        addInputArray(cwl::CWLType::File);
+                    } else if (ptr->tags.count("directory")) {
+                        addInputArray(cwl::CWLType::Directory);
+                    } else {
+                        addInputArray(cwl::CWLType::string);
                     }
                 },
                 [&](auto const&) {
