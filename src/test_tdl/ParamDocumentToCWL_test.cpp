@@ -132,6 +132,11 @@ void testComplexCall() {
                             CPP20(.tags        =) {"output", "required", "directory"},
                             CPP20(.value       =) tdl::StringValue{}
                },
+               tdl::Node{CPP20(.name        =) "optional_param1",
+                           CPP20(.description =) "no doc",
+                           CPP20(.tags        =) {},
+                           CPP20(.value       =) tdl::StringValue{}
+               },
             },
             CPP20(.cliMapping =) {
                 {CPP20(.optionIdentifier =) "",                         CPP20(.referenceName =) "command"},
@@ -144,6 +149,7 @@ void testComplexCall() {
                 {CPP20(.optionIdentifier =) "--prefixed_output_file" ,  CPP20(.referenceName =) "prefixed_output_file"},
                 {CPP20(.optionIdentifier =) "--prefixed_output_files",  CPP20(.referenceName =) "prefixed_output_files"},
                 {CPP20(.optionIdentifier =) "--single_output_dir",      CPP20(.referenceName =) "single_output_dir"},
+                {CPP20(.optionIdentifier =) "--optional_param1",        CPP20(.referenceName =) "optional_param1"},
             },
         });
         auto expected = std::string{R"(inputs:
@@ -194,6 +200,11 @@ void testComplexCall() {
     type: string
     inputBinding:
       prefix: --single_output_dir
+  - doc: no doc
+    id: optional_param1
+    type: string?
+    inputBinding:
+      prefix: --optional_param1
 outputs:
   - id: single_output_file
     type: File

@@ -246,8 +246,20 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
     }
     tool.baseCommand = baseCommand;
 
-
     auto y = toYaml(tool);
+
+    // Post procssing the yaml document
+    // 1. Collapsing optional scalar types into one option
+    for (auto input : y["inputs"]) {
+        auto type = input["type"];
+        if (type.IsSequence() and type.size() == 2) {
+            if (type[0].IsScalar()
+                and type[0].as<std::string>() == "null"
+                and type[1].IsScalar()) {
+                type = type[1].as<std::string>() + "?";
+            }
+        }
+    }
 
     // post process generated cwl yaml file
     if (post_process_cwl) {
