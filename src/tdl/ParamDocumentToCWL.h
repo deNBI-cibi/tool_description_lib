@@ -268,6 +268,18 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
                 and type["items"].IsScalar()) {
                 type = type["items"].as<std::string>() + "[]";
             }
+
+            // 3. Collapsing optional array types into one option
+            if (type.IsSequence() and type.size() == 2) {
+                if (type[0].IsScalar()
+                    and type[0].as<std::string>() == "null"
+                    and type[1].IsMap()
+                    and type[1]["type"].as<std::string>() == "array"
+                    and type[1]["items"].IsScalar()) {
+                    type = type[1]["items"].as<std::string>() + "[]?";
+                }
+            }
+
         }
     }
 
