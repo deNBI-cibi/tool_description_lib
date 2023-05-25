@@ -167,7 +167,7 @@ inline auto convertToCTD(Node const& param) -> XMLNode {
 
     auto tags = param.tags; // copy tags to make them mutable
 
-    // fill xmlNode depending on the actuall type
+    // fill xmlNode depending on the actual type
     std::visit(overloaded{
         [&](BoolValue value) {
             xmlNode.tag = "ITEM";

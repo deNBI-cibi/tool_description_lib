@@ -41,7 +41,7 @@ namespace cwl = https___w3id_org_cwl_cwl;
 /**!\brief a global callback function to adjust the exporting for cwl
  *
  * This callback allows to adjust the exported yaml file to add/change/remove
- * cwl entries, which currently arn't controllable via tdl itself.
+ * cwl entries, which currently aren't controllable via tdl itself.
  */
 inline std::function<void(YAML::Node&)> post_process_cwl;
 
@@ -246,8 +246,42 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
     }
     tool.baseCommand = baseCommand;
 
-
     auto y = toYaml(tool);
+
+    // Post procssing inputs and outputs of the yaml object
+    for (auto param : {"inputs", "outputs"}) {
+        for (auto input : y[param]) {
+            auto type = input["type"];
+
+            // 1. Collapsing optional scalar types into one option
+            if (type.IsSequence() and type.size() == 2) {
+                if (type[0].IsScalar()
+                    and type[0].as<std::string>() == "null"
+                    and type[1].IsScalar()) {
+                    type = type[1].as<std::string>() + "?";
+                }
+            }
+
+            // 2. Collapsing array types into one option
+            if (type.IsMap()
+                and type["type"].as<std::string>() == "array"
+                and type["items"].IsScalar()) {
+                type = type["items"].as<std::string>() + "[]";
+            }
+
+            // 3. Collapsing optional array types into one option
+            if (type.IsSequence() and type.size() == 2) {
+                if (type[0].IsScalar()
+                    and type[0].as<std::string>() == "null"
+                    and type[1].IsMap()
+                    and type[1]["type"].as<std::string>() == "array"
+                    and type[1]["items"].IsScalar()) {
+                    type = type[1]["items"].as<std::string>() + "[]?";
+                }
+            }
+
+        }
+    }
 
     // post process generated cwl yaml file
     if (post_process_cwl) {
