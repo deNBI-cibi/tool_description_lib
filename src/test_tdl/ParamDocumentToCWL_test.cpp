@@ -170,9 +170,7 @@ void testComplexCall() {
       prefix: --single_input_file
   - doc: no doc
     id: multi_input_file
-    type:
-      items: File
-      type: array
+    type: File[]
     inputBinding:
       prefix: --multi_input_file
   - doc: no doc
@@ -215,9 +213,7 @@ outputs:
     outputBinding:
       glob: $(inputs.prefixed_output_file)*
   - id: prefixed_output_files
-    type:
-      items: File
-      type: array
+    type: File[]
     outputBinding:
       glob: $(inputs.prefixed_output_files)*
   - id: single_output_dir

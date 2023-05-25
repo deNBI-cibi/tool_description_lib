@@ -248,15 +248,25 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
 
     auto y = toYaml(tool);
 
-    // Post procssing the yaml document
-    // 1. Collapsing optional scalar types into one option
-    for (auto input : y["inputs"]) {
-        auto type = input["type"];
-        if (type.IsSequence() and type.size() == 2) {
-            if (type[0].IsScalar()
-                and type[0].as<std::string>() == "null"
-                and type[1].IsScalar()) {
-                type = type[1].as<std::string>() + "?";
+    // Post procssing inputs and outputs of the yaml object
+    for (auto param : {"inputs", "outputs"}) {
+        for (auto input : y[param]) {
+            auto type = input["type"];
+
+            // 1. Collapsing optional scalar types into one option
+            if (type.IsSequence() and type.size() == 2) {
+                if (type[0].IsScalar()
+                    and type[0].as<std::string>() == "null"
+                    and type[1].IsScalar()) {
+                    type = type[1].as<std::string>() + "?";
+                }
+            }
+
+            // 2. Collapsing array types into one option
+            if (type.IsMap()
+                and type["type"].as<std::string>() == "array"
+                and type["items"].IsScalar()) {
+                type = type["items"].as<std::string>() + "[]";
             }
         }
     }
