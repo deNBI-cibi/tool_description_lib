@@ -45,18 +45,18 @@ void testToolInfo() {
             },
         });
         auto expected = std::string{R"(inputs:
-  - doc: The k-mer size
-    id: kmer
+  kmer:
+    doc: The k-mer size
     type: long
     inputBinding:
       prefix: --kmer
-  - doc: The window size
-    id: window
+  window:
+    doc: The window size
     type: long
     inputBinding:
       prefix: --window
 outputs:
-  []
+  {}
 label: ""
 doc: ""
 cwlVersion: v1.2
@@ -159,75 +159,75 @@ void testComplexCall() {
             },
         });
         auto expected = std::string{R"(inputs:
-  - doc: The k-mer size
-    id: kmer
+  kmer:
+    doc: The k-mer size
     type: long
     inputBinding:
       prefix: --kmer
-  - doc: The window size
-    id: window
+  window:
+    doc: The window size
     type: long
     inputBinding:
       prefix: --window
-  - doc: no doc
-    id: single_input_file
+  single_input_file:
+    doc: no doc
     type: File
     inputBinding:
       prefix: --single_input_file
-  - doc: no doc
-    id: multi_input_file
+  multi_input_file:
+    doc: no doc
     type: File[]
     inputBinding:
       prefix: --multi_input_file
-  - doc: no doc
-    id: single_input_directory
+  single_input_directory:
+    doc: no doc
     type: Directory
     inputBinding:
       prefix: --single_input_directory
-  - doc: no doc
-    id: single_output_file
+  single_output_file:
+    doc: no doc
     type: string
     inputBinding:
       prefix: --single_output_file
-  - doc: no doc
-    id: prefixed_output_file
+  prefixed_output_file:
+    doc: no doc
     type: string
     inputBinding:
       prefix: --prefixed_output_file
-  - doc: no doc
-    id: prefixed_output_files
+  prefixed_output_files:
+    doc: no doc
     type: string
     inputBinding:
       prefix: --prefixed_output_files
-  - doc: no doc
-    id: single_output_dir
+  single_output_dir:
+    doc: no doc
     type: string
     inputBinding:
       prefix: --single_output_dir
-  - doc: no doc
-    id: optional_param1
+  optional_param1:
+    doc: no doc
     type: string?
     inputBinding:
       prefix: --optional_param1
-  - doc: no doc
-    id: optional_multi_input_file
+  optional_multi_input_file:
+    doc: no doc
     type: File[]?
     inputBinding:
       prefix: --optional_multi_input_file
 outputs:
-  - id: single_output_file
+  single_output_file:
     type: File
     outputBinding:
       glob: $(inputs.single_output_file)
-  - id: prefixed_output_file
+  prefixed_output_file:
     type: File
     outputBinding:
       glob: $(inputs.prefixed_output_file)*
-  - id: prefixed_output_files
+  prefixed_output_files:
     type: File[]
     outputBinding:
       glob: $(inputs.prefixed_output_files)*
-  - id: single_output_dir
+  single_output_dir:
     type: Directory
     outputBinding:
       glob: $(inputs.single_output_dir)
