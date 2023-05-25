@@ -250,8 +250,9 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
 
     // Post procssing inputs and outputs of the yaml object
     for (auto param : {"inputs", "outputs"}) {
-        for (auto input : y[param]) {
-            auto type = input["type"];
+        YAML::Node mapOfMaps(YAML::NodeType::Map);
+        for (YAML::Node input : y[param]) {
+            YAML::Node type = input["type"];
 
             // 1. Collapsing optional scalar types into one option
             if (type.IsSequence() and type.size() == 2) {
@@ -280,7 +281,13 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
                 }
             }
 
+            // 4. Converting "list of maps" -> "maps of maps"
+            // this pulls out the "id" field and uses it as a key
+            auto id = input["id"].as<std::string>();
+            mapOfMaps[id] = input;
+            mapOfMaps[id].remove("id");
         }
+        y[param] = mapOfMaps;
     }
 
     // post process generated cwl yaml file
