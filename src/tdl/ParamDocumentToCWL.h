@@ -41,7 +41,7 @@ namespace cwl = https___w3id_org_cwl_cwl;
 /**!\brief a global callback function to adjust the exporting for cwl
  *
  * This callback allows to adjust the exported yaml file to add/change/remove
- * cwl entries, which currently arn't controllable via tdl itself.
+ * cwl entries, which currently aren't controllable via tdl itself.
  */
 inline std::function<void(YAML::Node&)> post_process_cwl;
 
