@@ -102,6 +102,11 @@ void testComplexCall() {
                             CPP20(.tags        =) {"input", "required", "file"},
                             CPP20(.value       =) tdl::StringValue{}
                },
+               tdl::Node{CPP20(.name        =) "optional_single_input_file",
+                            CPP20(.description =) "no doc",
+                            CPP20(.tags        =) {"input", "file"},
+                            CPP20(.value       =) tdl::StringValue{}
+               },
                tdl::Node{CPP20(.name        =) "multi_input_file",
                             CPP20(.description =) "no doc",
                             CPP20(.tags        =) {"input", "required", "file"},
@@ -117,14 +122,29 @@ void testComplexCall() {
                             CPP20(.tags        =) {"output", "required", "file"},
                             CPP20(.value       =) tdl::StringValue{}
                },
+               tdl::Node{CPP20(.name        =) "optional_single_output_file",
+                            CPP20(.description =) "no doc",
+                            CPP20(.tags        =) {"output", "file"},
+                            CPP20(.value       =) tdl::StringValue{}
+               },
                tdl::Node{CPP20(.name        =) "prefixed_output_file",
                             CPP20(.description =) "no doc",
                             CPP20(.tags        =) {"output", "prefixed", "required"},
                             CPP20(.value       =) tdl::StringValue{}
                },
+               tdl::Node{CPP20(.name        =) "optional_prefixed_output_file",
+                            CPP20(.description =) "no doc",
+                            CPP20(.tags        =) {"output", "prefixed"},
+                            CPP20(.value       =) tdl::StringValue{}
+               },
                tdl::Node{CPP20(.name        =) "prefixed_output_files",
                             CPP20(.description =) "no doc",
                             CPP20(.tags        =) {"output", "prefixed", "required"},
+                            CPP20(.value       =) tdl::StringValueList{}
+               },
+               tdl::Node{CPP20(.name        =) "optional_prefixed_output_files",
+                            CPP20(.description =) "no doc",
+                            CPP20(.tags        =) {"output", "prefixed"},
                             CPP20(.value       =) tdl::StringValueList{}
                },
                tdl::Node{CPP20(.name        =) "single_output_dir",
@@ -144,18 +164,22 @@ void testComplexCall() {
                },
             },
             CPP20(.cliMapping =) {
-                {CPP20(.optionIdentifier =) "",                            CPP20(.referenceName =) "command"},
-                {CPP20(.optionIdentifier =) "--kmer",                      CPP20(.referenceName =) "kmer"},
-                {CPP20(.optionIdentifier =) "--window",                    CPP20(.referenceName =) "window"},
-                {CPP20(.optionIdentifier =) "--single_input_file",         CPP20(.referenceName =) "single_input_file"},
-                {CPP20(.optionIdentifier =) "--multi_input_file",          CPP20(.referenceName =) "multi_input_file"},
-                {CPP20(.optionIdentifier =) "--single_input_directory",    CPP20(.referenceName =) "single_input_directory"},
-                {CPP20(.optionIdentifier =) "--single_output_file",        CPP20(.referenceName =) "single_output_file"},
-                {CPP20(.optionIdentifier =) "--prefixed_output_file" ,     CPP20(.referenceName =) "prefixed_output_file"},
-                {CPP20(.optionIdentifier =) "--prefixed_output_files",     CPP20(.referenceName =) "prefixed_output_files"},
-                {CPP20(.optionIdentifier =) "--single_output_dir",         CPP20(.referenceName =) "single_output_dir"},
-                {CPP20(.optionIdentifier =) "--optional_param1",           CPP20(.referenceName =) "optional_param1"},
-                {CPP20(.optionIdentifier =) "--optional_multi_input_file", CPP20(.referenceName =) "optional_multi_input_file"},
+                {CPP20(.optionIdentifier =) "",                                 CPP20(.referenceName =) "command"},
+                {CPP20(.optionIdentifier =) "--kmer",                           CPP20(.referenceName =) "kmer"},
+                {CPP20(.optionIdentifier =) "--window",                         CPP20(.referenceName =) "window"},
+                {CPP20(.optionIdentifier =) "--single_input_file",              CPP20(.referenceName =) "single_input_file"},
+                {CPP20(.optionIdentifier =) "--optional_single_input_file",     CPP20(.referenceName =) "optional_single_input_file"},
+                {CPP20(.optionIdentifier =) "--multi_input_file",               CPP20(.referenceName =) "multi_input_file"},
+                {CPP20(.optionIdentifier =) "--single_input_directory",         CPP20(.referenceName =) "single_input_directory"},
+                {CPP20(.optionIdentifier =) "--single_output_file",             CPP20(.referenceName =) "single_output_file"},
+                {CPP20(.optionIdentifier =) "--optional_single_output_file",    CPP20(.referenceName =) "optional_single_output_file"},
+                {CPP20(.optionIdentifier =) "--prefixed_output_file",           CPP20(.referenceName =) "prefixed_output_file"},
+                {CPP20(.optionIdentifier =) "--optional_prefixed_output_file",  CPP20(.referenceName =) "optional_prefixed_output_file"},
+                {CPP20(.optionIdentifier =) "--prefixed_output_files",          CPP20(.referenceName =) "prefixed_output_files"},
+                {CPP20(.optionIdentifier =) "--optional_prefixed_output_files", CPP20(.referenceName =) "optional_prefixed_output_files"},
+                {CPP20(.optionIdentifier =) "--single_output_dir",              CPP20(.referenceName =) "single_output_dir"},
+                {CPP20(.optionIdentifier =) "--optional_param1",                CPP20(.referenceName =) "optional_param1"},
+                {CPP20(.optionIdentifier =) "--optional_multi_input_file",      CPP20(.referenceName =) "optional_multi_input_file"},
             },
         });
         auto expected = std::string{R"(inputs:
@@ -174,6 +198,11 @@ void testComplexCall() {
     type: File
     inputBinding:
       prefix: --single_input_file
+  optional_single_input_file:
+    doc: no doc
+    type: File?
+    inputBinding:
+      prefix: --optional_single_input_file
   multi_input_file:
     doc: no doc
     type: File[]
@@ -189,16 +218,31 @@ void testComplexCall() {
     type: string
     inputBinding:
       prefix: --single_output_file
+  optional_single_output_file:
+    doc: no doc
+    type: string?
+    inputBinding:
+      prefix: --optional_single_output_file
   prefixed_output_file:
     doc: no doc
     type: string
     inputBinding:
       prefix: --prefixed_output_file
+  optional_prefixed_output_file:
+    doc: no doc
+    type: string?
+    inputBinding:
+      prefix: --optional_prefixed_output_file
   prefixed_output_files:
     doc: no doc
     type: string
     inputBinding:
       prefix: --prefixed_output_files
+  optional_prefixed_output_files:
+    doc: no doc
+    type: string?
+    inputBinding:
+      prefix: --optional_prefixed_output_files
   single_output_dir:
     doc: no doc
     type: string
@@ -219,14 +263,26 @@ outputs:
     type: File
     outputBinding:
       glob: $(inputs.single_output_file)
+  optional_single_output_file:
+    type: File?
+    outputBinding:
+      glob: $(inputs.optional_single_output_file)
   prefixed_output_file:
     type: File
     outputBinding:
       glob: $(inputs.prefixed_output_file)*
+  optional_prefixed_output_file:
+    type: File?
+    outputBinding:
+      glob: $(inputs.optional_prefixed_output_file)*
   prefixed_output_files:
     type: File[]
     outputBinding:
       glob: $(inputs.prefixed_output_files)*
+  optional_prefixed_output_files:
+    type: File[]?
+    outputBinding:
+      glob: $(inputs.optional_prefixed_output_files)*
   single_output_dir:
     type: Directory
     outputBinding:

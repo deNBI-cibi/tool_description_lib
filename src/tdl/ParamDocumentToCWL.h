@@ -139,7 +139,12 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
         auto addOutput = [&, &referenceName=referenceName, &optionIdentifier=optionIdentifier](auto type) {
             auto input         = cwl::CommandInputParameter{};
             input.id           = referenceName;
-            input.type         = cwl::CWLType::string;
+            if (ptr->tags.count("required")) {
+                input.type         = cwl::CWLType::string;
+            } else {
+                using namespace https___w3id_org_cwl_cwl;
+                input.type         = std::vector<std::variant<CWLType, CommandInputRecordSchema, CommandInputEnumSchema, CommandInputArraySchema, std::string>>{cwl::CWLType::null, cwl::CWLType::string};
+            }
             input.doc          = ptr->description;
 
             auto binding       = cwl::CommandLineBinding{};
@@ -149,8 +154,12 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
 
             auto output         = cwl::CommandOutputParameter{};
             output.id           = referenceName;
-            output.type         = type;
-
+            if (ptr->tags.count("required")) {
+                output.type         = type;
+            } else {
+                using namespace https___w3id_org_cwl_cwl;
+                output.type         = std::vector<std::variant<CWLType, CommandOutputRecordSchema, CommandOutputEnumSchema, CommandOutputArraySchema, std::string>>{cwl::CWLType::null, type};
+            }
             auto binding2       = cwl::CommandOutputBinding{};
             binding2.glob       = "$(inputs." + referenceName + ")";
             output.outputBinding = binding2;
@@ -159,7 +168,12 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
         auto addOutputPrefixed = [&, &referenceName=referenceName, &optionIdentifier=optionIdentifier](auto type, bool multipleFiles) {
             auto input         = cwl::CommandInputParameter{};
             input.id           = referenceName;
-            input.type         = cwl::CWLType::string;
+            if (ptr->tags.count("required")) {
+                input.type         = cwl::CWLType::string;
+            } else {
+                using namespace https___w3id_org_cwl_cwl;
+                input.type         = std::vector<std::variant<CWLType, CommandInputRecordSchema, CommandInputEnumSchema, CommandInputArraySchema, std::string>>{cwl::CWLType::null, cwl::CWLType::string};
+            }
             input.doc          = ptr->description;
 
             auto binding       = cwl::CommandLineBinding{};
@@ -170,12 +184,25 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
             auto output         = cwl::CommandOutputParameter{};
             output.id           = referenceName;
 
+            // Setting the correct value type
+            output.type         = type;
+            using namespace https___w3id_org_cwl_cwl;
+            // Add an array, if a list of files
             if (multipleFiles) {
                 auto arrayType  = cwl::CommandOutputArraySchema{};
                 arrayType.items = type;
                 output.type     = arrayType;
-            } else {
-                output.type     = type;
+            }
+
+            // Add a null, if not required and an array, if a list of files
+            if (!ptr->tags.count("required")) {
+                output.type         = std::vector<std::variant<CWLType, CommandOutputRecordSchema, CommandOutputEnumSchema, CommandOutputArraySchema, std::string>>{cwl::CWLType::null, type };
+
+                if (multipleFiles) {
+                    auto arrayType  = cwl::CommandOutputArraySchema{};
+                    arrayType.items = type;
+                    output.type     = std::vector<std::variant<CWLType, CommandOutputRecordSchema, CommandOutputEnumSchema, CommandOutputArraySchema, std::string>>{cwl::CWLType::null, arrayType };
+                }
             }
             auto binding2       = cwl::CommandOutputBinding{};
             binding2.glob       = "$(inputs." + referenceName + ")*";
