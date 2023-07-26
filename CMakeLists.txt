@@ -21,6 +21,8 @@ if (NOT DEFINED PROJECT_NAME)
     set(TDL_ROOT_PROJECT TRUE)
 endif ()
 
+include (cmake/version.cmake)
+
 project (tdl LANGUAGES CXX VERSION "${TDL_PROJECT_VERSION}"
              DESCRIPTION "tdl -- tool description library")
 
