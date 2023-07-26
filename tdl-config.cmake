@@ -19,14 +19,13 @@ if (NOT yaml-cpp_FOUND)
     FetchContent_Declare (
         yaml-cpp_fetch_content
         GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp.git"
-        GIT_TAG "yaml-cpp-0.7.0")
+        GIT_TAG "35b4498026b6293bfadc75f9ee325cb16d6975af") # 0.7.0 can't be properly installed
     option (YAML_CPP_BUILD_CONTRIB "" OFF)
     option (YAML_CPP_BUILD_TOOLS "" OFF)
     option (YAML_BUILD_SHARED_LIBS "" OFF)
     option (YAML_CPP_INSTALL "" ON)
     set_property (GLOBAL PROPERTY CTEST_TARGETS_ADDED 1)
     FetchContent_MakeAvailable (yaml-cpp_fetch_content)
-    target_compile_options (yaml-cpp PRIVATE "-w")
 else ()
     message (STATUS "Found yaml-cpp ${yaml-cpp_VERSION}")
 endif ()
