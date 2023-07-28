@@ -10,7 +10,11 @@ cmake_minimum_required (VERSION 3.12)
 include (${CMAKE_CURRENT_LIST_DIR}/version.cmake)
 include (GNUInstallDirs)
 
-install (TARGETS tdl
+# Needed such that the generated tdl-config.cmake properly links against the also-to-be-installed yaml-cpp.
+if (NOT yaml-cpp_FOUND)
+    set (TDL_EXPORT_YAML_CPP "yaml-cpp")
+endif ()
+install (TARGETS tdl ${TDL_EXPORT_YAML_CPP}
          EXPORT tdl_targets
          RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
          LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
