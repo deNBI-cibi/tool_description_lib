@@ -8,7 +8,7 @@
 # This file is called in the following scenarios
 # 1. scenario: this file is at the root of a `cmake ..` call.
 #       In this case we assume this project is compiled for packaging or testing.
-# 2. scenario: another project is adding this directory via "add_subdirectory".
+# 2. scenario: another project is adding this directory via "find_package (TDL REQUIRED PATHS lib/tool_description_lib)".
 #       In this case we don't want any tests to be included.
 
 cmake_minimum_required (VERSION 3.15)
