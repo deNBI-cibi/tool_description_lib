@@ -64,6 +64,7 @@ std::cout << ctdAsString;
   - list of string values with tags `{"input", "file"}` or `{"output", "file"}`
     are exported as CTD typed values `input-file` or `output-file`.
     The list valid string values are interpereted as `supported_formats`
+
 ### CWL
 The following tags and tags combination have a special meaning
   - `{"file"}`: If used with `tdl::StringValue` a single input file, if used with `tdl::StringValueList` it represents a list of input files.
@@ -72,3 +73,4 @@ The following tags and tags combination have a special meaning
   - `{"directory", "output"}`: Same as `{"file", "directory"}` but for directories.
   - `{"prefixed", "output"}`: A partial path, that is used as a prefix. If used with `tdl::StringValue` this signals only a single file will be created.
                               If used with `tdl::StringValueList` it signals that multiple files might be created.
+  - `{"basecommand"}`: If used with `tdl::Node::Children` the value will be appended to the list of base-commands e.g.: `build` of `raptor build ...`
