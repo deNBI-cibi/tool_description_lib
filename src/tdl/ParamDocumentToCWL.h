@@ -8,7 +8,7 @@
 #pragma once
 
 #include "ParamDocument.h"
-#include "generated-cwl.h"
+#include "cwl_v1_2.h"
 
 #include <cassert>
 #include <filesystem>
