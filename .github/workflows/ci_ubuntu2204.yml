@@ -84,11 +84,10 @@ jobs:
           path: tdl
           fetch-depth: 2
 
-      - name: Setup toolchain
-        uses: seqan/actions/setup-toolchain@main
+      - name: Setup compiler
+        uses: seqan/actions/setup-compiler@main
         with:
           compiler: ${{ matrix.compiler }}
-          ccache_size: 25M
 
       - name: Install CMake
         uses: seqan/actions/setup-cmake@main
@@ -105,10 +104,8 @@ jobs:
 
       - name: Build tests
         run: |
-          ccache -z
           cd tdl-build
           make -k -j2
-          ccache -sv
 
       - name: Run tests
         run: |
