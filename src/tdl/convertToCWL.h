@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "ParamDocument.h"
+#include "ToolInfo.h"
 #include "cwl_v1_2.h"
 
 #include <cassert>
