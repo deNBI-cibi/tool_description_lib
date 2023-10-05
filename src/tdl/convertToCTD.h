@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "ParamDocument.h"
+#include "ToolInfo.h"
 
 #include <cassert>
 #include <iomanip>
