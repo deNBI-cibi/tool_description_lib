@@ -37,7 +37,7 @@ jobs:
           toolset: ${{ matrix.toolset }}
 
       - name: Checkout TDL
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: tdl
           fetch-depth: 2
