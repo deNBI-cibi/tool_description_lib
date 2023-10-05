@@ -1,25 +1,22 @@
-name: CI on macOS
+name: macOS 12
 
 on:
   push:
     branches:
-      # Push events to branches matching refs/heads/master
-      - 'master'
+      - 'main'
   pull_request:
-  # Enables a manual trigger, may run on any branch
   workflow_dispatch:
 
 concurrency:
   group: macos-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name != 'push' }}
 
 env:
-  CMAKE_VERSION: 3.15.4
   TZ: Europe/Berlin
 
 defaults:
   run:
-    shell: bash -ex {0}
+    shell: bash -Eexuo pipefail {0}
 
 jobs:
   build:
@@ -31,20 +28,17 @@ jobs:
       matrix:
         include:
           - name: "gcc11 (c++20)"
-            cxx: "g++-11"
-            cc: "gcc-11"
+            compiler: "gcc-11"
             build_type: Release
             cxx_flags: "-std=c++20"
 
           - name: "gcc10 (c++20)"
-            cxx: "g++-10"
-            cc: "gcc-10"
+            compiler: "gcc-10"
             build_type: Release
             cxx_flags: "-std=c++20"
 
           - name: "clang12 (c++20)"
-            cxx: "clang++-12"
-            cc: "clang-12"
+            compiler: "clang-12"
             build_type: Release
             cxx_flags: "-std=c++20"
 
@@ -55,53 +49,33 @@ jobs:
           path: tdl
           fetch-depth: 2
 
-      - name: Checkout SeqAn3
-        uses: actions/checkout@v2
+      - name: Setup toolchain
+        uses: seqan/actions/setup-toolchain@main
         with:
-          repository: seqan/seqan3
-          ref: f10e557b61428ff7faac8b10f18b9087d1ff2663
-          path: seqan3
-          fetch-depth: 1
-          submodules: false
-
-      - name: Configure Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+          compiler: ${{ matrix.compiler }}
+          ccache_size: 25M
 
       - name: Install CMake
-        run: bash ./seqan3/.github/workflows/scripts/install_cmake.sh
-
-      - name: Install compiler ${{ matrix.cxx }}
-        env:
-          CC: ${{ matrix.cc }}
-        run: bash ./seqan3/.github/workflows/scripts/install_via_brew.sh $(echo ${CC/clang/llvm} | awk -F '-' '{print $1, $2}')
-
-      - name: Tool versions
-        run: |
-          env cmake --version
-          env ${{ matrix.cxx }} --version
-          sudo xcode-select -s '/Applications/Xcode_13.4.1.app/Contents/Developer' # https://github.com/actions/runner-images/issues/6350
-
-      - name: Install dependencies
-        run: bash ./seqan3/.github/workflows/scripts/install_via_brew.sh boost
+        uses: seqan/actions/setup-cmake@main
+        with:
+          cmake: 3.15.4
 
       - name: Configure tests
-        env:
-          CXX: ${{ matrix.cxx }}
-          CC: ${{ matrix.cc }}
         run: |
           ls
           mkdir tdl-build
           cd tdl-build
           cmake ../tdl -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                            -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
+                       -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
 
       - name: Build tests
         run: |
+          ccache -z
           cd tdl-build
           make -k -j3
+          ccache -sv
 
       - name: Run tests
         run: |
           cd tdl-build
-          ctest . -j3 --output-on-failure --timeout 240 \
-            || ctest . -j3 --output-on-failure --timeout 240 --rerun-failed
+          ctest . -j3 --output-on-failure

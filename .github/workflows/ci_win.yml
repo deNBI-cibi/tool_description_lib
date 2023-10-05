@@ -1,17 +1,15 @@
-name: CI on Windows
+name: Windows
 
 on:
   push:
     branches:
-      # Push events to branches matching refs/heads/master
-      - 'master'
+      - 'main'
   pull_request:
-  # Enables a manual trigger, may run on any branch
   workflow_dispatch:
 
 concurrency:
   group: windows-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name != 'push' }}
 
 env:
   TZ: Europe/Berlin
