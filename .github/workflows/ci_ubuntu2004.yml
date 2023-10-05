@@ -1,23 +1,22 @@
-name: CI on Ubuntu 20.04
+name: Ubuntu 20.04
 
 on:
   push:
     branches:
-      # Push events to branches matching refs/heads/master
-      - 'master'
+      - 'main'
   pull_request:
+  workflow_dispatch:
 
 concurrency:
   group: ubuntu2004-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name != 'push' }}
 
 env:
-  CMAKE_VERSION: 3.15.4
   TZ: Europe/Berlin
 
 defaults:
   run:
-    shell: bash -ex {0}
+    shell: bash -Eexuo pipefail {0}
 
 jobs:
   build:
@@ -28,11 +27,10 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - name: "clang10"
-            cxx: "clang++-10"
-            cc: "clang-10"
+          - name: "clang10 (c++17)"
+            compiler: "clang-10"
             build_type: Release
-            cxx_flags: "-std=c++20"
+            cxx_flags: "-std=c++17"
 
     steps:
       - name: Checkout TDL
@@ -41,29 +39,18 @@ jobs:
           path: tdl
           fetch-depth: 2
 
-      - name: Configure APT
-        continue-on-error: true
-        run: |
-          echo 'APT::Acquire::Retries "5";' | sudo tee -a /etc/apt/apt.conf.d/80-retries > /dev/null
-          sudo add-apt-repository --no-update --yes ppa:ubuntu-toolchain-r/ppa
-          sudo add-apt-repository --no-update --yes ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
+      - name: Setup toolchain
+        uses: seqan/actions/setup-toolchain@main
+        with:
+          compiler: ${{ matrix.compiler }}
+          ccache_size: 25M
 
       - name: Install CMake
-        run: sudo apt-get install --yes cmake
-
-      - name: Install compiler ${{ matrix.cxx }}
-        run: sudo apt-get install --yes ${{ matrix.cxx }}
-
-      - name: Tool versions
-        run: |
-          env cmake --version
-          env ${{ matrix.cxx }} --version
+        uses: seqan/actions/setup-cmake@main
+        with:
+          cmake: 3.15.4
 
       - name: Configure tests
-        env:
-          CXX: ${{ matrix.cxx }}
-          CC: ${{ matrix.cc }}
         run: |
           mkdir tdl-build
           cd tdl-build
@@ -72,8 +59,10 @@ jobs:
 
       - name: Build tests
         run: |
+          ccache -z
           cd tdl-build
           make -k -j2
+          ccache -s
 
       - name: Run tests
         run: |
