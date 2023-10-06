@@ -31,4 +31,5 @@ write_basic_package_version_file (
     COMPATIBILITY AnyNewerVersion)
 install (FILES ${version_file} DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tdl)
 
-install (FILES "${CMAKE_CURRENT_LIST_DIR}/../LICENSE.md" "${CMAKE_CURRENT_LIST_DIR}/../README.md" TYPE DOC)
+install (FILES "${CMAKE_CURRENT_LIST_DIR}/../README.md" TYPE DOC)
+install (DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/../LICENSES" TYPE DOC)
