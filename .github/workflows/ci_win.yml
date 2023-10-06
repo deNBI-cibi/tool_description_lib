@@ -21,24 +21,21 @@ env:
 jobs:
   build:
     name: ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-2022
     timeout-minutes: 180
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: "Visual Studio 16 2019"
-            os: windows-2019
-            toolset: '14.29'
-            msvc_ver: '16'
+          - name: "Visual Studio 17 2022"
             build_type: Release
-            cxx_flags: "/std:c++latest /EHsc"
+            cpp: 23
 
     steps:
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
         with:
-          toolset: ${{ matrix.toolset }}
+          vsversion: 2022
 
       - name: Checkout TDL
         uses: actions/checkout@v4
@@ -49,11 +46,11 @@ jobs:
       - name: Configure tests
         run: |
           New-Item -Name "tdl-build" -ItemType "directory" -Force
-          ls
           cd tdl-build
-          cmake ../tdl -G"${{ matrix.name }}" `
-                         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} `
-                         -DCMAKE_CXX_FLAGS="${{ matrix.cxx_flags }}"
+          cmake ../tdl -G "${{ matrix.name }}" `
+                       -DCMAKE_CXX_FLAGS="/EHsc /W4" `
+                       -DCMAKE_CXX_STANDARD=${{ matrix.cpp }}
+
       - name: Build tests
         run: |
           cd tdl-build
