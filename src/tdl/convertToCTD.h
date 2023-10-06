@@ -73,7 +73,7 @@ struct XMLNode {
 
 
         // orders the attributes according to the values in `order`
-        auto attr = [&]() {
+        auto attributes = [&]() {
             auto t_attr = this->attr;
             auto attr2 = std::vector<std::tuple<std::string, std::optional<std::string>>>{};
             for (auto o : order) {
@@ -89,7 +89,7 @@ struct XMLNode {
         }();
 
         // generate all attributes
-        for (auto const& [key, v] : attr) {
+        for (auto const& [key, v] : attributes) {
             ss << " " << key;
             if (v) {
                 ss << "=\"" << escapeXML(*v) << "\"";
