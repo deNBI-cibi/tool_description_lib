@@ -19,7 +19,7 @@
 #include <sstream>
 
 
-#if defined(_WIN32) || defined(WIN32)
+#if (defined(_WIN32) || defined(WIN32)) && !defined(__GNUG__)
 #   // Maybe visual studio will get there one day to support the c++ standard...
 #   // Until then we have to live with this:
 #   define and &&
@@ -369,7 +369,7 @@ inline auto convertToCWL(ToolInfo const& doc) -> std::string {
 
 }
 
-#if defined(_WIN32) || defined(WIN32)
+#if (defined(_WIN32) || defined(WIN32)) && !defined(__GNUG__)
 #undef and
 #undef or
 #undef not
