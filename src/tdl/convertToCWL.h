@@ -228,7 +228,7 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
             [&](DoubleValue const&) {
                 addInput(cwl::CWLType::double_);
             },
-            [&](StringValue const& v) {
+            [&](StringValue const&) {
                 if (child.tags.count("output")) {
                     if (child.tags.count("file")) {
                         addOutput(cwl::CWLType::File);
