@@ -40,11 +40,10 @@ jobs:
         with:
           cmake: 3.16.9
 
-      - name: Setup toolchain
-        uses: seqan/actions/setup-toolchain@main
+      - name: Setup compiler
+        uses: seqan/actions/setup-compiler@main
         with:
           compiler: gcc-13
-          use_actions_cache: false
 
       - name: Build and install files
         run: |
