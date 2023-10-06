@@ -1,0 +1,68 @@
+# SPDX-FileCopyrightText: 2006-2023, Knut Reinert & Freie Universität Berlin
+# SPDX-FileCopyrightText: 2016-2023, Knut Reinert & MPI für molekulare Genetik
+# SPDX-License-Identifier: CC0-1.0
+
+name: Windows MinGW
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: mingw-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
+
+env:
+  TZ: Europe/Berlin
+
+defaults:
+  run:
+    shell: bash -Eexuo pipefail {0}
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: windows-2022
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "Latest"
+            build_type: Release
+
+    steps:
+      - name: Checkout TDL
+        uses: actions/checkout@v4
+        with:
+          path: tdl
+          fetch-depth: 2
+
+      - name: Configure tests
+        run: |
+          mkdir tdl-build
+          cd tdl-build
+          cmake ../tdl -G "MinGW Makefiles" \
+                       -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                       -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Wa,-mbig-obj"
+
+      - name: Build tests
+        run: |
+          cd tdl-build
+          make -k -j2
+
+      # https://github.com/actions/runner-images/issues/8399
+      - name: Run tests
+        run: |
+          cd tdl-build
+          if [[ "$(which g++)" == "/c/ProgramData/Chocolatey/bin/g++" ]]; then
+            echo "Applying fix"
+            PATH="/c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/:${PATH}"
+          else
+            echo "Fix not needed"
+          fi
+          ctest . -j2 --output-on-failure
+
