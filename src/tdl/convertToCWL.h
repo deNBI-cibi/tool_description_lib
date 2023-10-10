@@ -101,8 +101,6 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
         auto cliMapping = findCLIMapping(child.name, doc);
 
         auto addInput = [&](auto type) {
-            if (!cliMapping) return;
-
             auto input         = InputType{};
             setIdOrName(input, child.name);
             if (child.tags.count("required")) {
@@ -112,15 +110,14 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
                 input.type         = std::vector<std::variant<CWLType, CommandInputRecordSchema, CommandInputEnumSchema, CommandInputArraySchema, std::string>>{cwl::CWLType::null, type};
             }
             input.doc          = child.description;
-
-            auto binding       = cwl::CommandLineBinding{};
-            binding.prefix     = cliMapping->optionIdentifier;
-            input.inputBinding = binding;
+            if (cliMapping) {
+                auto binding       = cwl::CommandLineBinding{};
+                binding.prefix     = cliMapping->optionIdentifier;
+                input.inputBinding = binding;
+            }
             inputCB(std::move(input));
         };
         auto addInputArray = [&](auto type) {
-            if (!cliMapping) return;
-
             auto input     = InputType{};
             setIdOrName(input, child.name);
             auto arrayType = cwl::CommandInputArraySchema{};
@@ -133,14 +130,14 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
             }
             input.doc          = child.description;
 
-            auto binding       = cwl::CommandLineBinding{};
-            binding.prefix     = cliMapping->optionIdentifier;
-            input.inputBinding = binding;
+            if (cliMapping) {
+                auto binding       = cwl::CommandLineBinding{};
+                binding.prefix     = cliMapping->optionIdentifier;
+                input.inputBinding = binding;
+            }
             inputCB(std::move(input));
         };
         auto addOutput = [&](auto type) {
-            if (!cliMapping) return;
-
             auto input         = InputType{};
             setIdOrName(input, child.name);
             if (child.tags.count("required")) {
@@ -151,9 +148,11 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
             }
             input.doc          = child.description;
 
-            auto binding       = cwl::CommandLineBinding{};
-            binding.prefix     = cliMapping->optionIdentifier;
-            input.inputBinding = binding;
+            if (cliMapping) {
+                auto binding       = cwl::CommandLineBinding{};
+                binding.prefix     = cliMapping->optionIdentifier;
+                input.inputBinding = binding;
+            }
             inputCB(std::move(input));
 
             auto output         = OutputType{};
@@ -164,9 +163,10 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
                 using namespace https___w3id_org_cwl_cwl;
                 output.type         = std::vector<std::variant<CWLType, CommandOutputRecordSchema, CommandOutputEnumSchema, CommandOutputArraySchema, std::string>>{cwl::CWLType::null, type};
             }
-            auto binding2       = cwl::CommandOutputBinding{};
-            binding2.glob       = "$(inputs." + child.name + ")";
-            output.outputBinding = binding2;
+            auto binding         = cwl::CommandOutputBinding{};
+            binding.glob         = "$(inputs." + child.name + ")";
+            output.outputBinding = binding;
+
             outputCB(std::move(output));
         };
         auto addOutputPrefixed = [&](auto type, bool multipleFiles) {
@@ -180,9 +180,11 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
             }
             input.doc          = child.description;
 
-            auto binding       = cwl::CommandLineBinding{};
-            binding.prefix     = cliMapping->optionIdentifier;
-            input.inputBinding = binding;
+            if (cliMapping) {
+                auto binding       = cwl::CommandLineBinding{};
+                binding.prefix     = cliMapping->optionIdentifier;
+                input.inputBinding = binding;
+            }
             inputCB(std::move(input));
 
             auto output         = OutputType{};
@@ -208,9 +210,9 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
                     output.type     = std::vector<std::variant<CWLType, CommandOutputRecordSchema, CommandOutputEnumSchema, CommandOutputArraySchema, std::string>>{cwl::CWLType::null, arrayType };
                 }
             }
-            auto binding2       = cwl::CommandOutputBinding{};
-            binding2.glob       = "$(inputs." + child.name + ")*";
-            output.outputBinding = binding2;
+            auto binding         = cwl::CommandOutputBinding{};
+            binding.glob         = "$(inputs." + child.name + ")*";
+            output.outputBinding = binding;
             outputCB(std::move(output));
         };
 
@@ -267,6 +269,7 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
                     baseCommandCB(child.name);
 
                     f<InputType, OutputType, deep-1>(v, doc, inputCB, outputCB, baseCommandCB);
+                    return;
                 }
 
                 auto inputs  = std::vector<cwl::CommandInputRecordField>{};
