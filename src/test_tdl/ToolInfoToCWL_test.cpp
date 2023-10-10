@@ -149,14 +149,20 @@ void testComplexCall() {
                                             CPP20(.value       =) tdl::StringValue{}
                                },
                                tdl::Node{CPP20(.name        =) "optional_param1",
-                                           CPP20(.description =) "no doc",
-                                           CPP20(.tags        =) {},
-                                           CPP20(.value       =) tdl::StringValue{}
+                                            CPP20(.description =) "no doc",
+                                            CPP20(.tags        =) {},
+                                            CPP20(.value       =) tdl::StringValue{}
                                },
                                tdl::Node{CPP20(.name        =) "optional_multi_input_file",
                                             CPP20(.description =) "no doc",
                                             CPP20(.tags        =) {"input", "file"},
                                             CPP20(.value       =) tdl::StringValueList{}
+                               },
+                               tdl::Node{CPP20(.name        =) "no_cli_binding",
+                                            CPP20(.description =) "A parameter that has no corresponding cli binding."
+                                                                  " Can only be filled via an input.json file.",
+                                            CPP20(.tags        =) {},
+                                            CPP20(.value       =) tdl::StringValue{}
                                },
                         }
                     }
@@ -257,6 +263,9 @@ inputs:
     type: File[]?
     inputBinding:
       prefix: --optional_multi_input_file
+  no_cli_binding:
+    doc: A parameter that has no corresponding cli binding. Can only be filled via an input.json file.
+    type: string?
 outputs:
   single_output_file:
     type: File
