@@ -57,7 +57,7 @@ inline auto simplifyType(YAML::Node type) -> YAML::Node {
 
     // 2. Collapsing array types into one option
     if (type.IsMap()
-        and type["type"].as<std::string>() == "array"
+        and type["type"].as<std::string>("") == "array"
         and type["items"].IsScalar()) {
         type = type["items"].as<std::string>() + "[]";
     }

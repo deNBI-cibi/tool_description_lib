@@ -164,6 +164,11 @@ void testComplexCall() {
                                             CPP20(.tags        =) {},
                                             CPP20(.value       =) tdl::StringValue{}
                                },
+                               tdl::Node{CPP20(.name        =) "type",
+                                             CPP20(.description =) "A parameter that is called type.",
+                                            CPP20(.tags        =) {},
+                                            CPP20(.value       =) tdl::StringValue{}
+                               },
                         }
                     }
             },
@@ -265,6 +270,9 @@ inputs:
       prefix: --optional_multi_input_file
   no_cli_binding:
     doc: A parameter that has no corresponding cli binding. Can only be filled via an input.json file.
+    type: string?
+  type:
+    doc: A parameter that is called type.
     type: string?
 outputs:
   single_output_file:
