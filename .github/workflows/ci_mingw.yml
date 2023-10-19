@@ -54,15 +54,9 @@ jobs:
           cd tdl-build
           make -k -j2
 
-      # https://github.com/actions/runner-images/issues/8399
       - name: Run tests
         run: |
           cd tdl-build
-          if [[ "$(which g++)" == "/c/ProgramData/Chocolatey/bin/g++" ]]; then
-            echo "Applying fix"
-            PATH="/c/ProgramData/Chocolatey/lib/mingw/tools/install/mingw64/bin/:${PATH}"
-          else
-            echo "Fix not needed"
-          fi
+          PATH="/c/mingw64/bin/:${PATH}"
           ctest . -j2 --output-on-failure
 
