@@ -23,6 +23,7 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: windows-2019
     timeout-minutes: 180
+    if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
@@ -33,7 +34,7 @@ jobs:
 
     steps:
       - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1.12.1
+        uses: ilammy/msvc-dev-cmd@v1
         with:
           vsversion: 2019
 
