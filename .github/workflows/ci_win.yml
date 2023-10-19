@@ -21,7 +21,7 @@ env:
 jobs:
   build:
     name: ${{ matrix.name }}
-    runs-on: windows-2022
+    runs-on: windows-${{ matrix.version }}
     timeout-minutes: 180
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
@@ -29,6 +29,11 @@ jobs:
       matrix:
         include:
           - name: "Visual Studio 17 2022"
+            version: 2022
+            build_type: Release
+            cpp: 17
+          - name: "Visual Studio 16 2019"
+            version: 2019
             build_type: Release
             cpp: 17
 
@@ -36,7 +41,7 @@ jobs:
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
         with:
-          vsversion: 2022
+          vsversion: ${{ matrix.version }}
 
       - name: Checkout TDL
         uses: actions/checkout@v4
