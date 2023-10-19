@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: windows-${{ github.event.pull_request.number || github.ref }}
+  group: windows-vs2019-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name != 'push' }}
 
 env:
@@ -21,22 +21,21 @@ env:
 jobs:
   build:
     name: ${{ matrix.name }}
-    runs-on: windows-2022
+    runs-on: windows-2019
     timeout-minutes: 180
-    if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: "Visual Studio 17 2022"
+          - name: "Visual Studio 16 2019"
             build_type: Release
             cpp: 17
 
     steps:
       - name: Setup MSVC
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: ilammy/msvc-dev-cmd@v1.12.1
         with:
-          vsversion: 2022
+          vsversion: 2019
 
       - name: Checkout TDL
         uses: actions/checkout@v4
