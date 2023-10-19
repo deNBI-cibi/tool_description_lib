@@ -10,10 +10,11 @@ on:
       - 'main'
   pull_request:
   workflow_dispatch:
-  
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     steps:
     - uses: actions/checkout@v4
     - name: REUSE Compliance Check

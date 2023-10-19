@@ -27,6 +27,7 @@ jobs:
     name: ${{ matrix.name }}
     runs-on: windows-2022
     timeout-minutes: 180
+    if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
