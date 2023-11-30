@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2006-2023, Knut Reinert & Freie Universität Berlin
+# SPDX-FileCopyrightText: 2016-2023, Knut Reinert & MPI für molekulare Genetik
+# SPDX-License-Identifier: BSD-3-Clause
+
+@PACKAGE_INIT@
+
+include (CMakeFindDependencyMacro)
+find_dependency (yaml-cpp @TDL_YAML_CPP_VERSION@ REQUIRED)
+
+include ("${CMAKE_CURRENT_LIST_DIR}/tdl-targets.cmake")

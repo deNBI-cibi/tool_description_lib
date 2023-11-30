@@ -1,10 +1,7 @@
-<!-- SPDX-FileCopyrightText: 2006-2023, Knut Reinert & Freie Universität Berlin -->
-<!-- SPDX-FileCopyrightText: 2016-2023, Knut Reinert & MPI für molekulare Genetik -->
-<!-- SPDX-License-Identifier: CC0-1.0 -->
+// SPDX-FileCopyrightText: 2006-2023, Knut Reinert & Freie Universität Berlin
+// SPDX-FileCopyrightText: 2016-2023, Knut Reinert & MPI für molekulare Genetik
+// SPDX-License-Identifier: CC0-1.0
 
-<!-- MARKDOWN-AUTO-DOCS:START (CODE:src=./src/test_tdl/example/example1.cpp&lines=5-57) -->
-<!-- The below code snippet is automatically added from ./src/test_tdl/example/example1.cpp -->
-```cpp
 #include <tdl/tdl.h>
 
 int main(int argc, char** argv) {
@@ -58,6 +55,3 @@ int main(int argc, char** argv) {
        tdl::CLIMapping {.optionIdentifier = "--queries", .referenceName = "queries"},
   }};
 }
-```
-<!-- The below code snippet is automatically added from ./src/test_tdl/example/example1.cpp -->
-<!-- MARKDOWN-AUTO-DOCS:END -->

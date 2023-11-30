@@ -11,7 +11,7 @@ You will need to include `tdl/tdl.h` to use this library:
 As a second step you define meta info about your app
 ```
 auto toolInfo = tdl::ToolInfo {
-  .meta = {
+  .metaInfo = {
     .version = "7.6.5",                // version of your tool
     .name    = "testApp",              // name of your tool
     .docurl  = "example.com",          // url to the documentation of your tool
@@ -21,7 +21,7 @@ auto toolInfo = tdl::ToolInfo {
 
      // A list of citations you would like people to look at when they use your tool for research
     .citations      = {{"doi:123", "https://en.wikipedia.org/wiki/Meaning_of_life"},
-                       {"doi:456", "https://en.wikipedia.org/wiki/Turing_completeness"}},
+                       {"doi:456", "https://en.wikipedia.org/wiki/Turing_completeness"}}
   }
 };
 
@@ -49,8 +49,7 @@ As a fourth step you have to define how your register option `input` has to be c
 toolInfo.cliMapping = {
        tdl::CLIMapping {.optionIdentifier = "--input",   .referenceName = "input"},
        tdl::CLIMapping {.optionIdentifier = "--index",   .referenceName = "index"},
-       tdl::CLIMapping {.optionIdentifier = "--queries", .referenceName = "queries"},
-  });
-};
+       tdl::CLIMapping {.optionIdentifier = "--queries", .referenceName = "queries"}
+  };
 ```
 
