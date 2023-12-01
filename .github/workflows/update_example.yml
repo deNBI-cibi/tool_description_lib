@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2006-2023, Knut Reinert & Freie Universität Berlin
+# SPDX-FileCopyrightText: 2016-2023, Knut Reinert & MPI für molekulare Genetik
+# SPDX-License-Identifier: CC0-1.0
+
+name: Example
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+concurrency:
+  group: example-update-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: Europe/Berlin
+
+defaults:
+  run:
+    shell: bash -Eexuo pipefail {0}
+
+jobs:
+  example-update:
+    name: Update
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update example
+        uses: dineshsonachalam/markdown-autodocs@v1.0.7
+        with:
+          commit_author: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_message: "[MISC] Update example"
+          output_file_paths: '[./Example00.cpp.md]'
+          categories: '[code-block]'

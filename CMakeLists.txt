@@ -25,14 +25,14 @@ project (tdl
          VERSION "${TDL_VERSION}"
          DESCRIPTION "tdl -- tool description library")
 
-include (tdl-config.cmake)
+include (cmake/configuration.cmake)
 
 # Enable and include testing if this is a root directory
 if (${TDL_ROOT_PROJECT})
     enable_testing ()
     file (GLOB TEST_CPP_FILES
           LIST_DIRECTORIES false
-          RELATIVE ${PROJECT_SOURCE_DIR}
+          RELATIVE ${tdl_SOURCE_DIR}
           CONFIGURE_DEPENDS src/test_tdl/*.cpp)
     add_executable (test_tdl ${TEST_CPP_FILES})
     target_link_libraries (test_tdl tdl::tdl)
