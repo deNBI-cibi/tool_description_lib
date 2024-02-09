@@ -278,7 +278,7 @@ inline void f(Node::Children const& children, ToolInfo const& doc, InputCB const
                     inputs.push_back(input);
                 } , [&](auto output) {
                     outputs.push_back(output);
-                }, baseCommandCB);
+                }, [](auto){});
 
                 auto inputType  = cwl::CommandInputRecordSchema{};
                 auto outputType = cwl::CommandOutputRecordSchema{};
