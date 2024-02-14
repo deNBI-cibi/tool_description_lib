@@ -6,7 +6,7 @@
 
 int main(int argc, char** argv) {
 
-  auto toolInfo = tdl::ToolInfo {
+    auto toolInfo = tdl::ToolInfo {
     .metaInfo = {
       .version = "7.6.5",                             // version of your tool
       .name    = "testApp",                           // name of your tool
@@ -25,7 +25,8 @@ int main(int argc, char** argv) {
         .name        = "build",
         .description = "builds some index for search",
         .tags        = {}, // no tags
-        .value       = tdl::Node::Children { tdl::Node {
+        .value       = tdl::Node::Children {
+          tdl::Node {
             .name        = "input", // This must be the same as the referenceName of CLIMapping
             .description = "input file",
             .value       = tdl::StringValueList{}, // indicates that we are accepting a list of strings as values
@@ -41,7 +42,8 @@ int main(int argc, char** argv) {
             .name        = "queries", // This must be the same as the referenceName of CLIMapping
             .description = "files with search queries",
             .value       = tdl::StringValueList{}, // indicates that we are accepting a list of strings as values
-          }, tdl::Node {
+          },
+          tdl::Node {
             .name        = "index", // This must be the same as the referenceName of CLIMapping
             .description = "path to an index file",
             .value       = tdl::StringValue{}, // indicates that we are accepting a single string value

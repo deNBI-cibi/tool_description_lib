@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: 2006-2023, Knut Reinert & Freie Universität Berlin
-# SPDX-FileCopyrightText: 2016-2023, Knut Reinert & MPI für molekulare Genetik
+# SPDX-FileCopyrightText: 2006-2024, Knut Reinert & Freie Universität Berlin
+# SPDX-FileCopyrightText: 2016-2024, Knut Reinert & MPI für molekulare Genetik
 # SPDX-License-Identifier: BSD-3-Clause
 
 cmake_minimum_required (VERSION 3.12)
@@ -27,10 +27,10 @@ CPMAddPackage (
             "YAML_CPP_INSTALL OFF"
             "YAML_CPP_BUILD_TESTS OFF")
 
-add_library (tdl INTERFACE)
-target_include_directories (tdl INTERFACE "$<BUILD_INTERFACE:${tdl_SOURCE_DIR}/src>"
-                                          "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
-target_link_libraries (tdl INTERFACE yaml-cpp::yaml-cpp)
+add_library (tdl STATIC ${tdl_SOURCE_DIR}/src/tdl/convertToCTD.cpp ${tdl_SOURCE_DIR}/src/tdl/convertToCWL.cpp)
+target_include_directories (tdl PUBLIC "$<BUILD_INTERFACE:${tdl_SOURCE_DIR}/src>"
+                                       "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+target_link_libraries (tdl PUBLIC yaml-cpp::yaml-cpp)
 add_library (tdl::tdl ALIAS tdl)
 
 if (INSTALL_TDL)

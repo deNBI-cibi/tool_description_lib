@@ -1,46 +1,40 @@
-// SPDX-FileCopyrightText: 2006-2023, Knut Reinert & Freie Universität Berlin
-// SPDX-FileCopyrightText: 2016-2023, Knut Reinert & MPI für molekulare Genetik
+// SPDX-FileCopyrightText: 2006-2024, Knut Reinert & Freie Universität Berlin
+// SPDX-FileCopyrightText: 2016-2024, Knut Reinert & MPI für molekulare Genetik
 // SPDX-License-Identifier: CC0-1.0
 
 #include "utils.h"
-
 
 namespace cwl_tests {
 
 void testToolInfo() {
     { // a multi nested parameter
-        auto output = convertToCWL(tdl::ToolInfo {
-            CPP20(.metaInfo =) {
-                CPP20(.version        =) {},
-                CPP20(.name           =) {},
-                CPP20(.docurl         =) {},
-                CPP20(.category       =) {},
-                CPP20(.description    =) {},
-                CPP20(.executableName =) "echo",
+        auto output = convertToCWL(tdl::ToolInfo{
+            DESINIT(.metaInfo =){
+                DESINIT(.version =){},
+                DESINIT(.name =){},
+                DESINIT(.docurl =){},
+                DESINIT(.category =){},
+                DESINIT(.description =){},
+                DESINIT(.executableName =) "echo",
             },
-            CPP20(.params =) {
-                tdl::Node{CPP20(.name        =) "build",
-                          CPP20(.description =) "Command",
-                          CPP20(.tags        =) {"basecommand"}, // indicates this is an addition to the base command
-                          CPP20(.value       =) tdl::Node::Children {
-                                tdl::Node{CPP20(.name        =) "kmer",
-                                          CPP20(.description =) "The k-mer size",
-                                          CPP20(.tags        =) {"required"},
-                                          CPP20(.value       =) tdl::IntValue{20, 1, 32}
-                                },
-                                tdl::Node{CPP20(.name        =) "window",
-                                          CPP20(.description =) "The window size",
-                                          CPP20(.tags        =) {"required"},
-                                          CPP20(.value       =) tdl::IntValue{20}
-                               }
-                          }
-                }
-            },
-            CPP20(.cliMapping =) {
-                {CPP20(.optionIdentifier =) "--kmer",   CPP20(.referenceName    =) "kmer"},
-                {CPP20(.optionIdentifier =) "--window", CPP20(.referenceName    =) "window"},
+            DESINIT(.params =){
+                tdl::Node{DESINIT(.name =) "build",
+                          DESINIT(.description =) "Command",
+                          DESINIT(.tags =){"basecommand"}, // indicates this is an addition to the base command
+                          DESINIT(.value =) tdl::Node::Children{tdl::Node{DESINIT(.name =) "kmer",
+                                                                          DESINIT(.description =) "The k-mer size",
+                                                                          DESINIT(.tags =){"required"},
+                                                                          DESINIT(.value =) tdl::IntValue{20, 1, 32}},
+                                                                tdl::Node{DESINIT(.name =) "window",
+                                                                          DESINIT(.description =) "The window size",
+                                                                          DESINIT(.tags =){"required"},
+                                                                          DESINIT(.value =) tdl::IntValue{20}}}}},
+            DESINIT(.cliMapping =){
+                {DESINIT(.optionIdentifier =) "--kmer", DESINIT(.referenceName =) "kmer"},
+                {DESINIT(.optionIdentifier =) "--window", DESINIT(.referenceName =) "window"},
             },
         });
+
         auto expected = std::string{R"(label: ""
 doc: ""
 inputs:
@@ -69,127 +63,117 @@ baseCommand:
 
 void testComplexCall() {
     { // a multi nested parameter
-        auto output = convertToCWL(tdl::ToolInfo {
-            CPP20(.metaInfo =) {
-                CPP20(.version        =) {},
-                CPP20(.name           =) {},
-                CPP20(.docurl         =) {},
-                CPP20(.category       =) {},
-                CPP20(.description    =) {},
-                CPP20(.executableName =) "echo",
+        auto output = convertToCWL(tdl::ToolInfo{
+            DESINIT(.metaInfo =){
+                DESINIT(.version =){},
+                DESINIT(.name =){},
+                DESINIT(.docurl =){},
+                DESINIT(.category =){},
+                DESINIT(.description =){},
+                DESINIT(.executableName =) "echo",
             },
-            CPP20(.params =) {
-                tdl::Node{CPP20(.name        =) "build",
-                          CPP20(.description =) "Command",
-                          CPP20(.tags        =) {"basecommand"},
-                          CPP20(.value       =) tdl::Node::Children {
-                                tdl::Node{CPP20(.name        =) "kmer",
-                                          CPP20(.description =) "The k-mer size",
-                                          CPP20(.tags        =) {"required"},
-                                          CPP20(.value       =) tdl::IntValue{20, 1, 32}
-                                },
-                                tdl::Node{CPP20(.name        =) "window",
-                                          CPP20(.description =) "The window size",
-                                          CPP20(.tags        =) {"required"},
-                                          CPP20(.value       =) tdl::IntValue{20}
-                                },
-                                tdl::Node{CPP20(.name        =) "single_input_file",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"input", "required", "file"},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "optional_single_input_file",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"input", "file"},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "multi_input_file",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"input", "required", "file"},
-                                          CPP20(.value       =) tdl::StringValueList{}
-                                },
-                                tdl::Node{CPP20(.name        =) "single_input_directory",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"input", "required", "directory"},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "single_output_file",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"output", "required", "file"},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "optional_single_output_file",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"output", "file"},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "prefixed_output_file",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"output", "prefixed", "required"},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "optional_prefixed_output_file",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"output", "prefixed"},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "prefixed_output_files",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"output", "prefixed", "required"},
-                                          CPP20(.value       =) tdl::StringValueList{}
-                                },
-                                tdl::Node{CPP20(.name        =) "optional_prefixed_output_files",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"output", "prefixed"},
-                                          CPP20(.value       =) tdl::StringValueList{}
-                                },
-                                tdl::Node{CPP20(.name        =) "single_output_dir",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"output", "required", "directory"},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "optional_param1",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "optional_multi_input_file",
-                                          CPP20(.description =) "no doc",
-                                          CPP20(.tags        =) {"input", "file"},
-                                          CPP20(.value       =) tdl::StringValueList{}
-                                },
-                                tdl::Node{CPP20(.name        =) "no_cli_binding",
-                                          CPP20(.description =) "A parameter that has no corresponding cli binding."
+            DESINIT(.params =){
+                tdl::Node{DESINIT(.name =) "build",
+                          DESINIT(.description =) "Command",
+                          DESINIT(.tags =){"basecommand"},
+                          DESINIT(.value =) tdl::Node::Children{
+                              tdl::Node{DESINIT(.name =) "kmer",
+                                        DESINIT(.description =) "The k-mer size",
+                                        DESINIT(.tags =){"required"},
+                                        DESINIT(.value =) tdl::IntValue{20, 1, 32}},
+                              tdl::Node{DESINIT(.name =) "window",
+                                        DESINIT(.description =) "The window size",
+                                        DESINIT(.tags =){"required"},
+                                        DESINIT(.value =) tdl::IntValue{20}},
+                              tdl::Node{DESINIT(.name =) "single_input_file",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"input", "required", "file"},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "optional_single_input_file",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"input", "file"},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "multi_input_file",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"input", "required", "file"},
+                                        DESINIT(.value =) tdl::StringValueList{}},
+                              tdl::Node{DESINIT(.name =) "single_input_directory",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"input", "required", "directory"},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "single_output_file",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"output", "required", "file"},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "optional_single_output_file",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"output", "file"},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "prefixed_output_file",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"output", "prefixed", "required"},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "optional_prefixed_output_file",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"output", "prefixed"},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "prefixed_output_files",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"output", "prefixed", "required"},
+                                        DESINIT(.value =) tdl::StringValueList{}},
+                              tdl::Node{DESINIT(.name =) "optional_prefixed_output_files",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"output", "prefixed"},
+                                        DESINIT(.value =) tdl::StringValueList{}},
+                              tdl::Node{DESINIT(.name =) "single_output_dir",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"output", "required", "directory"},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "optional_param1",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "optional_multi_input_file",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"input", "file"},
+                                        DESINIT(.value =) tdl::StringValueList{}},
+                              tdl::Node{DESINIT(.name =) "no_cli_binding",
+                                        DESINIT(.description =) "A parameter that has no corresponding cli binding."
                                                                 " Can only be filled via an input.json file.",
-                                          CPP20(.tags        =) {},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                                tdl::Node{CPP20(.name        =) "type",
-                                          CPP20(.description =) "A parameter that is called type.",
-                                          CPP20(.tags        =) {},
-                                          CPP20(.value       =) tdl::StringValue{}
-                                },
-                        }
-                    }
-            },
-            CPP20(.cliMapping =) {
-                {CPP20(.optionIdentifier =) "--kmer",                           CPP20(.referenceName =) "kmer"},
-                {CPP20(.optionIdentifier =) "--window",                         CPP20(.referenceName =) "window"},
-                {CPP20(.optionIdentifier =) "--single_input_file",              CPP20(.referenceName =) "single_input_file"},
-                {CPP20(.optionIdentifier =) "--optional_single_input_file",     CPP20(.referenceName =) "optional_single_input_file"},
-                {CPP20(.optionIdentifier =) "--multi_input_file",               CPP20(.referenceName =) "multi_input_file"},
-                {CPP20(.optionIdentifier =) "--single_input_directory",         CPP20(.referenceName =) "single_input_directory"},
-                {CPP20(.optionIdentifier =) "--single_output_file",             CPP20(.referenceName =) "single_output_file"},
-                {CPP20(.optionIdentifier =) "--optional_single_output_file",    CPP20(.referenceName =) "optional_single_output_file"},
-                {CPP20(.optionIdentifier =) "--prefixed_output_file",           CPP20(.referenceName =) "prefixed_output_file"},
-                {CPP20(.optionIdentifier =) "--optional_prefixed_output_file",  CPP20(.referenceName =) "optional_prefixed_output_file"},
-                {CPP20(.optionIdentifier =) "--prefixed_output_files",          CPP20(.referenceName =) "prefixed_output_files"},
-                {CPP20(.optionIdentifier =) "--optional_prefixed_output_files", CPP20(.referenceName =) "optional_prefixed_output_files"},
-                {CPP20(.optionIdentifier =) "--single_output_dir",              CPP20(.referenceName =) "single_output_dir"},
-                {CPP20(.optionIdentifier =) "--optional_param1",                CPP20(.referenceName =) "optional_param1"},
-                {CPP20(.optionIdentifier =) "--optional_multi_input_file",      CPP20(.referenceName =) "optional_multi_input_file"},
+                                        DESINIT(.tags =){},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "type",
+                                        DESINIT(.description =) "A parameter that is called type.",
+                                        DESINIT(.tags =){},
+                                        DESINIT(.value =) tdl::StringValue{}},
+                          }}},
+            DESINIT(.cliMapping =){
+                {DESINIT(.optionIdentifier =) "--kmer", DESINIT(.referenceName =) "kmer"},
+                {DESINIT(.optionIdentifier =) "--window", DESINIT(.referenceName =) "window"},
+                {DESINIT(.optionIdentifier =) "--single_input_file", DESINIT(.referenceName =) "single_input_file"},
+                {DESINIT(.optionIdentifier =) "--optional_single_input_file",
+                 DESINIT(.referenceName =) "optional_single_input_file"},
+                {DESINIT(.optionIdentifier =) "--multi_input_file", DESINIT(.referenceName =) "multi_input_file"},
+                {DESINIT(.optionIdentifier =) "--single_input_directory",
+                 DESINIT(.referenceName =) "single_input_directory"},
+                {DESINIT(.optionIdentifier =) "--single_output_file", DESINIT(.referenceName =) "single_output_file"},
+                {DESINIT(.optionIdentifier =) "--optional_single_output_file",
+                 DESINIT(.referenceName =) "optional_single_output_file"},
+                {DESINIT(.optionIdentifier =) "--prefixed_output_file",
+                 DESINIT(.referenceName =) "prefixed_output_file"},
+                {DESINIT(.optionIdentifier =) "--optional_prefixed_output_file",
+                 DESINIT(.referenceName =) "optional_prefixed_output_file"},
+                {DESINIT(.optionIdentifier =) "--prefixed_output_files",
+                 DESINIT(.referenceName =) "prefixed_output_files"},
+                {DESINIT(.optionIdentifier =) "--optional_prefixed_output_files",
+                 DESINIT(.referenceName =) "optional_prefixed_output_files"},
+                {DESINIT(.optionIdentifier =) "--single_output_dir", DESINIT(.referenceName =) "single_output_dir"},
+                {DESINIT(.optionIdentifier =) "--optional_param1", DESINIT(.referenceName =) "optional_param1"},
+                {DESINIT(.optionIdentifier =) "--optional_multi_input_file",
+                 DESINIT(.referenceName =) "optional_multi_input_file"},
             },
         });
+
         auto expected = std::string{R"(label: ""
 doc: ""
 inputs:
@@ -313,7 +297,7 @@ baseCommand:
     }
 }
 
-}
+} // namespace cwl_tests
 void testCWL() {
     cwl_tests::testToolInfo();
     cwl_tests::testComplexCall();
