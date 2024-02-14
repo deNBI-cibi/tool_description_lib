@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright 2016-2023 CWL Project Contributors
+// SPDX-FileCopyrightText: Copyright 2016-2024 CWL Project Contributors
 // SPDX-License-Identifier: Apache-2.0
 #pragma once
 
