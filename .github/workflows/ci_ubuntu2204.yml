@@ -32,6 +32,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - name: "gcc13 (c++17)"
+            compiler: "gcc-13"
+            build_type: Release
+            cpp: 17
+
           - name: "gcc12 (c++17)"
             compiler: "gcc-12"
             build_type: Release
@@ -52,33 +57,33 @@ jobs:
             build_type: Release
             cpp: 17
 
+          - name: "clang18 (c++23)"
+            compiler: "clang-18"
+            build_type: Release
+            cpp: 23
+
           - name: "clang17 (c++23)"
             compiler: "clang-17"
             build_type: Release
             cpp: 23
+
+          - name: "gcc13 (c++20)"
+            compiler: "gcc-13"
+            build_type: Release
+            cpp: 20
 
           - name: "gcc12 (c++20)"
             compiler: "gcc-12"
             build_type: Release
             cpp: 20
 
-          - name: "gcc11 (c++20)"
-            compiler: "gcc-11"
-            build_type: Release
-            cpp: 20
-
-          - name: "gcc10 (c++20)"
-            compiler: "gcc-10"
-            build_type: Release
-            cpp: 20
-
-          - name: "gcc12 (c++23)"
-            compiler: "gcc-12"
+          - name: "gcc13 (c++23)"
+            compiler: "gcc-13"
             build_type: Release
             cpp: 23
 
-          - name: "gcc12 (c++20, Debug)"
-            compiler: "gcc-12"
+          - name: "gcc13 (c++23, Debug)"
+            compiler: "gcc-13"
             build_type: Debug
             cpp: 20
 
