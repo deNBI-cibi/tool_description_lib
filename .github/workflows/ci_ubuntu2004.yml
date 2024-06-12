@@ -32,8 +32,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: "clang10 (c++17)"
-            compiler: "clang-10"
+          - name: "clang18 (c++17)"
+            compiler: "clang-18"
             build_type: Release
             cpp: 17
 
