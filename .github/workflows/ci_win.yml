@@ -32,37 +32,32 @@ jobs:
             version: 2022
             build_type: Release
             cpp: 17
+
           - name: "Visual Studio 16 2019"
             version: 2019
             build_type: Release
             cpp: 17
-
     steps:
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
         with:
           vsversion: ${{ matrix.version }}
 
-      - name: Checkout TDL
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: tdl
-          fetch-depth: 2
 
       - name: Configure tests
         run: |
-          New-Item -Name "tdl-build" -ItemType "directory" -Force
-          cd tdl-build
-          cmake ../tdl -G "${{ matrix.name }}" `
-                       -DCMAKE_CXX_FLAGS="/EHsc /W4" `
-                       -DCMAKE_CXX_STANDARD=${{ matrix.cpp }}
+          New-Item -Name "build" -ItemType "directory" -Force
+          cd build
+          cmake .. -G "${{ matrix.name }}" `
+                   -DCMAKE_CXX_FLAGS="/EHsc /W4" `
+                   -DCMAKE_CXX_STANDARD=${{ matrix.cpp }}
 
       - name: Build tests
-        run: |
-          cd tdl-build
-          cmake --build . --config "${{ matrix.build_type }}" --parallel 2 ` -- /p:TrackFileAccess=false
+        working-directory: build
+        run: cmake --build . --config "${{ matrix.build_type }}" --parallel
 
       - name: Run tests
-        run: |
-          cd tdl-build
-          ctest . -j2 -C "${{ matrix.build_type }}" --output-on-failure --timeout 240
+        working-directory: build
+        run: ctest . -j -C "${{ matrix.build_type }}" --output-on-failure --timeout 240

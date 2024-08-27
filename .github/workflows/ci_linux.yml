@@ -1,8 +1,8 @@
-# SPDX-FileCopyrightText: 2006-2024, Knut Reinert & Freie Universität Berlin
-# SPDX-FileCopyrightText: 2016-2024, Knut Reinert & MPI für molekulare Genetik
+# SPDX-FileCopyrightText: 2006-2024 Knut Reinert & Freie Universität Berlin
+# SPDX-FileCopyrightText: 2016-2024 Knut Reinert & MPI für molekulare Genetik
 # SPDX-License-Identifier: CC0-1.0
 
-name: macOS
+name: Linux
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: macos-${{ github.event.pull_request.number || github.ref }}
+  group: linux-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name != 'push' }}
 
 env:
@@ -24,24 +24,31 @@ defaults:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
     name: ${{ matrix.compiler }} C++${{ matrix.cpp }} ${{ matrix.build_type }}
-    runs-on: macos-12
-    timeout-minutes: 180
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
-        compiler: ["clang-18", "clang-15", "clang-14", "clang-13", "clang-12", "gcc-14", "gcc-10"]
-        cpp: [17]
-        build_type: [Release]
+        compiler: ["clang-18", "clang-17", "clang-16", "gcc-14", "gcc-13", "gcc-12", "gcc-11", "intel"]
+        cpp: [17, 20, 23, 26]
+        build_type: [Release, Debug]
+        exclude:
+          - compiler: clang-16
+            cpp: 26
+          - compiler: gcc-13
+            cpp: 26
+          - compiler: gcc-12
+            cpp: 26
+          - compiler: gcc-11
+            cpp: 26
+    container:
+      image: ghcr.io/seqan/${{ matrix.compiler }}
+      volumes:
+        - /home/runner:/home/runner
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup compiler
-        uses: seqan/actions/setup-compiler@main
-        with:
-          compiler: ${{ matrix.compiler }}
 
       - name: Configure tests
         run: |
@@ -57,3 +64,4 @@ jobs:
       - name: Run tests
         working-directory: build
         run: ctest . -j --output-on-failure
+
