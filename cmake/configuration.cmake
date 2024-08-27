@@ -25,7 +25,9 @@ CPMAddPackage (
             "YAML_CPP_BUILD_TOOLS OFF"
             "YAML_BUILD_SHARED_LIBS OFF"
             "YAML_CPP_INSTALL OFF"
-            "YAML_CPP_BUILD_TESTS OFF")
+            "YAML_CPP_BUILD_TESTS OFF"
+            "BUILD_TESTING OFF" # Disables CMake/CTest/CDash targets (Continuous, Experimental, Nightly, etc.).
+)
 
 add_library (tdl STATIC ${tdl_SOURCE_DIR}/src/tdl/convertToCTD.cpp ${tdl_SOURCE_DIR}/src/tdl/convertToCWL.cpp)
 target_include_directories (tdl PUBLIC "$<BUILD_INTERFACE:${tdl_SOURCE_DIR}/src>"
