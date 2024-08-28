@@ -63,7 +63,7 @@ inline auto findCLIMapping(std::string const & referenceName, ToolInfo const & d
         }
     }
     return nullptr;
-};
+}
 
 template <typename InputType>
 void setIdOrName(InputType & input, std::string const & name) {

@@ -20,13 +20,12 @@ env:
 
 defaults:
   run:
-    shell: bash -Eexuo pipefail {0}
+    shell: bash -Eeuxo pipefail {0}
 
 jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: windows-2022
-    timeout-minutes: 180
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
@@ -34,30 +33,26 @@ jobs:
         include:
           - name: "Latest"
             build_type: Release
-
     steps:
-      - name: Checkout TDL
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: tdl
-          fetch-depth: 2
+
+      - name: Export configs
+        run: |
+          echo "GNUMAKEFLAGS=-j$(getconf _NPROCESSORS_ONLN) --no-print-directory --output-sync=target" >> "${GITHUB_ENV}"
+          echo "MAKEFLAGS=-j$(getconf _NPROCESSORS_ONLN) --no-print-directory --output-sync=target" >> "${GITHUB_ENV}"
 
       - name: Configure tests
         run: |
-          mkdir tdl-build
-          cd tdl-build
-          cmake ../tdl -G "MinGW Makefiles" \
-                       -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                       -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Wa,-mbig-obj"
+          mkdir build && cd build
+          cmake ../ -G "MinGW Makefiles" \
+                    -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+                    -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror -Wa,-mbig-obj"
 
       - name: Build tests
-        run: |
-          cd tdl-build
-          make -k -j2
+        working-directory: build
+        run: make -k
 
       - name: Run tests
-        run: |
-          cd tdl-build
-          PATH="/c/mingw64/bin/:${PATH}"
-          ctest . -j2 --output-on-failure
-
+        working-directory: build
+        run: PATH="/c/mingw64/bin/:${PATH}" ctest . -j --output-on-failure

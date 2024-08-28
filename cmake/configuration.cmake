@@ -18,14 +18,16 @@ CPMAddPackage (
     NAME yaml-cpp
     VERSION ${TDL_YAML_CPP_VERSION}
     GITHUB_REPOSITORY jbeder/yaml-cpp
-    # !WORKAROUND Points to first commit after 0.8.0: Fixes CMake deprecation warnings (cmake_minimum_required)
-    GIT_TAG c2680200486572baf8221ba052ef50b58ecd816e # ${TDL_YAML_CPP_VERSION}
+    # !WORKAROUND A release would be preferred, but the master branch includes various fixes (bugs, CMake, Compiler).
+    GIT_TAG 84459a7f982ea4d10e943237b2e9c71afdab6a45
     SYSTEM TRUE
     OPTIONS "YAML_CPP_BUILD_CONTRIB OFF"
             "YAML_CPP_BUILD_TOOLS OFF"
             "YAML_BUILD_SHARED_LIBS OFF"
             "YAML_CPP_INSTALL OFF"
-            "YAML_CPP_BUILD_TESTS OFF")
+            "YAML_CPP_BUILD_TESTS OFF"
+            "BUILD_TESTING OFF" # Disables CMake/CTest/CDash targets (Continuous, Experimental, Nightly, etc.).
+)
 
 add_library (tdl STATIC ${tdl_SOURCE_DIR}/src/tdl/convertToCTD.cpp ${tdl_SOURCE_DIR}/src/tdl/convertToCWL.cpp)
 target_include_directories (tdl PUBLIC "$<BUILD_INTERFACE:${tdl_SOURCE_DIR}/src>"

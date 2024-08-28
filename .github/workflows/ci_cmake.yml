@@ -26,7 +26,6 @@ jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: ubuntu-22.04
-    timeout-minutes: 120
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
@@ -37,30 +36,18 @@ jobs:
 
           - name: "Install (no yaml-cpp)"
             yaml_cpp: false
-
+    container:
+      image: ghcr.io/seqan/gcc-14
+      volumes:
+        - /home/runner:/home/runner
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: repo
-          fetch-depth: 1
-
-      - name: Install CMake
-        uses: seqan/actions/setup-cmake@main
-        with:
-          cmake: 3.16.9
-
-      - name: Setup compiler
-        uses: seqan/actions/setup-compiler@main
-        with:
-          compiler: gcc-13
 
       - name: Install yaml-cpp
         run: |
-          git clone --single-branch --branch 0.8.0 https://github.com/jbeder/yaml-cpp.git
-          cd yaml-cpp
-          mkdir build
-          cd build
+          git clone --single-branch --branch 0.8.0 https://github.com/jbeder/yaml-cpp.git && cd yaml-cpp
+          mkdir build && cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release \
                    -DYAML_CPP_BUILD_TESTS=OFF \
                    -DYAML_CPP_BUILD_TOOLS=OFF \
@@ -68,24 +55,22 @@ jobs:
                    -DYAML_BUILD_SHARED_LIBS=OFF \
                    -DYAML_CPP_INSTALL=ON \
                    -DCMAKE_CXX_FLAGS="-w"
-          make -k -j2
-          sudo make install
+          make -k
+          make install
 
-      - name: Build and install files
+      - name: Build and install TDL
         run: |
-          mkdir build
-          cd build
-          cmake ../repo -DCMAKE_BUILD_TYPE=Release \
-                        -DCPM_USE_LOCAL_PACKAGES=${{ matrix.yaml_cpp == true && 'ON' || 'OFF' }}
+          mkdir build && cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release \
+                   -DCPM_USE_LOCAL_PACKAGES=${{ matrix.yaml_cpp == true && 'ON' || 'OFF' }}
           TDL_INSTALL_DIR=$(pwd)/test_install
           echo "TDL_INSTALL_DIR=${TDL_INSTALL_DIR}" >> $GITHUB_ENV
-          make DESTDIR=${TDL_INSTALL_DIR} -k -j2 install
+          make DESTDIR="${TDL_INSTALL_DIR}" -k install
 
       - name: Test installation
         run: |
-          mkdir build_example
-          cd build_example
-          cmake ../repo/src/test_tdl/example -DCMAKE_BUILD_TYPE=Release \
-                                             -DTDL_INSTALL_DIR="${TDL_INSTALL_DIR}/usr/local"
-          make -k -j2
-          ctest . -j2 --output-on-failure
+          mkdir build_example && cd build_example
+          cmake ../src/test_tdl/example -DCMAKE_BUILD_TYPE=Release \
+                                        -DTDL_INSTALL_DIR="${TDL_INSTALL_DIR}/usr/local"
+          make -k
+          ctest . -j --output-on-failure
