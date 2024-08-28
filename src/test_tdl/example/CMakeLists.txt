@@ -12,3 +12,7 @@ enable_testing ()
 add_executable (example1 example1.cpp)
 target_link_libraries (example1 tdl::tdl)
 add_test (NAME example1 COMMAND example1)
+
+add_executable (example2 example2.cpp)
+target_link_libraries (example2 tdl::tdl)
+add_test (NAME example2 COMMAND example2)
