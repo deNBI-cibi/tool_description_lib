@@ -24,18 +24,28 @@ defaults:
 jobs:
   example-update:
     name: Update
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SEQAN_ACTIONS_PAT }}
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.SEQAN_ACTIONS_GPG_KEY }}
+          passphrase: ${{ secrets.SEQAN_ACTIONS_GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
 
       - name: Update example
         uses: dineshsonachalam/markdown-autodocs@v1.0.7
         with:
-          commit_author: github-actions[bot]
-          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+          commit_author: seqan-actions[bot]
+          commit_user_email: seqan-actions@users.noreply.github.com
           commit_message: "[MISC] Update example"
-          output_file_paths: '[./Example00.cpp.md]'
+          output_file_paths: '[./README.md,./Example00.cpp.md,./Example01.cpp.md]'
           categories: '[code-block]'
