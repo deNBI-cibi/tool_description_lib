@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: ["clang-18", "clang-15", "clang-14", "clang-13", "clang-12", "gcc-14", "gcc-10"]
+        compiler: ["clang-18", "clang-17", "clang-16", "gcc-14", "gcc-13", "gcc-12"]
         cpp: [17]
         build_type: [Release]
     steps:
