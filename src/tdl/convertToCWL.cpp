@@ -29,6 +29,15 @@ overloaded(Ts...) -> overloaded<Ts...>;
 
 namespace detail {
 
+//!\brief convenience function, to have highest precision for float/double values
+template <typename T>
+auto convertToString(T v) -> std::string {
+    auto ss = std::stringstream{};
+    ss << std::setprecision(std::numeric_limits<std::decay_t<T>>::max_digits10) << v;
+    return ss.str();
+}
+
+
 inline auto simplifyType(YAML::Node type) -> YAML::Node {
     auto is_optional = [](YAML::Node const & node) {
         return node.IsSequence() && node.size() == 2u && node[0].Scalar() == "null";
@@ -91,6 +100,35 @@ void addInput_impl(TypeType const &   type,
                                               cwl::CommandInputEnumSchema,
                                               cwl::CommandInputArraySchema,
                                               std::string>>{cwl::CWLType::null, type};
+    }
+    if constexpr (std::is_same_v<InputType, https___w3id_org_cwl_cwl::CommandInputParameter>) {
+        if ((child.tags.count("required") == 0 && child.tags.count("no_default") == 0)
+            || (child.tags.count("required") && child.tags.count("default_as_hint"))) {
+            // produce a default value
+            std::visit(overloaded{
+                           [&](BoolValue const & v) {
+                               *input.default_ = v;
+                           },
+                           [&](IntValue const & v) {
+                               *input.default_ = v.value;
+                           },
+                           [&](DoubleValue const & v) {
+                               *input.default_ = v.value;
+                           },
+                           [&](StringValue const & v) {
+                               if (!child.tags.count("output")
+                                    && !child.tags.count("file")
+                                    && !child.tags.count("directory")
+                                    && !child.tags.count("prefixed")) {
+
+                                   *input.default_ = v.value;
+                                } else {
+                                    *input.default_ = "unsupported default";
+                                }
+                           },
+                           [&](auto const&) {}
+            }, child.value);
+        }
     }
 
     input.doc = child.description;

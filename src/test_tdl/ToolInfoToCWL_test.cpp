@@ -27,8 +27,8 @@ void testToolInfo() {
                                                                           DESINIT(.value =) tdl::IntValue{20, 1, 32}},
                                                                 tdl::Node{DESINIT(.name =) "window",
                                                                           DESINIT(.description =) "The window size",
-                                                                          DESINIT(.tags =){"required"},
-                                                                          DESINIT(.value =) tdl::IntValue{20}}}}},
+                                                                          DESINIT(.tags =){},
+                                                                          DESINIT(.value =) tdl::IntValue{22}}}}},
             DESINIT(.cliMapping =){
                 {DESINIT(.optionIdentifier =) "--kmer", DESINIT(.referenceName =) "kmer"},
                 {DESINIT(.optionIdentifier =) "--window", DESINIT(.referenceName =) "window"},
@@ -45,7 +45,8 @@ inputs:
       prefix: --kmer
   window:
     doc: The window size
-    type: long
+    default: 22
+    type: long?
     inputBinding:
       prefix: --window
 outputs:
@@ -55,7 +56,6 @@ class: CommandLineTool
 baseCommand:
   - echo
   - build)"};
-
         assert(output.size() == expected.size());
         assert(expected == output);
     }
@@ -83,7 +83,11 @@ void testComplexCall() {
                                         DESINIT(.value =) tdl::IntValue{20, 1, 32}},
                               tdl::Node{DESINIT(.name =) "window",
                                         DESINIT(.description =) "The window size",
-                                        DESINIT(.tags =){"required"},
+                                        DESINIT(.tags =){},
+                                        DESINIT(.value =) tdl::IntValue{20}},
+                              tdl::Node{DESINIT(.name =) "window_with_hint",
+                                        DESINIT(.description =) "The window size that also gives a hint",
+                                        DESINIT(.tags =){"required", "default_as_hint"},
                                         DESINIT(.value =) tdl::IntValue{20}},
                               tdl::Node{DESINIT(.name =) "single_input_file",
                                         DESINIT(.description =) "no doc",
@@ -133,6 +137,10 @@ void testComplexCall() {
                                         DESINIT(.description =) "no doc",
                                         DESINIT(.tags =){},
                                         DESINIT(.value =) tdl::StringValue{}},
+                              tdl::Node{DESINIT(.name =) "optional_param2_no_default",
+                                        DESINIT(.description =) "no doc",
+                                        DESINIT(.tags =){"no_default"},
+                                        DESINIT(.value =) tdl::StringValue{}},
                               tdl::Node{DESINIT(.name =) "optional_multi_input_file",
                                         DESINIT(.description =) "no doc",
                                         DESINIT(.tags =){"input", "file"},
@@ -150,6 +158,7 @@ void testComplexCall() {
             DESINIT(.cliMapping =){
                 {DESINIT(.optionIdentifier =) "--kmer", DESINIT(.referenceName =) "kmer"},
                 {DESINIT(.optionIdentifier =) "--window", DESINIT(.referenceName =) "window"},
+                {DESINIT(.optionIdentifier =) "--window_with_hint", DESINIT(.referenceName =) "window_with_hint"},
                 {DESINIT(.optionIdentifier =) "--single_input_file", DESINIT(.referenceName =) "single_input_file"},
                 {DESINIT(.optionIdentifier =) "--optional_single_input_file",
                  DESINIT(.referenceName =) "optional_single_input_file"},
@@ -169,6 +178,7 @@ void testComplexCall() {
                  DESINIT(.referenceName =) "optional_prefixed_output_files"},
                 {DESINIT(.optionIdentifier =) "--single_output_dir", DESINIT(.referenceName =) "single_output_dir"},
                 {DESINIT(.optionIdentifier =) "--optional_param1", DESINIT(.referenceName =) "optional_param1"},
+                {DESINIT(.optionIdentifier =) "--optional_param2_no_default", DESINIT(.referenceName =) "optional_param2_no_default"},
                 {DESINIT(.optionIdentifier =) "--optional_multi_input_file",
                  DESINIT(.referenceName =) "optional_multi_input_file"},
             },
@@ -184,9 +194,16 @@ inputs:
       prefix: --kmer
   window:
     doc: The window size
-    type: long
+    default: 20
+    type: long?
     inputBinding:
       prefix: --window
+  window_with_hint:
+    doc: The window size that also gives a hint
+    default: 20
+    type: long
+    inputBinding:
+      prefix: --window_with_hint
   single_input_file:
     doc: no doc
     type: File
@@ -244,9 +261,15 @@ inputs:
       prefix: --single_output_dir
   optional_param1:
     doc: no doc
+    default: ""
     type: string?
     inputBinding:
       prefix: --optional_param1
+  optional_param2_no_default:
+    doc: no doc
+    type: string?
+    inputBinding:
+      prefix: --optional_param2_no_default
   optional_multi_input_file:
     doc: no doc
     type: File[]?
@@ -254,9 +277,11 @@ inputs:
       prefix: --optional_multi_input_file
   no_cli_binding:
     doc: A parameter that has no corresponding cli binding. Can only be filled via an input.json file.
+    default: ""
     type: string?
   type:
     doc: A parameter that is called type.
+    default: ""
     type: string?
 outputs:
   single_output_file:
