@@ -405,11 +405,8 @@ inline void generateCWL(Node::Children const & children,
                                    baseCommandCB);
 
                                auto inputType = cwl::CommandInputRecordSchema{};
-                               // auto outputType = cwl::CommandOutputRecordSchema{};
 
                                inputType.fields = inputs;
-                               // outputType.fields = outputs; //!TODO Does this do anything?
-                               // child.tags.insert("required"); //!TODO, is this required?
                                addInput(inputType);
                            },
                        },
@@ -422,18 +419,16 @@ inline void generateCWL(Node::Children const & children,
 
 auto tool_to_yaml(ToolInfo const & doc) -> YAML::Node {
     auto & tool_info = doc.metaInfo;
-    // auto const schema_location = std::string{"/SCHEMAS/Param_1_7_0.xsd"}; //!TODO unused?
-    // auto const schema_version = std::string{"1.7.0"}; //!TODO unused?
 
     auto tool       = cwl::CommandLineTool{};
     tool.cwlVersion = cwl::CWLVersion::v1_2;
     tool.label      = tool_info.name;
     tool.doc        = tool_info.description;
-    // = tool_info.category; //!TODO
-    // = tool_info.docurl; //!TODO
-    // = tool_info.version; //!TODO
+    // = tool_info.category; //!TODO implement this feature
+    // = tool_info.docurl; //!TODO implement this feature
+    // = tool_info.version; //!TODO implement this feature
 
-    //! TODO Add citation information
+    //! TODO implement export of citation information
     // for (auto& [doi, url] : tool_info.citations) {
     //     citationNode.children.push_back({/*.tag = */"citation",
     //                                      /*.attr = */{{"doi", doi}, {"url", url}}});
