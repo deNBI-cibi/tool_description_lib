@@ -15,7 +15,7 @@
 
 namespace tdl {
 
-namespace cwl = https___w3id_org_cwl_cwl;
+namespace cwl = w3id_org::cwl::cwl;
 
 //!\brief overload structure allowing fancy 'std::visit` syntax
 template <class... Ts>
@@ -101,7 +101,7 @@ void addInput_impl(TypeType const &   type,
                                               cwl::CommandInputArraySchema,
                                               std::string>>{cwl::CWLType::null, type};
     }
-    if constexpr (std::is_same_v<InputType, https___w3id_org_cwl_cwl::CommandInputParameter>) {
+    if constexpr (std::is_same_v<InputType, cwl::CommandInputParameter>) {
         if ((child.tags.count("required") == 0 && child.tags.count("no_default") == 0)
             || (child.tags.count("required") && child.tags.count("default_as_hint"))) {
             // produce a default value
@@ -453,7 +453,7 @@ auto tool_to_yaml(ToolInfo const & doc) -> YAML::Node {
 
     tool.baseCommand = std::move(baseCommand);
 
-    return toYaml(tool);
+    return w3id_org::cwl::toYaml(tool, {});
 }
 
 /*!\brief converts a ToolInfo into a string that
