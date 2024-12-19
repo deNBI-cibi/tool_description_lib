@@ -42,6 +42,11 @@ jobs:
             cpp: 26
           - compiler: gcc-11
             cpp: 26
+        include:
+          - cpp_flags: ""
+          - compiler: gcc-14
+            cpp: 17
+            cpp_flags: "-Wno-maybe-uninitialized"
     container:
       image: ghcr.io/seqan/${{ matrix.compiler }}
       volumes:
@@ -54,7 +59,7 @@ jobs:
         run: |
           mkdir build && cd build
           cmake ../ -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror" \
+                    -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror ${{ matrix.cpp_flags }}" \
                     -DCMAKE_CXX_STANDARD=${{ matrix.cpp }}
 
       - name: Build tests
