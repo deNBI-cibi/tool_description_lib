@@ -24,8 +24,8 @@ defaults:
 
 jobs:
   build:
-    name: ${{ matrix.compiler }} C++${{ matrix.cpp }} ${{ matrix.build_type }}
-    runs-on: macos-13
+    name: ${{ matrix.os }} ${{ matrix.compiler }} C++${{ matrix.cpp }} ${{ matrix.build_type }}
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 180
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
@@ -34,6 +34,7 @@ jobs:
         compiler: ["clang-19", "clang-18", "clang-17", "clang-16", "gcc-14", "gcc-13", "gcc-12"]
         cpp: [17]
         build_type: [Release]
+        os: ["macos-13", "macos-14"]
         include:
           - compiler: gcc-14
             cpp: 17
