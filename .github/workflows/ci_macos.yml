@@ -35,7 +35,6 @@ jobs:
         cpp: [17]
         build_type: [Release]
         include:
-          - cpp_flags: ""
           - compiler: gcc-14
             cpp: 17
             cpp_flags: "-Wno-maybe-uninitialized"

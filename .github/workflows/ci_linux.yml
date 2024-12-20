@@ -43,7 +43,6 @@ jobs:
           - compiler: gcc-11
             cpp: 26
         include:
-          - cpp_flags: ""
           - compiler: gcc-14
             cpp: 17
             cpp_flags: "-Wno-maybe-uninitialized"
