@@ -24,16 +24,21 @@ defaults:
 
 jobs:
   build:
-    name: ${{ matrix.compiler }} C++${{ matrix.cpp }} ${{ matrix.build_type }}
-    runs-on: macos-12
+    name: ${{ matrix.os }} ${{ matrix.compiler }} C++${{ matrix.cpp }} ${{ matrix.build_type }}
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 180
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
-        compiler: ["clang-18", "clang-15", "clang-14", "clang-13", "clang-12", "gcc-14", "gcc-10"]
+        compiler: ["clang-19", "clang-18", "clang-17", "gcc-14", "gcc-13", "gcc-12"]
         cpp: [17]
         build_type: [Release]
+        os: ["macos-13", "macos-14"]
+        include:
+          - compiler: gcc-14
+            cpp: 17
+            cpp_flags: "-Wno-maybe-uninitialized"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,7 +52,7 @@ jobs:
         run: |
           mkdir build && cd build
           cmake ../ -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror" \
+                    -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror ${{ matrix.cpp_flags }}" \
                     -DCMAKE_CXX_STANDARD=${{ matrix.cpp }}
 
       - name: Build tests

@@ -15,7 +15,7 @@
 
 namespace tdl {
 
-namespace cwl = https___w3id_org_cwl_cwl;
+namespace cwl = w3id_org::cwl::cwl;
 
 //!\brief overload structure allowing fancy 'std::visit` syntax
 template <class... Ts>
@@ -28,6 +28,15 @@ template <class... Ts>
 overloaded(Ts...) -> overloaded<Ts...>;
 
 namespace detail {
+
+//!\brief convenience function, to have highest precision for float/double values
+template <typename T>
+auto convertToString(T v) -> std::string {
+    auto ss = std::stringstream{};
+    ss << std::setprecision(std::numeric_limits<std::decay_t<T>>::max_digits10) << v;
+    return ss.str();
+}
+
 
 inline auto simplifyType(YAML::Node type) -> YAML::Node {
     auto is_optional = [](YAML::Node const & node) {
@@ -91,6 +100,35 @@ void addInput_impl(TypeType const &   type,
                                               cwl::CommandInputEnumSchema,
                                               cwl::CommandInputArraySchema,
                                               std::string>>{cwl::CWLType::null, type};
+    }
+    if constexpr (std::is_same_v<InputType, cwl::CommandInputParameter>) {
+        if ((child.tags.count("required") == 0 && child.tags.count("no_default") == 0)
+            || (child.tags.count("required") && child.tags.count("default_as_hint"))) {
+            // produce a default value
+            std::visit(overloaded{
+                           [&](BoolValue const & v) {
+                               *input.default_ = v;
+                           },
+                           [&](IntValue const & v) {
+                               *input.default_ = v.value;
+                           },
+                           [&](DoubleValue const & v) {
+                               *input.default_ = v.value;
+                           },
+                           [&](StringValue const & v) {
+                               if (!child.tags.count("output")
+                                    && !child.tags.count("file")
+                                    && !child.tags.count("directory")
+                                    && !child.tags.count("prefixed")) {
+
+                                   *input.default_ = v.value;
+                                } else {
+                                    *input.default_ = "unsupported default";
+                                }
+                           },
+                           [&](auto const&) {}
+            }, child.value);
+        }
     }
 
     input.doc = child.description;
@@ -367,11 +405,8 @@ inline void generateCWL(Node::Children const & children,
                                    baseCommandCB);
 
                                auto inputType = cwl::CommandInputRecordSchema{};
-                               // auto outputType = cwl::CommandOutputRecordSchema{};
 
                                inputType.fields = inputs;
-                               // outputType.fields = outputs; //!TODO Does this do anything?
-                               // child.tags.insert("required"); //!TODO, is this required?
                                addInput(inputType);
                            },
                        },
@@ -384,18 +419,16 @@ inline void generateCWL(Node::Children const & children,
 
 auto tool_to_yaml(ToolInfo const & doc) -> YAML::Node {
     auto & tool_info = doc.metaInfo;
-    // auto const schema_location = std::string{"/SCHEMAS/Param_1_7_0.xsd"}; //!TODO unused?
-    // auto const schema_version = std::string{"1.7.0"}; //!TODO unused?
 
     auto tool       = cwl::CommandLineTool{};
     tool.cwlVersion = cwl::CWLVersion::v1_2;
     tool.label      = tool_info.name;
     tool.doc        = tool_info.description;
-    // = tool_info.category; //!TODO
-    // = tool_info.docurl; //!TODO
-    // = tool_info.version; //!TODO
+    // = tool_info.category; //!TODO implement this feature
+    // = tool_info.docurl; //!TODO implement this feature
+    // = tool_info.version; //!TODO implement this feature
 
-    //! TODO Add citation information
+    //! TODO implement export of citation information
     // for (auto& [doi, url] : tool_info.citations) {
     //     citationNode.children.push_back({/*.tag = */"citation",
     //                                      /*.attr = */{{"doi", doi}, {"url", url}}});
@@ -420,7 +453,7 @@ auto tool_to_yaml(ToolInfo const & doc) -> YAML::Node {
 
     tool.baseCommand = std::move(baseCommand);
 
-    return toYaml(tool);
+    return w3id_org::cwl::toYaml(tool, {});
 }
 
 /*!\brief converts a ToolInfo into a string that

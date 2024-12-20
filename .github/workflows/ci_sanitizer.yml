@@ -17,7 +17,6 @@ concurrency:
 
 env:
   TZ: Europe/Berlin
-  ASAN_OPTIONS: strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:detect_leaks=1
   TSAN_OPTIONS: ignore_noninstrumented_modules=1
   UBSAN_OPTIONS: print_stacktrace=1
 
@@ -27,40 +26,42 @@ defaults:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }} ${{ matrix.build_type }} ${{ matrix.os }}
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
+    env:
+      ASAN_OPTIONS: strict_string_checks=1:detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:detect_leaks=${{ contains(matrix.os, 'macos') && '0' || '1' }}
     strategy:
       fail-fast: false
       matrix:
         name: [ASan, TSan, UBSan]
-        os: [ubuntu-latest, macos-12]
+        os: [ubuntu-latest, macos-14]
         build_type: [Release, Debug]
         exclude:
           - name: "TSan"
-            os: macos-12
+            os: macos-14
         include:
           - name: "ASan"
             os: ubuntu-latest
-            cxx_flags: "-fno-omit-frame-pointer -fsanitize=address -Wno-maybe-uninitialized"
+            cxx_flags: "-fsanitize=address -Wno-maybe-uninitialized"
 
           - name: "ASan"
-            os: macos-12
-            cxx_flags: "-fno-omit-frame-pointer -fsanitize=address"
+            os: macos-14
+            cxx_flags: "-fsanitize=address"
 
           - name: "TSan"
-            cxx_flags: "-fno-omit-frame-pointer -fsanitize=thread"
+            cxx_flags: "-fsanitize=thread"
 
           - name: "UBSan"
             os: ubuntu-latest
-            cxx_flags: "-fno-omit-frame-pointer -fsanitize=undefined,float-divide-by-zero"
+            cxx_flags: "-fsanitize=undefined,float-divide-by-zero"
 
           - name: "UBSan"
-            os: macos-12
-            cxx_flags: "-fno-omit-frame-pointer -fsanitize=undefined,float-divide-by-zero,implicit-conversion,local-bounds,nullability"
+            os: macos-14
+            cxx_flags: "-fsanitize=undefined,float-divide-by-zero,implicit-conversion,local-bounds,nullability"
 
-          - os: macos-12
-            compiler: clang-18
+          - os: macos-14
+            compiler: clang-19
 
           - os: ubuntu-latest
             compiler: gcc-14
@@ -68,8 +69,8 @@ jobs:
 
           - name: "TSan"
             os: ubuntu-latest
-            compiler: clang-18
-            image: ghcr.io/seqan/clang-18
+            compiler: clang-19
+            image: ghcr.io/seqan/clang-19
     container:
       image: ${{ matrix.image || '' }}
       volumes:
@@ -88,7 +89,7 @@ jobs:
         run: |
           mkdir build && cd build
           cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                   -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic ${{ matrix.cxx_flags }}" \
+                   -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -fno-omit-frame-pointer ${{ matrix.cxx_flags }} -fno-sanitize-recover=all" \
                    -DCMAKE_CXX_STANDARD=26
 
       - name: Build tests
