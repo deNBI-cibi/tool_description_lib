@@ -87,5 +87,5 @@ The following tags and tag combinations have a special meaning:
   - `{"prefixed", "output"}`: A partial path that is used as a prefix. If used with `tdl::StringValue`, only a single file will be created.
                               If used with `tdl::StringValueList`, it signals that multiple files might be created.
   - `{"basecommand"}`: If used with `tdl::Node::Children`, the value will be appended to the list of base-commands, e.g.: `build` of `raptor build ...`.
-  - `{"no_default"}: Marks that a value should not produce a default value
-  - `{"required", "default_as_hint"}`" Outputs a a default eventhough the value is required, so it can serve as a hint.
+  - `{"no_default"}: Marks that a value should not produce a default value.
+  - `{"required", "default_as_hint"}`" Outputs a default value eventhough the value is required, so it can serve as a hint.
