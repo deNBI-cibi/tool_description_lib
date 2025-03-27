@@ -91,4 +91,4 @@ The following tags and tag combinations have a special meaning:
   - `{"required", "default_as_hint"}`" Outputs a default value eventhough the value is required, so it can serve as a hint.
 
 ## Updating CWL
-The CWL header (`src/tdl/cwl_v1_2.h`) can be updated with https://github.com/common-workflow-lab/cwl-cpp-auto.
+The CWL header ([`src/tdl/cwl_v1_2.h`](https://github.com/deNBI-cibi/tool_description_lib/blob/main/src/tdl/cwl_v1_2.h)) can be updated with [cwl-cpp-auto](https://github.com/common-workflow-lab/cwl-cpp-auto).
