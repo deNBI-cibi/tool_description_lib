@@ -89,3 +89,6 @@ The following tags and tag combinations have a special meaning:
   - `{"basecommand"}`: If used with `tdl::Node::Children`, the value will be appended to the list of base-commands, e.g.: `build` of `raptor build ...`.
   - `{"no_default"}: Marks that a value should not produce a default value.
   - `{"required", "default_as_hint"}`" Outputs a default value eventhough the value is required, so it can serve as a hint.
+
+## Updating CWL
+The CWL header (`src/tdl/cwl_v1_2.h`) can be updated with https://github.com/common-workflow-lab/cwl-cpp-auto.
