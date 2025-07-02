@@ -21,27 +21,26 @@ env:
 jobs:
   build:
     name: ${{ matrix.name }}
-    runs-on: windows-${{ matrix.version }}
-    timeout-minutes: 180
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: "Visual Studio 17 2022"
-            version: 2022
-            build_type: Release
-            cpp: 17
+          #  Once VS2025 is released :)
+          # - name: "Visual Studio 17 2025"
+          #   os: windows-2025
+          #   build_type: Release
+          #   cpp: 17
 
-          - name: "Visual Studio 16 2019"
-            version: 2019
+          - name: "Visual Studio 17 2022"
+            os: windows-2022
             build_type: Release
             cpp: 17
     steps:
       - name: Setup MSVC
         uses: ilammy/msvc-dev-cmd@v1
-        with:
-          vsversion: ${{ matrix.version }}
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,4 +59,4 @@ jobs:
 
       - name: Run tests
         working-directory: build
-        run: ctest . -j -C "${{ matrix.build_type }}" --output-on-failure --timeout 240
+        run: ctest . -j -C "${{ matrix.build_type }}" --output-on-failure --no-tests=error --timeout 240

@@ -11,9 +11,14 @@ on:
   pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: license-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     steps:
     - uses: actions/checkout@v4

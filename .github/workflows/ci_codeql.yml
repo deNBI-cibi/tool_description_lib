@@ -25,6 +25,7 @@ jobs:
   codeql:
     name: CodeQL
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     permissions:
       security-events: write
