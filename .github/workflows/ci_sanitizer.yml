@@ -27,6 +27,7 @@ defaults:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     name: ${{ matrix.name }} ${{ matrix.build_type }} ${{ matrix.os }}
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     env:
@@ -35,46 +36,40 @@ jobs:
       fail-fast: false
       matrix:
         name: [ASan, TSan, UBSan]
-        os: [ubuntu-latest, macos-14]
+        os: [ubuntu-latest, macos-latest]
         build_type: [Release, Debug]
         exclude:
           - name: "TSan"
-            os: macos-14
+            os: macos-latest
         include:
+          - os: macos-latest
+            compiler: clang-latest
+          - os: ubuntu-latest
+            compiler: gcc-latest
+            image: ghcr.io/seqan/gcc-latest
+
           - name: "ASan"
             os: ubuntu-latest
             cxx_flags: "-fsanitize=address -Wno-maybe-uninitialized"
-
           - name: "ASan"
-            os: macos-14
+            os: macos-latest
             cxx_flags: "-fsanitize=address"
 
           - name: "TSan"
+            os: ubuntu-latest
+            compiler: clang-latest
+            image: ghcr.io/seqan/clang-latest
             cxx_flags: "-fsanitize=thread"
 
           - name: "UBSan"
             os: ubuntu-latest
             cxx_flags: "-fsanitize=undefined,float-divide-by-zero"
-
           - name: "UBSan"
-            os: macos-14
+            os: macos-latest
             cxx_flags: "-fsanitize=undefined,float-divide-by-zero,implicit-conversion,local-bounds,nullability"
 
-          - os: macos-14
-            compiler: clang-19
-
-          - os: ubuntu-latest
-            compiler: gcc-14
-            image: ghcr.io/seqan/gcc-14
-
-          - name: "TSan"
-            os: ubuntu-latest
-            compiler: clang-19
-            image: ghcr.io/seqan/clang-19
     container:
       image: ${{ matrix.image || '' }}
-      volumes:
-        - /home/runner:/home/runner
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -98,5 +93,5 @@ jobs:
 
       - name: Run tests
         working-directory: build
-        run: ctest . -j --output-on-failure
+        run: ctest . -j --output-on-failure --no-tests=error
 

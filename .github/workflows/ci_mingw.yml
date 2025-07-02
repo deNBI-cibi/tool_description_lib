@@ -26,6 +26,7 @@ jobs:
   build:
     name: ${{ matrix.name }}
     runs-on: windows-2022
+    timeout-minutes: 60
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
@@ -55,4 +56,4 @@ jobs:
 
       - name: Run tests
         working-directory: build
-        run: PATH="/c/mingw64/bin/:${PATH}" ctest . -j --output-on-failure
+        run: PATH="/c/mingw64/bin/:${PATH}" ctest . -j --output-on-failure --no-tests=error

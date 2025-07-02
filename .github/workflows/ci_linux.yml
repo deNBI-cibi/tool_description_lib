@@ -25,31 +25,29 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     name: ${{ matrix.compiler }} C++${{ matrix.cpp }} ${{ matrix.build_type }}
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     strategy:
       fail-fast: false
       matrix:
-        compiler: ["clang-20", "clang-19", "clang-18", "clang-17", "gcc-14", "gcc-13", "gcc-12", "intel"]
+        compiler: ["clang-latest", "clang-second-latest", "clang-third-latest", "gcc-latest", "gcc-second-latest", "gcc-third-latest", "intel"]
         cpp: [17, 20, 23, 26]
         build_type: [Release, Debug]
         exclude:
-          - compiler: clang-16
-            cpp: 26
-          - compiler: gcc-13
-            cpp: 26
-          - compiler: gcc-12
-            cpp: 26
-          - compiler: gcc-11
+          - compiler: gcc-third-latest
             cpp: 26
         include:
-          - compiler: gcc-14
+          - compiler: gcc-latest
             cpp: 17
+            build_type: Release
+            cpp_flags: "-Wno-maybe-uninitialized"
+          - compiler: gcc-second-latest
+            cpp: 17
+            build_type: Release
             cpp_flags: "-Wno-maybe-uninitialized"
     container:
       image: ghcr.io/seqan/${{ matrix.compiler }}
-      volumes:
-        - /home/runner:/home/runner
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -67,5 +65,5 @@ jobs:
 
       - name: Run tests
         working-directory: build
-        run: ctest . -j --output-on-failure
+        run: ctest . -j --output-on-failure --no-tests=error
 
