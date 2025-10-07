@@ -21,6 +21,6 @@ jobs:
     timeout-minutes: 10
     if: github.repository_owner == 'deNBI-cibi' || github.event_name == 'workflow_dispatch'
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: REUSE Compliance Check
       uses: fsfe/reuse-action@v6
