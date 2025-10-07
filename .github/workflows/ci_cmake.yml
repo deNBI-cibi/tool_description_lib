@@ -41,7 +41,7 @@ jobs:
       image: ghcr.io/seqan/gcc-second-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install yaml-cpp
         run: |
