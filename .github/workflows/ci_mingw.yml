@@ -34,6 +34,7 @@ jobs:
         include:
           - name: "Latest"
             build_type: Release
+            cpp: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -48,7 +49,8 @@ jobs:
           mkdir build && cd build
           cmake ../ -G "MinGW Makefiles" \
                     -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-                    -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror -Wa,-mbig-obj"
+                    -DCMAKE_CXX_FLAGS="-Wall -Wextra -pedantic -Werror -Wa,-mbig-obj" \
+                    -DCMAKE_CXX_STANDARD=${{ matrix.cpp }}
 
       - name: Build tests
         working-directory: build
