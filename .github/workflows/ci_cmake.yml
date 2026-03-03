@@ -38,7 +38,7 @@ jobs:
           - name: "Install (no yaml-cpp)"
             yaml_cpp: false
     container:
-      image: ghcr.io/seqan/gcc-second-latest
+      image: ghcr.io/seqan/gcc-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
