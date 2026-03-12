@@ -7,14 +7,7 @@ cmake_minimum_required (VERSION 3.12)
 include (${CMAKE_CURRENT_LIST_DIR}/version.cmake)
 include (GNUInstallDirs)
 
-# If yaml-cpp is not installed, we build it as part of the tdl target. In this case, tdl is linked against a target
-# that is also built by this project. If we want to install tdl, CMake wants us to also install yaml-cpp, because
-# tdl depends on it. That is, if yaml-cpp is not installed, we have to install it.
-if (TARGET yaml-cpp)
-    set (TDL_EXPORT_YAML_CPP "yaml-cpp")
-endif ()
-
-install (TARGETS tdl ${TDL_EXPORT_YAML_CPP}
+install (TARGETS tdl
          EXPORT tdl_targets
          INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
          RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}

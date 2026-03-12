@@ -32,7 +32,7 @@ CPMAddPackage (
 add_library (tdl STATIC ${tdl_SOURCE_DIR}/src/tdl/convertToCTD.cpp ${tdl_SOURCE_DIR}/src/tdl/convertToCWL.cpp)
 target_include_directories (tdl PUBLIC "$<BUILD_INTERFACE:${tdl_SOURCE_DIR}/src>"
                                        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
-target_link_libraries (tdl PUBLIC yaml-cpp::yaml-cpp)
+target_link_libraries (tdl PUBLIC "$<BUILD_INTERFACE:yaml-cpp::yaml-cpp>")
 target_compile_features(tdl PUBLIC cxx_std_17)
 add_library (tdl::tdl ALIAS tdl)
 
