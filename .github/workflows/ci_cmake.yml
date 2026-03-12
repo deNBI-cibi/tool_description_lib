@@ -1,5 +1,5 @@
-# SPDX-FileCopyrightText: 2006-2024, Knut Reinert & Freie Universität Berlin
-# SPDX-FileCopyrightText: 2016-2024, Knut Reinert & MPI für molekulare Genetik
+# SPDX-FileCopyrightText: 2006-2026, Knut Reinert & Freie Universität Berlin
+# SPDX-FileCopyrightText: 2016-2026, Knut Reinert & MPI für molekulare Genetik
 # SPDX-License-Identifier: CC0-1.0
 
 name: CMake
@@ -38,14 +38,14 @@ jobs:
           - name: "Install (no yaml-cpp)"
             yaml_cpp: false
     container:
-      image: ghcr.io/seqan/gcc-second-latest
+      image: ghcr.io/seqan/gcc-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
       - name: Install yaml-cpp
         run: |
-          git clone --single-branch --branch 0.8.0 https://github.com/jbeder/yaml-cpp.git && cd yaml-cpp
+          git clone --single-branch --branch yaml-cpp-0.9.0 https://github.com/jbeder/yaml-cpp.git && cd yaml-cpp
           mkdir build && cd build
           cmake .. -DCMAKE_BUILD_TYPE=Release \
                    -DYAML_CPP_BUILD_TESTS=OFF \
