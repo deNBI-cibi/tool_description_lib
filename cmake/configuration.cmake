@@ -32,6 +32,10 @@ CPMAddPackage (
 add_library (tdl STATIC ${tdl_SOURCE_DIR}/src/tdl/convertToCTD.cpp ${tdl_SOURCE_DIR}/src/tdl/convertToCWL.cpp)
 target_include_directories (tdl PUBLIC "$<BUILD_INTERFACE:${tdl_SOURCE_DIR}/src>"
                                        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+# We explicitly only depend on yaml-cpp for building, and not installing.
+# Linking against yaml-cpp for installing would require installing yaml-cpp as part of tdl if yaml-cpp is
+# fetched via CPM.
+# Instead, we link against yaml-cpp manually in tdl-config.cmake.in.
 target_link_libraries (tdl PUBLIC "$<BUILD_INTERFACE:yaml-cpp::yaml-cpp>")
 target_compile_features(tdl PUBLIC cxx_std_17)
 add_library (tdl::tdl ALIAS tdl)
